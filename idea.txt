@@ -1,0 +1,16 @@
+Importantes :
+
+- Concevoir les règles
+- Trouver la charte graphique du site
+- Trouver la charte graphique du jeu
+- Trouver des concepts de cartes à jouer
+
+Secondaires :
+
+- Système de points qu'on obtient en jouant
+- Système d'upgrade de rareté via des points
+- Système de drop de rareté via des packs qu'on achète avec des points
+
+Techniques :
+
+- JSON Web Token pour maintenir les sessions ouvertes
