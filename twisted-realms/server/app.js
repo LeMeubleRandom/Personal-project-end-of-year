@@ -16,9 +16,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.post("/post", (req, res) => {
-  console.log("connected to react");
+  console.log("linked to react");
+  console.log("test : ", req.body.message)
   res.json({ status: "nice", message: "Bien reçu !" });
-  res.redirect("/");
+  //res.redirect("/");
 });
 
 app.get('/', (req, res) => {
