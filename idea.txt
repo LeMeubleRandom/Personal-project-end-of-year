@@ -2,8 +2,11 @@ Importantes :
 
 - Concevoir les règles
 - Trouver la charte graphique du site
+association de noir et de //Violet, Rouge
 - Trouver la charte graphique du jeu
 - Trouver des concepts de cartes à jouer
+
+-- -----------------------------------------------------------------------------
 
 Secondaires :
 
@@ -11,6 +14,85 @@ Secondaires :
 - Système d'upgrade de rareté via des points
 - Système de drop de rareté via des packs qu'on achète avec des points
 
+-- -----------------------------------------------------------------------------
+
 Techniques :
 
 - JSON Web Token pour maintenir les sessions ouvertes
+
+-- -----------------------------------------------------------------------------
+
+règles :
+
+Jeu de cartes en tour par tour
+chaque joueur a 40 cartes (20 cartes si je n'ai pas le temps d'en fabriquer suffisamment)
+Un deck est composé de cartes d'une ou deux factions
+un tour est composé de plusieurs phases
+Draw phase -- On pioche 1 carte ||à voir si on ne refournit pas la main entièrement comme en rush duel
+              Par exemple en repiochant jusqu'à en avoir 5 en main (si on en a déjà 5, on pioche 1 pour en avoir 6)
+Summon phase -- On pose des cartes sur le terrain si on veut
+Main phase -- On peut activer les effets de nos cartes et activer des sorts depuis la main
+Battle phase -- On décide de nos attaques avec nos cartes sur le terrain capables d'attaquer
+                On peut choisir d'attaquer une carte en particulier ou directement le joueur
+                (dans le cas où on attaque le joueur, il a le droit de se défendre en plaçant une carte en défense)
+                Une carte qui défend ou attaque une autre carte avec une puissance plus élevée est détruite et envoyée au cimetière
+Main phase 2 -- C'est une main phase, mais après la BP
+End phase -- Fin du tour
+il n'y a pas de taille limite dans la main
+
+Taille du terrain -> sur un plateau de jeu il y a les zones classiques
+le deck
+le cimetière
+L'ostrac
+la main
+le terrain ( composition du terrain
+    Zone des cartes pouvant combattre -> illimitée? 6/5/4 zones?
+    Zone des cartes non combattantes -> 3 zones disponibles
+)
+
+-- -----------------------------------------------------------------------------
+
+jeu :
+Comment se déroule une partie
+Au début d'une partie, chaque joueur choisit une carte de son deck et la place
+sur son terrain face cachée, cette carte ne pourra pas quitter le terrain tant 
+que le joueur ne sera pas hors-jeu
+une fois que tous les joueurs ont choisit, ils retournent leur carte face recto
+et le match commence
+
+Chaque joueur commence avec 6 cartes en main
+
+
+-- -----------------------------------------------------------------------------
+
+Cartes :
+Quels sont les attributs d'une carte ?
+points d'attaque
+faction
+type de carte
+coût
+effet
+
+comment on détruit une carte ?
+Par effet ou au combat
+
+Composé de 6 factions différentes mais pouvant être complémentaires
+- Les Dragons
+Grands et puissants, leur magie est lourde et incontrôlable mais n'en reste pas
+moins destructrice
+- Les Kasmigenas
+Une très ancienne civilisation dont les pouvoirs sont aussi diverses que puissants,
+on dit que leurs ancêtres sont les créateurs directs du monde tel qu'on le connaît
+- Les Mutants
+Véritables anomalies de l'ordre du vivant, ils sont pourtant assez puissants pour
+réduire à néant des civilisations
+- Les Erudis
+Proclamant que leur technologie surpasse la magie, ils sont prêts à tout pour 
+le progrès tant que les leurs ne souffrent plus des ravages de la guerre
+- Les Mages
+En conflit quasi permanent avec les érudis depuis la nuit des temps, les sorts
+dont ils sont si fières déterminent toute leur existence
+- Les Potentias
+La plus mystérieuse des factions, ils sont neutres, mais n'hésitent pas à venir
+en aide à ceux dans le besoin
+Il paraît que grâce à leur présence, on se sent immortel

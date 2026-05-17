@@ -19,11 +19,10 @@ app.post("/post", (req, res) => {
   console.log("linked to react");
   console.log("test : ", req.body.message)
   res.json({ status: "nice", message: "Bien reçu !" });
-  //res.redirect("/");
 });
 
 app.get('/', (req, res) => {
-    res.send('Serveur Node.js opérationnel');
+  res.send('Serveur Node.js opérationnel');
 });
 
 const PORT = process.env.PORT || 5000;
