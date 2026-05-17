@@ -11,6 +11,6 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-console.log(' Pool MySQL configuré.');
+console.log('Connecté à MySQL');
 
 export default pool;
