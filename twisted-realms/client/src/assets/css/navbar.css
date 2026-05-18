@@ -1,0 +1,72 @@
+/* src/assets/css/navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background-color: var(--nav-bg);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(to right, var(--secondary), #e0e1dd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 4px 12px;
+    border-radius: 4px;
+    filter: drop-shadow(0px 2px 10px rgba(8, 136, 156, 0.2));
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    color: var(--text2);
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.nav-item:hover {
+    background-color: var(--accent-active);
+}
+
+.nav-item.active {
+    background: rgba(0, 242, 254, 0.07);
+    border: 1px solid rgba(8, 136, 156, 0.4);
+    box-shadow: 0px 0px 10px rgba(0, 242, 254, 0.2);
+}
+
+/* Le Profil à droite */
+.navbar-profile {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: var(--text);
+}
+
+/* Non utilisé */
+.player-avatar {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 6px 15px;
+    border-radius: 20px;
+    border: 1px solid #3a3a5a;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

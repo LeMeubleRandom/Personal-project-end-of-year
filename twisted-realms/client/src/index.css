@@ -1,2 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;700&display=swap');
+
 :root {
+    --primary: rgb(8, 136, 156);
+    --secondary: rgb(0, 242, 254);
+    --accent: #e9c46a;
+    --text: #e0e1dd;
+    --text2: #a0a5c0;
+    --bg: #0e0e0e;
+
+    --primary-user-color: #700938;
+    --secondary-user-color: #f72585;
+    --nav-bg: #18181b;
+    --font-main: 'Rajdhani', sans-serif;
+    --accent-active: rgb(6, 106, 122, 0.3);
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    text-decoration: none;
+    font-family: var(--font-main);
 }
