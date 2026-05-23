@@ -12,7 +12,7 @@ function Profile({ user, setUser, fetchUser }) {
     const [loading, setLoading] = useState(true);
 
     if (!user) {
-        return <Navigate to="/login" replace />;
+      return <Navigate to="/login" replace />;
     }
     
     return (

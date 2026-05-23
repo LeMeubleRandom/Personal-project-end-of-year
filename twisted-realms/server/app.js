@@ -17,16 +17,18 @@ import userRouter from './router/UserRouter.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const allowedOrigins = ['http://localhost:5173', 'http://10.45.31.81:5173'];
+
 const app = express();
 const server = createServer(app)
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200
 };
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -65,4 +67,4 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => console.log(`Serveur lancé sur le port ${PORT}`));
+server.listen(PORT, '0.0.0.0', () => console.log(`Serveur lancé sur le port ${PORT}`));

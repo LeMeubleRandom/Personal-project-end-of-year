@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
 function Home({ user }) {
 
-    const serverUrl = 'http://localhost:5000/user-images/';
+    const serverUrl = `http://${window.location.hostname}:5000/user-images/`;
     
     const actualImage = user?.userImage ? `${serverUrl}${user.userImage}` : avatarImg;
     const [image, setImage] = useState(actualImage);

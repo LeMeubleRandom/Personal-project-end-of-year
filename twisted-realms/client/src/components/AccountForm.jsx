@@ -5,7 +5,8 @@ import '../assets/css/accountForm.css';
 
 function AccountForm({ user, setUser, fetchUser }) {
     
-    const serverUrl = 'http://localhost:5000/user-images/';
+    const serverUrl = `http://${window.location.hostname}:5000/user-images/`;
+    
     
     const actualImage = user?.userImage ? `${serverUrl}${user.userImage}` : avatarImg;
 

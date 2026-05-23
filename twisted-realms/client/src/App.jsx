@@ -10,6 +10,7 @@ import Profile from './views/Profile';
 import Lobby from './views/Lobby';
 import Login from './views/Login';
 import Register from './views/Register';
+import NotFound from './views/NotFound';
 
 //Import des composants
 import Header from "./components/Header";
@@ -84,6 +85,9 @@ function AppContent() {
         />
         <Route 
             path='/lobby' element={<Lobby user={user}/>} 
+        />
+        <Route
+            path='/..' element={<NotFound />}
         />
       </Routes>
     </>
