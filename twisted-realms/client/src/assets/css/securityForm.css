@@ -1,0 +1,13 @@
+#security-title {
+    width: max-content;
+}
+
+.btn-submit.red {
+    color: var(--primary-nemesis);
+    border: 1px solid var(--primary-nemesis);
+}
+
+.btn-submit.red:hover {
+    background-color: var(--primary-nemesis);
+    color: var(--bg);
+}

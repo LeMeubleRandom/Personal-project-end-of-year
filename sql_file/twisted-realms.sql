@@ -29,18 +29,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `userImage` varchar(510) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  `date` datetime NOT NULL,
+  `isGlobalChat` BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `role`) VALUES
-(1, 'debug', 'debug', 'debug', 'ADMIN');
+INSERT INTO `user` (`id`, `name`, `email`, `password`, `userImage`, `role`, `date`, `isGlobalChat`) VALUES
+(1, 'LeMeubleRandom', 'meuble5002@gmail.com', '$2b$10$nGzEAg.zV06AKvpEseEDLO0EphcSr4aMd9RwWFzEmT.PiSR1Gg.d6', '1779414064548-127445822.png', 'user', '2026-05-21 11:48:27', 1);
 
 -- --------------------------------------------------------
 
@@ -77,10 +80,10 @@ CREATE TABLE `user_collection` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `messages`
+-- Structure de la table `message`
 --
 
-CREATE TABLE `messages` (
+CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `userId` int(11) DEFAULT NULL,

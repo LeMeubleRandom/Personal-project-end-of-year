@@ -1,21 +1,64 @@
+import { NavLink, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+import AccountForm from '../components/AccountForm';
+import SecurityForm from '../components/SecurityForm';
+
 import '../assets/css/profile.css';
 
-function Profile() {
+function Profile({ user, setUser, fetchUser }) {
 
-    const handleStats = () => {
-        alert("Je montre mes stats");
-    };
+    const [category, setCategory] = useState("account");
+    const [loading, setLoading] = useState(true);
 
+    if (!user) {
+      return <Navigate to="/login" replace />;
+    }
+    
     return (
         <>
-            <header className="profile-header">
-                <h1>Mon profil</h1>
-            </header>
+            <main>
+              <section className='profile-container'>
+                <div className='profile-nav'>
+                  <h2>Settings</h2>
+                    <ul className='profile-categories-container'>
+                      <li 
+                        className={`profile-categories ${category === 'account' ? 'active' : ''}`}
+                        onClick={() => setCategory('account')}
+                      >
+                          Mon Compte
+                      </li>
+                      <li
+                        className={`profile-categories ${category === 'security' ? 'active' : ''}`}
+                        onClick={() => setCategory('security')}
+                      >
+                          Sécurité
+                      </li>
+                      <li
+                        className={`profile-categories ${category === 'notification' ? 'active' : ''}`}
+                        onClick={() => setCategory('notification')}
+                      >
+                          Notifications
+                      </li>
+                    </ul>
+                    </div>
+                    <div className='category-detail'>
+                      {category === 'account' && (
+                        <AccountForm user={user} setUser={setUser} fetchUser={fetchUser} />
+                      )}
 
-            <main className="profile-actions">
-                <button className="btn-primary" onClick={handleStats}>
-                    Stats
-                </button>
+                      {category === 'security' && (
+                        <SecurityForm user={user} setUser={setUser} fetchUser={fetchUser} />
+                      )}
+
+                      {category === 'notification' && (
+                        <div className="tab-content">
+                          <h1>Alertes & Notifications</h1>
+                          <p>Gérez vos préférences de réception des messages du chat.</p>
+                        </div>
+                      )}
+                    </div>
+                </section>
             </main>
         </>
     )

@@ -3,6 +3,7 @@
 :root {
     --primary: rgb(8, 136, 156);
     --secondary: rgb(0, 242, 254);
+    --primary-nemesis: #FF4757;
     --accent: #e9c46a;
     --text: #e0e1dd;
     --text2: #a0a5c0;
@@ -11,6 +12,7 @@
     --primary-user-color: #700938;
     --secondary-user-color: #f72585;
     --nav-bg: #18181b;
+    --nav-active-bg: rgba(0, 242, 254, 0.07);
     --font-main: 'Rajdhani', sans-serif;
     --accent-active: rgb(6, 106, 122, 0.3);
 }
@@ -30,4 +32,10 @@ body {
 * {
     text-decoration: none;
     font-family: var(--font-main);
+}
+
+.error {
+    color: red;
+    margin-bottom: 1rem;
+    text-Align: center 
 }

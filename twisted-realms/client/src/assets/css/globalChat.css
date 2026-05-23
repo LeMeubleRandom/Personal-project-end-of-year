@@ -11,7 +11,7 @@
 .global-chat h3 {
     padding: 0 0 10px 0;
     margin: 0;
-    border-bottom: 1px solid rgba(8, 136, 156, 0.2);
+    border-bottom: 1px solid var(--accent-active);
 }
 
 .global-chat-messages {
