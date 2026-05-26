@@ -1,41 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;700&display=swap");
 
 :root {
-    --primary: rgb(8, 136, 156);
-    --secondary: rgb(0, 242, 254);
-    --primary-nemesis: #FF4757;
-    --accent: #e9c46a;
-    --text: #e0e1dd;
-    --text2: #a0a5c0;
-    --bg: #0e0e0e;
+  --primary: rgb(8, 136, 156);
+  --secondary: rgb(0, 242, 254);
+  --primary-nemesis: #ff4757;
+  --accent: #e9c46a;
+  --text: #e0e1dd;
+  --text2: #a0a5c0;
+  --bg: #0e0e0e;
 
-    --primary-user-color: #700938;
-    --secondary-user-color: #f72585;
-    --nav-bg: #18181b;
-    --nav-active-bg: rgba(0, 242, 254, 0.07);
-    --font-main: 'Rajdhani', sans-serif;
-    --accent-active: rgb(6, 106, 122, 0.3);
+  --primary-user-color: #700938;
+  --secondary-user-color: #f72585;
+  --nav-bg: #18181b;
+  --nav-active-bg: rgba(0, 242, 254, 0.07);
+  --font-main: "Rajdhani", sans-serif;
+  --accent-active: rgb(6, 106, 122, 0.3);
 }
 
-body {
-    margin: 0;
-    background-color: var(--bg);
-    color: var(--text);
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 * {
-    text-decoration: none;
-    font-family: var(--font-main);
+  text-decoration: none;
+  font-family: var(--font-main);
 }
 
 .error {
-    color: red;
-    margin-bottom: 1rem;
-    text-Align: center 
+  color: red;
+  margin-bottom: 1rem;
+  text-align: center;
 }
