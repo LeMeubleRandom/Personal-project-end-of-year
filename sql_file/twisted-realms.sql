@@ -53,7 +53,8 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `userImage`, `role`, `dat
 
 CREATE TABLE `card` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `rarity` varchar(510) DEFAULT NULL,
+  `maxAmount` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;
 
 --
