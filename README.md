@@ -38,7 +38,7 @@ L'application repoose sur une architecture web classique :
 
 # Frontend
 
-HTML5, CSS3, Javascript/React??
+HTML5, CSS3, Javascript/React
 
 # Backend
 

@@ -62,6 +62,8 @@ et le match commence
 
 Chaque joueur commence avec 6 cartes en main
 
+Vous pouvez placer les êtres comme accélérateur de puissance, nécessaire au déploiement de créatures plus puissantes
+La carte est renvoyée en dessous du deck et on gagne le nombre de compteurs indiquées par la carte
 
 -- -----------------------------------------------------------------------------
 
@@ -96,3 +98,17 @@ dont ils sont si fières déterminent toute leur existence
 La plus mystérieuse des factions, ils sont neutres, mais n'hésitent pas à venir
 en aide à ceux dans le besoin
 Il paraît que grâce à leur présence, on se sent immortel
+
+Kasmigena
+soutien
+Être
+Attaque, en centaine
+250
+PV, en unité
+2
+Effet
+Défaussez une carte, réinvoquez un être depuis votre cimetière, mais ses PV sont réduits à 1
+coût
+aucun
+accélérateur de puissance
+1
