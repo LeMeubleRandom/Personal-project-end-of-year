@@ -1,0 +1,14 @@
+.collection-container {
+  display: flex;
+  margin: 3rem;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.filtre {
+  flex-grow: 1;
+}

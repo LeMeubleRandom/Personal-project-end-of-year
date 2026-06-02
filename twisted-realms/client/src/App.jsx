@@ -12,13 +12,16 @@ import Home from "./views/Home";
 import Collection from "./views/Collection";
 import Shop from "./views/Shop";
 import Profile from "./views/Profile";
-import Lobby from "./views/Lobby";
+//import Lobby from "./views/Lobby";
 import Login from "./views/Login";
 import Register from "./views/Register";
+import Game from "./views/Game";
+
 import NotFound from "./views/NotFound";
 
 //Import des composants
 import Header from "./components/Header";
+import Card from "./components/Card";
 
 function AppContent() {
   const [user, setUser] = useState(null);
@@ -84,7 +87,8 @@ function AppContent() {
             )
           }
         />
-        <Route path="/lobby" element={<Lobby user={user} />} />
+        <Route path="/lobby" element={<Game user={user} />} />
+        <Route path="/card" element={<Card user={user} />} />
         <Route path="/.." element={<NotFound />} />
       </Routes>
     </>

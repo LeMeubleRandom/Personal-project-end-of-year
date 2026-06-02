@@ -1,7 +1,7 @@
 // model/Message.js
 import pool from '../db/mysql.js';
 
-class Message {
+export default class Message {
     static async createMessage(userId, message) {
         const [result] = await pool.execute(
             "INSERT INTO message (message, userId, postDate) VALUES (?, ?, UTC_TIMESTAMP())",
@@ -34,5 +34,3 @@ class Message {
         return rows;
     }
 }
-
-export default Message;
