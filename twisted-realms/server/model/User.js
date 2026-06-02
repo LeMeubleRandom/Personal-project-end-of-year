@@ -1,7 +1,7 @@
 // model/User.js
 import pool from "../db/mysql.js";
 
-class User {
+export default class User {
   static async createUser(name, email, password, role = "user") {
     const [result] = await pool.execute(
       "INSERT INTO user (name, email, password, role, date) VALUES (?, ?, ?, ?, UTC_TIMESTAMP())",
@@ -55,6 +55,11 @@ class User {
     );
     return user;
   }
-}
 
-export default User;
+  static async findDeckByUserId(userId) {
+    const [decks] = await pool.execute("SELECT * FROM deck WHERE userId = ?", [
+      userId,
+    ]);
+    return decks;
+  }
+}

@@ -1,10 +1,9 @@
 .home-container {
-  padding: 50px 40px 40px 40px;
+  padding: 50px 40px 0 40px;
   gap: 2rem 4rem;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: 1fr auto;
-  min-height: 80vh;
 }
 
 .home-intro,
@@ -85,4 +84,7 @@
 .no-name {
   grid-row: 2/4;
   width: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -9,7 +9,7 @@ import { cp } from "node:fs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-class UserController {
+export default class UserController {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -137,6 +137,23 @@ class UserController {
     }
   }
 
+  static async getAllDecks(req, res) {
+    try {
+      console.log(req.userId);
+      const userId = req.userId;
+      const decks = await User.findDeckByUserId(userId);
+
+      if (!decks) {
+        throw new Error("decks introuvables.");
+      }
+
+      res.status(200).json(decks);
+    } catch (error) {
+      console.error("Error getAllDecks", error);
+      res.status(400).json({ status: "error", message: error.message });
+    }
+  }
+
   static async deleteUserImage(fileName) {
     console.log(fileName);
     if (!fileName) return;
@@ -155,5 +172,3 @@ class UserController {
     }
   }
 }
-
-export default UserController;
