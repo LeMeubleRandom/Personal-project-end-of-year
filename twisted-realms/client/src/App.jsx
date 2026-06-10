@@ -12,7 +12,7 @@ import Home from "./views/Home";
 import Collection from "./views/Collection";
 import Shop from "./views/Shop";
 import Profile from "./views/Profile";
-//import Lobby from "./views/Lobby";
+import Lobby from "./views/Lobby";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import Game from "./views/Game";
@@ -89,7 +89,7 @@ function AppContent() {
           }
         />
         <Route path="/decks" element={<Decks user={user} />} />
-        <Route path="/lobby" element={<Game user={user} />} />
+        <Route path="/lobby" element={<Lobby user={user} />} />
         <Route path="/card" element={<Card user={user} />} />
         <Route path="/.." element={<NotFound />} />
       </Routes>

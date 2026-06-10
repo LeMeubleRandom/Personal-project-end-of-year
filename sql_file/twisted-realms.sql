@@ -198,6 +198,27 @@ CREATE TABLE `message` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `message`
+--
+
+CREATE TABLE `game` (
+  `id` int(11) NOT NULL,
+  `gameId` int(11) NOT NULL,
+  `player1Id` VARCHAR(100) NOT NULL,
+  `player2Id` VARCHAR(100) NOT NULL,
+  `player1` VARCHAR(100) NOT NULL,
+  `player2` VARCHAR(100) NOT NULL,
+  `player1Deckid` int(11) NOT NULL,
+  `player2Deckid` int(11) NOT NULL
+)
+
+--
+-- Déchargement des données de la table `collection`
+--
+
+-- --------------------------------------------------------
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -234,6 +255,13 @@ ALTER TABLE `userCollection`
 --
 
 ALTER TABLE `message`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour table `game`
+--
+
+ALTER TABLE `game`
   ADD PRIMARY KEY (`id`);
 
 -- --------------------------------------------------------
@@ -279,6 +307,14 @@ COMMIT;
 --
 
 ALTER TABLE `message`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
+
+--
+-- AUTO_INCREMENT pour la table `game`
+--
+
+ALTER TABLE `game`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
 

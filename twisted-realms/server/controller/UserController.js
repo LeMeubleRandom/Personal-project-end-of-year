@@ -165,10 +165,10 @@ export default class UserController {
     }
   }
 
-  static async getAllDecks(req, res) {
+  static async getAllDecksByUserId(req, res) {
     try {
       const userId = req.userId;
-      const decks = await User.findDeckByUserId(userId);
+      const decks = await User.findDecksByUserId(userId);
 
       if (!decks) {
         throw new Error("decks introuvables.");

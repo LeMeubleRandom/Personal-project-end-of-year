@@ -6,8 +6,6 @@ import Card from "../components/Card";
 
 function Collection({ user }) {
   const [cardList, setCardList] = useState([]);
-  const [deckList, setDeckList] = useState([]);
-  const [userDecks, setUserDecks] = useState([]);
   const [userCollection, setCollection] = useState([]);
 
   const [showOnlyOwned, setShowOnlyOwned] = useState(false);
@@ -48,64 +46,10 @@ function Collection({ user }) {
     }
   };
 
-  /*
-  const fetchDecks = async (e) => {
-    try {
-      const response = await fetch("/api/user/deck", {
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP : ${response.status}`);
-      }
-      const data = await response.json();
-      setDeckList(data);
-    } catch (error) {
-      console.error("Erreur de connexion au serveur :", error);
-    }
-  };
-  */
-
-  /*
-  const fetchcardsByDeck = async (e) => {
-    try {
-      const response = await fetch(
-        `/api/card/deck?cardList=${deckList[0].cardList}`,
-        {
-          credentials: "include",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP : ${response.status}`);
-      }
-      const data = await response.json();
-      console.log(data);
-      setUserDecks(data);
-    } catch (error) {
-      console.error("Erreur de connexion au serveur :", error);
-    }
-  };
-  */
-
   useEffect(() => {
     fetchCards();
     fetchCollection();
-    //fetchDecks();
   }, []);
-
-  /*useEffect(() => {
-    if (deckList.length == 0) {
-      console.log("Cet utilisateur n'a aucun deck enregistré");
-    } else {
-      console.log(deckList);
-      fetchcardsByDeck();
-    }
-  }, [deckList]);*/
-
-  /*{userDecks.map((c) => (
-          <Card key={c.name} card={c} className="card" />
-        ))}*/
 
   const getOwnedCards = () => {
     const row = userCollection;

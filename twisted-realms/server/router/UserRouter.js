@@ -21,8 +21,8 @@ router.post("/deck/create", verifyToken, UserController.createDeck);
 router.post("/deck/update", verifyToken, UserController.updateDeck);
 
 router.get("/me", verifyToken, UserController.getMe);
-router.get("/deck", verifyToken, UserController.getAllDecks);
-router.get("/deck", verifyToken, UserController.getDeck);
+router.get("/deck", verifyToken, UserController.getAllDecksByUserId);
+//router.get("/decks", verifyToken, UserController.getDeck);
 router.get("/collection", verifyToken, UserController.getCollection);
 router.get("/:userId", UserController.getUserById);
 
