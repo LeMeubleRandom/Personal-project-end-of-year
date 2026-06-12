@@ -68,7 +68,9 @@ CREATE TABLE `deck` (
 --
 
 INSERT INTO `deck` (`id`, `userId`, `name`, `cardList`, `postDate`) VALUES
-(1, 2, 'Deck Arcanique', '[35, 31, 38, 32, 40, 33, 37, 35, 39, 34, 36, 31, 32, 38, 40, 33, 36, 37, 39, 34, 35, 31, 38, 32, 40, 33, 37, 39, 34, 36]', '2026-05-31 12:00:00');
+(1, 2, 'Deck Arcanique', '[35, 31, 38, 32, 40, 33, 37, 35, 39, 34, 36, 31, 32, 38, 40, 33, 36, 37, 39, 34, 35, 31, 38, 32, 40, 33, 37, 39, 34, 36]', '2026-05-31 12:00:00'),
+(2, 2, 'Deck Draconique', '[12, 15, 11, 19, 14, 16, 20, 13, 18, 17, 11, 12, 15, 13, 16, 14, 19, 20, 17, 18, 15, 11, 16, 12, 19, 13, 20, 14, 18, 17]', '2026-06-11 12:00:00');
+
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,7 @@ CREATE TABLE `card` (
 --
 
 INSERT INTO `card` (`id`, `name`, `faction`, `type`, `atk`, `PV`, `effect`, `cost`, `accelerator`) VALUES
-(1, "Nyxos, Engeance sinistre", "Kasmigena", "Être", 250, 2, "Défaussez une carte, remettez en jeu une carte Être depuis votre cimetière, mais ses PV sont réduits à 1.", 1, 1),
+(1, "Nyxos, Engeance noir", "Kasmigena", "Être", 250, 2, "Défaussez une carte, remettez en jeu une carte Être depuis votre cimetière, mais ses PV sont réduits à 1.", 1, 1),
 (2, "Golem de Basalte", "Kasmigena", "Être", 180, 5, "", 2, 2),
 (3, "Architecte Primordial", "Kasmigena", "Être", 150, 6, "", 2, 2),
 (4, "Monolithe Résonnant", "Kasmigena", "Être", 100, 7, "", 3, 3),
@@ -122,7 +124,6 @@ INSERT INTO `card` (`id`, `name`, `faction`, `type`, `atk`, `PV`, `effect`, `cos
 (27, "Noyau d'Énergie Instable", "Erudis", "Être", 280, 1, "", 3, 3),
 (28, "Titan d'Acier Brossé", "Erudis", "Être", 250, 5, "", 3, 3),
 (29, "Nettoyeur Plasma", "Erudis", "Être", 220, 2, "", 1, 1),
-(30, "Interface de Commandement", "Erudis", "Être", 150, 5, "", 2, 2),
 (31, "Apprenti des Astres", "Mages", "Être", 170, 2, "", 1, 1),
 (32, "Érudite de l'Améthyste", "Mages", "Être", 190, 3, "", 1, 1),
 (33, "Maître des Illusions", "Mages", "Être", 150, 4, "", 2, 2),
@@ -210,7 +211,7 @@ CREATE TABLE `game` (
   `player2` VARCHAR(100) NOT NULL,
   `player1Deckid` int(11) NOT NULL,
   `player2Deckid` int(11) NOT NULL
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `collection`

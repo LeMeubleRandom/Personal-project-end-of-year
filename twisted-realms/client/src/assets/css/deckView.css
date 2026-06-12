@@ -1,0 +1,16 @@
+.deck-view-container {
+  display: flex;
+}
+
+.deck-filter-container {
+  width: 18rem;
+  height: fit-content;
+  background-color: var(--nav-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--accent-active);
+  color: var(--text);
+  position: sticky;
+  top: 12rem;
+  align-self: flex-start;
+}

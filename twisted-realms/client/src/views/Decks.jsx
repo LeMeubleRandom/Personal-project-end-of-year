@@ -3,12 +3,17 @@ import { useState, useEffect } from "react";
 
 import "../assets/css/decks.css";
 import Card from "../components/Card";
+import DeckView from "../components/DeckView";
 
 function Decks({ user }) {
   const [cardList, setCardList] = useState([]);
   const [deckList, setDeckList] = useState([]);
-  const [userDecks, setUserdecks] = useState([]);
+  const [userDecks, setUserDecks] = useState([]);
   const [userCollection, setCollection] = useState([]);
+  const [activeDeck, setActiveDeck] = useState(null);
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [editedDeck, setEditedDeck] = useState([]);
 
   const [showOnlyOwned, setShowOnlyOwned] = useState([]);
 
@@ -65,10 +70,21 @@ function Decks({ user }) {
     }
   };
 
-  const fetchcardsByDeck = async (e) => {
+  const fetchcardsByDeck = async (deck) => {
+    const targetDeck = deck || deckList[0];
+    if (!targetDeck) {
+      console.warn("Aucun deck n'est disponible.");
+      return;
+    }
+    setActiveDeck(targetDeck);
+
     try {
+      const cardListParam =
+        typeof targetDeck.cardList === "string"
+          ? targetDeck.cardList
+          : JSON.stringify(targetDeck.cardList);
       const response = await fetch(
-        `/api/card/deck?cardList=${deckList[0].cardList}`,
+        `/api/card/deck?cardList=${encodeURIComponent(cardListParam)}`,
         {
           credentials: "include",
         },
@@ -78,7 +94,6 @@ function Decks({ user }) {
         throw new Error(`Erreur HTTP : ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
       setUserDecks(data);
     } catch (error) {
       console.error("Erreur de connexion au serveur :", error);
@@ -88,21 +103,16 @@ function Decks({ user }) {
   useEffect(() => {
     fetchCards();
     fetchCollection();
-    //fetchUserDecks();
-  });
+    fetchUserDecks();
+  }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (deckList.length == 0) {
       console.log("Cet utilisateur n'a aucun deck enregistré");
     } else {
-      console.log(deckList);
-      fetchcardsByDeck();
+      fetchcardsByDeck(deckList[0]);
     }
-  }, [deckList]);*/
-
-  {
-    userDecks.map((c) => <Card key={c.name} card={c} className="card" />);
-  }
+  }, [deckList]);
 
   const getOwnedCards = () => {
     const row = userCollection;
@@ -136,7 +146,63 @@ function Decks({ user }) {
     ? cardList.filter((c) => ownedCards[c.id] > 0)
     : cardList;
 
-  return <main></main>;
+  const viewDeck = async (deck) => {
+    if (!user) {
+      Navigate("/login");
+      return;
+    }
+    console.log(deck);
+    setActiveDeck(deck);
+    setIsEdit(true);
+  };
+
+  return (
+    <main>
+      {isEdit && (
+        <DeckView
+          user={user}
+          activeDeck={activeDeck}
+          cardList={cardList}
+          ownedCards={ownedCards}
+          setIsEdit={setIsEdit}
+          fetchUserDecks={fetchUserDecks}
+        />
+      )}
+      {!isEdit && (
+        <div className="deck-container">
+          {deckList.map((c) => {
+            const deckCards = Array.isArray(c.cardList)
+              ? c.cardList
+              : typeof c.cardList === "string"
+                ? JSON.parse(c.cardList)
+                : [];
+
+            const targetCardId = c.mainCard || deckCards[0];
+
+            const targetCard = cardList.find(
+              (card) => card.id === targetCardId,
+            );
+
+            return (
+              <div
+                key={c.name}
+                className="decks-view"
+                onClick={() => viewDeck(c)}
+              >
+                <h2>{c.name}</h2>
+                {targetCard && <Card card={targetCard} />}
+              </div>
+            );
+          })}
+          <div className="add-deck-btn">
+            <span className="add-deck-icon">+</span>
+            <span className="add-deck-text">Nouveau Deck</span>
+            <span className="add-deck-desc">Créer un deck personnalisé</span>
+          </div>
+        </div>
+      )}
+    </main>
+  );
 }
 
 export default Decks;

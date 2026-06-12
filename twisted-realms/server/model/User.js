@@ -90,7 +90,7 @@ export default class User {
 
   static async updateDeck(id, name, cardList, mainCard) {
     const [deck] = await pool.execute(
-      "UPDATE deck SET name = ?, cardList = ?, mainDeck = ? WHERE id = ?",
+      "UPDATE deck SET name = ?, cardList = ?, mainCard = ? WHERE id = ?",
       [name, cardList, mainCard, id],
     );
     return deck;
