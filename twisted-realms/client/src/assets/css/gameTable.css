@@ -1,0 +1,123 @@
+.board-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  gap: 4rem;
+  perspective: 1200px;
+  perspective-origin: center top;
+}
+
+.board-content {
+  display: grid;
+  transform: rotateX(65deg);
+  transform-style: preserve-3d;
+  place-items: center;
+  width: fit-content;
+  place-self: center;
+  gap: 0.5rem 3rem;
+  margin-bottom: 5rem;
+}
+
+.field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: fit-content;
+}
+
+.adjac-zone-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  gap: 1.5rem;
+}
+
+.board-content,
+.field-container,
+.adjac-zone-container,
+.card-zone {
+  pointer-events: none;
+}
+
+.main-card-zone,
+.spell-card-zone,
+.deck-zone,
+.graveyard-zone,
+.ostrac-zone,
+.other {
+  pointer-events: auto;
+  display: flex;
+  place-content: center;
+}
+
+.card-zone {
+  display: flex;
+  gap: 2rem;
+  width: fit-content;
+}
+
+.card-zone div,
+.adjac-zone-container div {
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+  width: 4rem;
+  height: 6rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.card-zone div:hover,
+.adjac-zone-container div:hover {
+  animation: backgroundPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
+}
+
+@keyframes backgroundPulse {
+  0% {
+    background-color: var(--primary);
+  }
+  50% {
+    background-color: rgba(var(--primary-rgb), 0.4);
+  }
+  100% {
+    background-color: var(--primary);
+  }
+}
+
+.ostrac-zone {
+  rotate: 90deg;
+}
+
+.ostrac-zone p {
+  rotate: -90deg;
+}
+
+.player-zone-name {
+  /*display: none;*/
+  place-self: center;
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+#opponent-right-zones {
+  grid-column: 3/4;
+  grid-row: 1/2;
+  align-self: start;
+}
+
+#opponent-left-zones {
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+
+#player-right-zones {
+  grid-column: 3/4;
+  grid-row: 2/3;
+}
+
+#player-left-zones {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  align-self: end;
+}

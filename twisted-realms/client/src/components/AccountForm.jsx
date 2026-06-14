@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import avatarImg from "../assets/images/black_skull_dragon__rush_duel___artwork__by_nhociory_difdumv.png";
 
 import "../assets/css/accountForm.css";
 
 function AccountForm({ user, setUser, fetchUser }) {
+  const navigate = useNavigate();
   const serverUrl = `http://${window.location.hostname}:5000/user-images/`;
 
   const actualImage = user?.userImage
@@ -84,6 +86,31 @@ function AccountForm({ user, setUser, fetchUser }) {
     }
   };
 
+  const deleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer définitivement votre compte ?",
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch("/api/user", {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        console.log("Compte supprimé");
+        setUser(null);
+        navigate("/");
+      } else {
+        const data = await response.json();
+        console.error("Erreur :", data.message);
+      }
+    } catch (error) {
+      console.error("Erreur réseau :", error);
+    }
+  };
+
   return (
     <article className="tab-content">
       <div className="tab-header">
@@ -153,6 +180,16 @@ function AccountForm({ user, setUser, fetchUser }) {
             </button>
           </div>
         </form>
+        <div className="profile-form">
+          <h2 className="delete-btn-name">Zone de danger</h2>
+          <button
+            type="button"
+            className="btn-submit red"
+            onClick={deleteAccount}
+          >
+            Supprimer le compte
+          </button>
+        </div>
       </section>
     </article>
   );

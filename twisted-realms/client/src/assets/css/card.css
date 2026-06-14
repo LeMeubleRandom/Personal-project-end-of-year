@@ -1,0 +1,182 @@
+.card-container {
+  --border-color: rgb(37, 2, 2);
+  --bg-color: rgb(93, 11, 11);
+  --bg-dark-color: rgb(45, 5, 5);
+  --accent-color: white;
+
+  border: 6px solid transparent;
+  background-image:
+    linear-gradient(var(--bg-color), var(--bg-color)),
+    linear-gradient(
+      135deg,
+      #1f1f1f 0%,
+      #5c5c5c 25%,
+      #282828 50%,
+      #707070 75%,
+      #242424 100%
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  color: var(--accent-color);
+  border-radius: 5px;
+  width: 12rem;
+  height: 18rem;
+  place-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-select: none;
+  box-shadow: inset 0px 0px 15px 0px var(--bg-dark-color);
+}
+
+.card-container:hover {
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+.card-container:active {
+  transform: scale(0.95);
+  z-index: 2;
+}
+
+.card-name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 0.3rem;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+  z-index: 2;
+  color: var(--main-accent-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.image {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  overflow: hidden;
+  margin: 0;
+}
+
+.image img {
+  width: 100%;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.card-attribute {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  font-size: 70%;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+  color: var(--main-accent-color);
+}
+
+.card-attribute span {
+  margin: 0;
+  text-align: center;
+}
+
+.card-effect {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 3%;
+  height: 25%;
+  box-shadow: inset 0px 0px 15px 0px var(--bg-dark-color);
+  border-radius: 0.2rem;
+}
+
+.card-effect span {
+  font-size: 70%;
+  margin: 0 5%;
+}
+
+.card-stats {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  margin: 0 5% 3% 5%;
+}
+
+.card-stats div {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.card-accelerator-stat span {
+  margin: 0 0 0 auto;
+}
+
+.faction-dragons {
+  --border-color: #3d1c20;
+  --bg-color: #383435;
+  --bg-dark-color: #1a1819;
+  --accent-color: #d9a05b;
+  --main-accent-color: #f0ebe6;
+}
+
+.faction-kasmigena {
+  --border-color: #262e33;
+  --bg-color: #59646b;
+  --bg-dark-color: #171c1f;
+  --accent-color: #e8c37a;
+  --main-accent-color: #f2f5f7;
+}
+
+.faction-mutants {
+  --border-color: #303624;
+  --bg-color: #3d2628;
+  --bg-dark-color: #1f1314;
+  --accent-color: #7a8755;
+  --main-accent-color: #dfe3d5;
+}
+
+.faction-erudis {
+  --border-color: #3a4f66;
+  --bg-color: #c0cdd8;
+  --bg-dark-color: #697a8b;
+  --accent-color: #1a2530;
+  --main-accent-color: #f0f4f8;
+}
+
+.faction-mages {
+  --border-color: #2f213b;
+  --bg-color: #262738;
+  --bg-dark-color: #11121a;
+  --accent-color: #b39dcd;
+  --main-accent-color: #e8e3ed;
+}
+
+.faction-potentias {
+  --border-color: #091718;
+  --bg-color: #172e31;
+  --bg-dark-color: #0e1b1d;
+  --accent-color: #dde3e6;
+  --main-accent-color: #f0fdfe;
+}

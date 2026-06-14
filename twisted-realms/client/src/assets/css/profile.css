@@ -1,86 +1,100 @@
 /* src/assets/css/profile.css */
 
 .profile-container {
-    margin: 0 auto;
-    padding: 50px 40px 40px 40px;
-    display: flex;
-    flex-direction: row;
-    min-height: 100vh;
+  margin: 0 auto;
+  padding: 50px 40px 40px 40px;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
 }
 
 .profile-nav {
-    background-color: var(--nav-bg);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-left: 10rem;
-    min-width: 280px;
-    max-width: 320px;
-    height: fit-content;
-    position: sticky;
-    top: 9rem;
-    align-self: flex-start;
+  background-color: var(--nav-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-left: 10rem;
+  min-width: 280px;
+  max-width: 320px;
+  height: fit-content;
+  position: sticky;
+  top: 9rem;
+  align-self: flex-start;
 }
 
 .profile-nav h2 {
-    margin: 0 0 1.5rem 0;
-    color: var(--text);
-    border-bottom: 1px solid var(--accent-active);
-    padding-bottom: 0.75rem;
+  margin: 0 0 1.5rem 0;
+  color: var(--text);
+  border-bottom: 1px solid var(--accent-active);
+  padding-bottom: 0.75rem;
 }
 
 .profile-categories-container {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .profile-categories {
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    color: var(--text2);
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  color: var(--text2);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .profile-categories:hover {
-    background: rgba(8, 136, 156, 0.1);
-    color: var(--text);
+  background: rgba(8, 136, 156, 0.1);
+  color: var(--text);
 }
 
 .profile-categories.active {
-    background: var(--nav-active-bg);
-    color: var(--text);
-    border-left: 3px solid var(--primary);
-    box-shadow: inset 5px 0 10px rgba(0, 242, 254, 0.05);
+  background: var(--nav-active-bg);
+  color: var(--text);
+  border-left: 3px solid var(--primary);
+  box-shadow: inset 5px 0 10px rgba(0, 242, 254, 0.05);
 }
 
 .category-detail {
-    margin-left: 5rem;
-    min-width: 280px;
-    max-width: 320px;
-    color: var(--text);
+  margin-left: 5rem;
+  color: var(--text);
+}
+
+#category-account-detail {
+}
+
+#category-security-detail {
 }
 
 .tab-header {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .tab-header h1 {
-    font-size: 2rem;
-    margin: 0 0 0.5rem 0;
-    color: var(--secondary);
-    text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--secondary);
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
 }
 
 .tab-header p {
-    color: var(--text2);
-    margin: 0;
+  color: var(--text2);
+  margin: 0;
+}
+
+.btn-submit.red {
+  color: var(--primary-nemesis);
+  border: 1px solid var(--primary-nemesis);
+}
+
+.btn-submit.red:hover {
+  background-color: var(--primary-nemesis);
+  color: var(--bg);
 }

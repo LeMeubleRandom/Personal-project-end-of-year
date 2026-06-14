@@ -17,8 +17,13 @@ router.post(
 );
 router.post("/email", verifyToken, UserController.updateUserEmail);
 router.post("/logout", verifyToken, UserController.logout);
+router.post("/deck/create", verifyToken, UserController.createDeck);
+router.post("/deck/update", verifyToken, UserController.updateDeck);
 
 router.get("/me", verifyToken, UserController.getMe);
+router.get("/deck", verifyToken, UserController.getAllDecksByUserId);
+//router.get("/decks", verifyToken, UserController.getDeck);
+router.get("/collection", verifyToken, UserController.getCollection);
 router.get("/:userId", UserController.getUserById);
 
 router.delete(
@@ -26,5 +31,7 @@ router.delete(
   verifyToken,
   UserController.deleteUserImage,
 );
+router.delete("/deck/delete", verifyToken, UserController.deleteDeck);
+router.delete("/", verifyToken, UserController.deleteUser);
 
 export default router;

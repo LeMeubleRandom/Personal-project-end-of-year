@@ -42,7 +42,7 @@ function Profile({ user, setUser, fetchUser }) {
                       </li>
                     </ul>
                     </div>
-                    <div className='category-detail'>
+                    <div className='category-detail' id={`category-${category}-detail`}>
                       {category === 'account' && (
                         <AccountForm user={user} setUser={setUser} fetchUser={fetchUser} />
                       )}

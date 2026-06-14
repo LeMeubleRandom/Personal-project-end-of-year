@@ -85,3 +85,12 @@
   object-fit: cover;
   display: block;
 }
+
+.delete-btn-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--primary-nemesis);
+  margin: 0;
+}

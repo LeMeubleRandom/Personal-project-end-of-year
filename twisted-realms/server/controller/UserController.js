@@ -9,7 +9,7 @@ import { cp } from "node:fs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-class UserController {
+export default class UserController {
   static async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -39,6 +39,8 @@ class UserController {
       const { name, email, password } = req.body;
       const newUser = await UserService.registerUser(name, email, password);
 
+      if (newUser) await User.createCollection(newUser.id);
+
       res.status(201).json({
         status: "success",
         message: `Bienvenue dans Twisted Realms, ${name}`,
@@ -52,6 +54,32 @@ class UserController {
   static async logout(req, res) {
     res.clearCookie("token_twisted_realms");
     res.status(200).json({ status: "success", message: "Déconnexion réussie" });
+  }
+
+  static async deleteUser(req, res) {
+    try {
+      const userId = req.userId;
+      const user = await User.findById(userId);
+      if (!user) {
+        return res
+          .status(404)
+          .json({ status: "error", message: "Utilisateur introuvable" });
+      }
+
+      if (user.userImage) {
+        await UserService.deleteUserImage(user.userImage);
+      }
+
+      await User.deleteUser(userId);
+      res.clearCookie("token_twisted_realms");
+
+      res.status(200).json({
+        status: "success",
+        message: "Compte supprimé avec succès",
+      });
+    } catch (error) {
+      res.status(400).json({ status: "error", message: error.message });
+    }
   }
 
   static async getMe(req, res) {
@@ -100,7 +128,7 @@ class UserController {
           .json({ status: "error", message: "Aucune donnée à mettre à jour." });
       }
 
-      await UserController.deleteUserImage(oldImage);
+      await UserService.deleteUserImage(oldImage);
 
       res.status(200).json({
         status: "success",
@@ -137,23 +165,97 @@ class UserController {
     }
   }
 
-  static async deleteUserImage(fileName) {
-    console.log(fileName);
-    if (!fileName) return;
-
-    const cleanFileName = fileName.split("/").pop().split("\\").pop();
-    console.log(cleanFileName);
-
-    const filePath = join(__dirname, "../../public/user-images", cleanFileName);
-    console.log(filePath);
-
+  static async getAllDecksByUserId(req, res) {
     try {
-      await fs.promises.unlink(filePath);
-      console.log("Ancienne image supprimée avec succès");
-    } catch (err) {
-      console.error("Erreur lors de la suppression de l'ancienne image:", err);
+      const userId = req.userId;
+      const decks = await User.findDecksByUserId(userId);
+
+      if (!decks) {
+        throw new Error("decks introuvables.");
+      }
+
+      res.status(200).json(decks);
+    } catch (error) {
+      console.error("Error getAllDecks", error);
+      res.status(400).json({ status: "error", message: error.message });
+    }
+  }
+
+  static async createDeck(req, res) {
+    try {
+      const { userId, name } = req.body;
+      const response = await User.createDeck(userId, name);
+
+      res.status(200).json(response);
+    } catch (error) {
+      console.error("Error createDeck", error);
+      res.status(400).json({ status: "error", message: error.message });
+    }
+  }
+
+  static async updateDeck(req, res) {
+    try {
+      const { id, name, cardList, mainCard } = req.body;
+      const response = await User.updateDeck(id, name, cardList, mainCard);
+
+      res.status(200).json(response);
+    } catch (error) {
+      console.error("Error updateDeck", error);
+      res.status(400).json({ status: "error", message: error.message });
+    }
+  }
+
+  static async getDeck(req, res) {
+    try {
+      const userId = req.userId;
+      const deck = await User.getDeck(id);
+
+      res.status(200).json(deck);
+    } catch (error) {
+      console.error("Error getDeck", error);
+      res.status(400).json({ status: "error", message: error.message });
+    }
+  }
+
+  static async deleteDeck(req, res) {
+    try {
+      const deckId = req.body;
+      const response = await User.deleteDeck(deckId);
+
+      res.status(200).json(response);
+    } catch (error) {
+      console.error("Error deleteDeck", error);
+      res.status(400).json({ status: "error", message: error.message });
+    }
+  }
+
+  static async deleteUserImage(req, res) {
+    try {
+      const { fileName } = req.params;
+      await UserService.deleteUserImage(fileName);
+      res
+        .status(200)
+        .json({ status: "success", message: "Image supprimée avec succès" });
+    } catch (error) {
+      console.error("Error deleteUserImage:", error);
+      res.status(500).json({
+        status: "error",
+        message: "Erreur serveur lors de la suppression de l'image",
+      });
+    }
+  }
+
+  static async getCollection(req, res) {
+    try {
+      const userId = req.userId;
+      const collection = await User.getCollection(userId);
+      res.status(200).json(collection);
+    } catch (error) {
+      console.error("Error getCollection:", error);
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
     }
   }
 }
-
-export default UserController;

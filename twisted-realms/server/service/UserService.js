@@ -68,6 +68,24 @@ class UserService {
 
     return user;
   }
+
+  static async deleteUserImage(fileName) {
+    console.log(fileName);
+    if (!fileName) return;
+
+    const cleanFileName = fileName.split("/").pop().split("\\").pop();
+    console.log(cleanFileName);
+
+    const filePath = join(__dirname, "../../public/user-images", cleanFileName);
+    console.log(filePath);
+
+    try {
+      await fs.promises.unlink(filePath);
+      console.log("Ancienne image supprimée avec succès");
+    } catch (err) {
+      console.error("Erreur lors de la suppression de l'ancienne image:", err);
+    }
+  }
 }
 
 export default UserService;

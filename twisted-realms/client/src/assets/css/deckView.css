@@ -1,0 +1,66 @@
+.deck-view-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.deck-view-container > div {
+  display: flex;
+  gap: 1rem;
+}
+
+.deck-cards {
+  max-height: 80vh;
+  overflow-y: auto;
+  will-change: scroll-position;
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch;
+  justify-content: center;
+  display: grid;
+  width: 190rem;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+}
+
+.deck-filter-container {
+  width: 100%;
+  height: 80vh;
+  background-color: var(--nav-bg);
+  border: 1px solid var(--accent-active);
+  color: var(--text);
+  position: sticky;
+  top: 12rem;
+  align-self: flex-start;
+}
+
+#deck-name {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1.6rem;
+  margin: 1rem 1.5rem;
+  width: 100%;
+  max-width: 20rem;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  letter-spacing: 1px;
+}
+
+#deck-name:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 242, 254, 0.45);
+}
+
+#deck-name:focus {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--secondary);
+  box-shadow:
+    0 0 15px rgba(0, 242, 254, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#deck-name::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: none;
+  letter-spacing: 0;
+}

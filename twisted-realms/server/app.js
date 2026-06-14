@@ -13,6 +13,8 @@ import redisClient from "./db/redis.js";
 
 import messageRouter from "./router/MessageRouter.js";
 import userRouter from "./router/UserRouter.js";
+import gameRouter from "./router/GameRouter.js";
+import cardRouter from "./router/CardRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,6 +52,8 @@ app.use((req, res, next) => {
 
 app.use("/message", messageRouter);
 app.use("/user", userRouter);
+app.use("/game", gameRouter);
+app.use("/card", cardRouter);
 
 app.get("/", (req, res) => {
   res.send("Serveur Node.js opérationnel");

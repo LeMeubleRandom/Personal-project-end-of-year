@@ -15,10 +15,14 @@ import Profile from "./views/Profile";
 import Lobby from "./views/Lobby";
 import Login from "./views/Login";
 import Register from "./views/Register";
+import Game from "./views/Game";
+import Decks from "./views/Decks";
+
 import NotFound from "./views/NotFound";
 
 //Import des composants
 import Header from "./components/Header";
+import Card from "./components/Card";
 
 function AppContent() {
   const [user, setUser] = useState(null);
@@ -73,7 +77,7 @@ function AppContent() {
           element={user ? <Navigate to="/" replace /> : <Register />}
         />
         <Route path="/shop" element={<Shop />} />
-        <Route path="/collection" element={<Collection />} />
+        <Route path="/collection" element={<Collection user={user} />} />
         <Route
           path="/profile"
           element={
@@ -84,7 +88,9 @@ function AppContent() {
             )
           }
         />
+        <Route path="/decks" element={<Decks user={user} />} />
         <Route path="/lobby" element={<Lobby user={user} />} />
+        <Route path="/card" element={<Card user={user} />} />
         <Route path="/.." element={<NotFound />} />
       </Routes>
     </>
