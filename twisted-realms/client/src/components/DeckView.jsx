@@ -39,54 +39,6 @@ const DeckView = ({
     return counts;
   }, [currentCardList]);
 
-  const groupedDeckCards = useMemo(() => {
-    const uniqueIds = [...new Set(currentCardList)];
-    return uniqueIds
-      .map((id) => {
-        const card = cardList.find((c) => c.id === id);
-        return {
-          card,
-          count: deckCardCounts[id] || 0,
-        };
-      })
-      .filter((item) => item.card !== undefined)
-      .sort((a, b) => {
-        if (a.card.faction !== b.card.faction) {
-          return a.card.faction.localeCompare(b.card.faction);
-        }
-        return a.card.cost - b.card.cost;
-      });
-  }, [currentCardList, cardList, deckCardCounts]);
-
-  const factionsList = useMemo(() => {
-    const factions = new Set(cardList.map((c) => c.faction));
-    return ["All", ...Array.from(factions)];
-  }, [cardList]);
-
-  //filtre la collection
-  //inutile pour le moment
-  const filteredCollection = useMemo(() => {
-    return cardList
-      .filter((card) => {
-        const isOwned = (ownedCards[card.id] || 0) > 0;
-        if (!isOwned) return false;
-
-        if (selectedFaction !== "All" && card.faction !== selectedFaction) {
-          return false;
-        }
-
-        if (
-          searchQuery.trim() !== "" &&
-          !card.name.toLowerCase().includes(searchQuery.toLowerCase())
-        ) {
-          return false;
-        }
-
-        return true;
-      })
-      .sort((a, b) => a.faction.localeCompare(b.faction) || a.cost - b.cost);
-  }, [cardList, ownedCards, selectedFaction, searchQuery]);
-
   //ajoute une carte dans la variable currentdecklist
   //ne rajoute pas directement dans la base de donnée
   const handleAddCard = (cardId) => {
@@ -187,10 +139,36 @@ const DeckView = ({
     }
   };
 
+  const sortDeck = useMemo(() => {
+    return currentCardList
+      .map((id) => cardList.find((card) => card.id === id))
+      .filter((card) => card !== undefined)
+      .sort(
+        (a, b) =>
+          a.faction.localeCompare(b.faction) ||
+          a.cost - b.cost ||
+          a.name.localeCompare(b.name),
+      );
+  }, [cardList, currentCardList]);
+
   return (
     <div className="deck-view-container">
-      <div className="deck-cards"></div>
-      <div className="deck-filter-container"></div>
+      <label htmlFor="deck-name"></label>
+      <input
+        type="text"
+        id="deck-name"
+        placeholder="Nom du deck"
+        value={deckName}
+        onChange={(e) => setDeckName(e.target.value)}
+      />
+      <div>
+        <div className="deck-cards">
+          {sortDeck.map((card, index) => {
+            return <Card card={card} className="deck-card" key={index} />;
+          })}
+        </div>
+        <div className="deck-filter-container"></div>
+      </div>
     </div>
   );
 };

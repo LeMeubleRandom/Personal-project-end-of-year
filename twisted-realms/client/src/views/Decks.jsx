@@ -146,12 +146,35 @@ function Decks({ user }) {
     ? cardList.filter((c) => ownedCards[c.id] > 0)
     : cardList;
 
+  const handleCreateDeck = async () => {
+    if (!user) return;
+    try {
+      const response = await fetch("/api/user/deck/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          name: "Nouveau Deck",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP : ${response.status}`);
+      }
+
+      await fetchUserDecks();
+    } catch (error) {
+      console.error("Erreur lors de la création du deck :", error);
+    }
+  };
+
   const viewDeck = async (deck) => {
     if (!user) {
       Navigate("/login");
       return;
     }
-    console.log(deck);
     setActiveDeck(deck);
     setIsEdit(true);
   };
@@ -194,7 +217,7 @@ function Decks({ user }) {
               </div>
             );
           })}
-          <div className="add-deck-btn">
+          <div className="add-deck-btn" onClick={handleCreateDeck} style={{ cursor: "pointer" }}>
             <span className="add-deck-icon">+</span>
             <span className="add-deck-text">Nouveau Deck</span>
             <span className="add-deck-desc">Créer un deck personnalisé</span>
