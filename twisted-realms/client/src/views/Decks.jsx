@@ -186,7 +186,7 @@ function Decks({ user }) {
           user={user}
           activeDeck={activeDeck}
           cardList={cardList}
-          ownedCards={ownedCards}
+          userCollection={userCollection}
           setIsEdit={setIsEdit}
           fetchUserDecks={fetchUserDecks}
         />
@@ -213,11 +213,15 @@ function Decks({ user }) {
                 onClick={() => viewDeck(c)}
               >
                 <h2>{c.name}</h2>
-                {targetCard && <Card card={targetCard} />}
+                {targetCard && <Card card={targetCard} isMini={false} />}
               </div>
             );
           })}
-          <div className="add-deck-btn" onClick={handleCreateDeck} style={{ cursor: "pointer" }}>
+          <div
+            className="add-deck-btn"
+            onClick={handleCreateDeck}
+            style={{ cursor: "pointer" }}
+          >
             <span className="add-deck-icon">+</span>
             <span className="add-deck-text">Nouveau Deck</span>
             <span className="add-deck-desc">Créer un deck personnalisé</span>

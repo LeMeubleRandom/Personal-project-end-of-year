@@ -16,19 +16,169 @@
   -webkit-overflow-scrolling: touch;
   justify-content: center;
   display: grid;
-  width: 190rem;
+  width: 200rem;
   grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
 }
 
-.deck-filter-container {
+.deck-side-container {
   width: 100%;
-  height: 80vh;
+  height: 75vh;
   background-color: var(--nav-bg);
   border: 1px solid var(--accent-active);
+  border-radius: 12px;
+  padding: 1.5rem;
   color: var(--text);
   position: sticky;
   top: 12rem;
   align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+  gap: 1rem;
+}
+
+.deck-side-container h3 {
+  margin: 0;
+  border-bottom: 1px solid var(--accent-active);
+  padding-bottom: 0.5rem;
+  color: var(--secondary);
+}
+
+.deck-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.deck-label-container {
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  border-bottom: 1px solid var(--accent-active);
+  padding-bottom: 1rem;
+}
+
+.deck-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.deck-filter-label input {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--bg);
+  border: 2px solid var(--accent-active);
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.deck-filter-label input:hover {
+  border-color: var(--secondary);
+  box-shadow: 0 0 6px rgba(0, 242, 254, 0.2);
+}
+
+.deck-filter-label input:checked {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.deck-filter-label input:checked::after {
+  content: "✓";
+  color: var(--bg);
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.deck-filter-cards-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  will-change: scroll-position;
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.filter-unique-card-container {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid var(--accent-active);
+  padding-bottom: 1rem;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.filter-unique-card-description {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.filter-unique-card-name,
+.filter-unique-card-type {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.filter-unique-card-description h2 {
+  border-bottom: 1px solid var(--accent-active);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
+}
+
+.filter-unique-card-info {
+  flex: 1;
+}
+
+.filter-unique-card-attribut {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-left: 0.5rem;
+}
+
+.filter-unique-card-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.unique-card-stat {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--accent-active);
+  width: 7rem;
+  justify-content: space-between;
+}
+
+.unique-card-stat > * {
+  padding: 0 0.2rem;
+}
+
+.unique-card-stat > :first-child {
+  background-color: var(--accent-active);
+  width: 50%;
+}
+
+.unique-card-effect {
+  margin-left: 0.5rem;
 }
 
 #deck-name {

@@ -76,7 +76,7 @@ function Home({ user }) {
         </div>
         <GlobalChat user={user} />
         <div className="no-name">
-          {randomCard ? <Card card={randomCard} /> : <p>en construction</p>}
+          {randomCard ? <Card card={randomCard} isMini={false} /> : <p>en construction</p>}
         </div>
       </section>
     </main>

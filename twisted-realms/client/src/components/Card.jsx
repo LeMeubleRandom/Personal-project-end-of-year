@@ -3,7 +3,7 @@ import "../assets/css/card.css";
 
 import avatarImg from "../assets/images/placeholder.webp";
 
-const Card = ({ card }) => {
+const Card = ({ card, isMini }) => {
   const cardStats = {
     name: card.name,
     faction: card.faction,
@@ -19,18 +19,20 @@ const Card = ({ card }) => {
   const factionClass = `faction-${cardStats.faction.toLowerCase()}`;
 
   return (
-    <div className={`card-container ${factionClass}`}>
+    <div className={`card-container ${factionClass} ${isMini ? "mini" : ""}`}>
       <div className="image">
         <img src={avatarImg} alt="" draggable="false" />
-        <div className="card-name">{cardStats.name}</div>
-        <div className="card-attribute">
-          <span>{cardStats.faction.toUpperCase()}</span>:
-          <span>{cardStats.type.toUpperCase()}</span>
-        </div>
+        {!isMini && <div className="card-name">{cardStats.name}</div>}
+        {!isMini && (
+          <div className="card-attribute">
+            <span>{cardStats.faction.toUpperCase()}</span>:
+            <span>{cardStats.type.toUpperCase()}</span>
+          </div>
+        )}
       </div>
 
       <div className="card-effect">
-        <span>{cardStats.effect}</span>
+        {!isMini && <span>{cardStats.effect}</span>}
       </div>
 
       <div className="card-stats">

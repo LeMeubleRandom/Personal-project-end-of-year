@@ -76,7 +76,7 @@ class UserService {
     const cleanFileName = fileName.split("/").pop().split("\\").pop();
     console.log(cleanFileName);
 
-    const filePath = join(__dirname, "../../public/user-images", cleanFileName);
+    const filePath = join(__dirname, "../../client/public/user-images", cleanFileName);
     console.log(filePath);
 
     try {
