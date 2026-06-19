@@ -1,12 +1,16 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Card from "./Card";
+import { useDraggable, useDroppable, DragDropProvider } from "@dnd-kit/react";
+import Draggable from "./Draggable";
+import Droppable from "./Droppable";
+
 import "../assets/css/deckView.css";
 
 const DeckView = ({
   user,
   activeDeck,
   cardList,
-  ownedCards,
+  userCollection,
   setIsEdit,
   fetchUserDecks,
 }) => {
@@ -19,6 +23,9 @@ const DeckView = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFaction, setSelectedFaction] = useState("All");
 
+  const [showOnlyOwned, setShowOnlyOwned] = useState(false);
+  const [showOnlyFav, setOnlyFav] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -30,6 +37,32 @@ const DeckView = ({
         : [];
     setCurrentCardList(deckCards);
   }, []);
+
+  const ownedCards = useMemo(() => {
+    const row = userCollection;
+    if (!row) return {};
+
+    const rawCards = row.cardCollection;
+    const rawQuantities = row.quantity;
+
+    if (!rawCards || !rawQuantities) return {};
+
+    try {
+      const cards = Array.isArray(rawCards) ? rawCards : JSON.parse(rawCards);
+      const quantities = Array.isArray(rawQuantities)
+        ? rawQuantities
+        : JSON.parse(rawQuantities);
+
+      const map = {};
+      cards.forEach((id, index) => {
+        map[id] = quantities[index] || 0;
+      });
+      return map;
+    } catch (e) {
+      console.error("Erreur lors de l'analyse de la collection :", e);
+      return {};
+    }
+  }, [userCollection]);
 
   const deckCardCounts = useMemo(() => {
     const counts = {};
@@ -151,25 +184,193 @@ const DeckView = ({
       );
   }, [cardList, currentCardList]);
 
+  const filteredCollection = useMemo(() => {
+    return cardList
+      .filter((card) => {
+        const cards = Array.isArray(userCollection.cardCollection)
+          ? userCollection.cardCollection
+          : JSON.parse(userCollection.cardCollection);
+        const quantities = Array.isArray(userCollection.quantity)
+          ? userCollection.quantity
+          : JSON.parse(userCollection.quantity);
+
+        if (showOnlyOwned) {
+          const isOwned = (cards[card.id] || 0) > 0;
+          if (!isOwned) return false;
+        }
+        if (showOnlyFav) {
+          const isFav = quantities.includes(card.id);
+          if (!isFav) return false;
+        }
+
+        if (selectedFaction !== "All" && card.faction !== selectedFaction) {
+          return false;
+        }
+
+        if (
+          searchQuery.trim() !== "" &&
+          !card.name.toLowerCase().includes(searchQuery.toLowerCase())
+        ) {
+          return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => a.faction.localeCompare(b.faction) || a.cost - b.cost);
+  }, [cardList, selectedFaction, searchQuery, showOnlyOwned, showOnlyFav]);
+
   return (
-    <div className="deck-view-container">
-      <label htmlFor="deck-name"></label>
-      <input
-        type="text"
-        id="deck-name"
-        placeholder="Nom du deck"
-        value={deckName}
-        onChange={(e) => setDeckName(e.target.value)}
-      />
-      <div>
-        <div className="deck-cards">
-          {sortDeck.map((card, index) => {
-            return <Card card={card} className="deck-card" key={index} />;
-          })}
+    <DragDropProvider
+      onDragStart={(e) => {
+        console.log("dragstart");
+      }}
+      onDragOver={(e) => {
+        console.log("dragover");
+      }}
+      onDragMove={(e) => {
+        console.log("dragmov");
+      }}
+      onDragEnd={(event) => {
+        console.log("dragend", event);
+        const { active, over } = event;
+        if (over && over.id === "droppableDeck") {
+          let cardId = active.data?.current?.cardId;
+          if (cardId === undefined && typeof active.id === "string") {
+            const rawId = active.id.replace("draggable-", "");
+            const foundCard = cardList.find((c) => String(c.id) === rawId);
+            if (foundCard) {
+              cardId = foundCard.id;
+            }
+          }
+          if (cardId !== undefined) {
+            handleAddCard(cardId);
+          }
+        }
+      }}
+    >
+      <div className="deck-view-container">
+        <label htmlFor="deck-name"></label>
+        <input
+          type="text"
+          id="deck-name"
+          placeholder="Nom du deck"
+          value={deckName}
+          onChange={(e) => setDeckName(e.target.value)}
+        />
+        <div>
+          <div className="deck-cards">
+            {sortDeck.map((card, index) => {
+              return (
+                <Card
+                  card={card}
+                  className="deck-card"
+                  isMini={false}
+                  key={index}
+                />
+              );
+            })}
+          </div>
+          <div className="deck-side-container">
+            <h3>Filtres</h3>
+            <div className="deck-filter-container">
+              <div className="deck-label-container">
+                <input
+                  type="text"
+                  placeholder="Rechercher une carte..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="search-input"
+                />
+                <label className="deck-filter-label">
+                  <input
+                    type="checkbox"
+                    checked={showOnlyOwned}
+                    onChange={(e) => setShowOnlyOwned(e.target.checked)}
+                  />
+                  Possédées
+                </label>
+                <label className="deck-filter-label">
+                  <input
+                    type="checkbox"
+                    checked={showOnlyFav}
+                    onChange={(e) => setOnlyFav(e.target.checked)}
+                  />
+                  Favorites
+                </label>
+              </div>
+              <div className="deck-filter-cards-container">
+                {filteredCollection.map((c, index) => {
+                  const qty = ownedCards[c.id] || 0;
+                  const isOwned = qty > 0;
+                  const key = `${index}-filtered-card`;
+                  return (
+                    <div className="filter-unique-card-container" key={key}>
+                      <Card card={c} isMini={true} />
+                      <div className="filter-unique-card-description">
+                        <div className="filter-unique-card-attribut">
+                          <div className="filter-unique-card-info">
+                            <h2 className="filter-unique-card-name">
+                              {c.name}
+                            </h2>
+                            <h2 className="filter-unique-card-type">
+                              {c.faction}/{c.type}
+                            </h2>
+                          </div>
+                          <div className="filter-unique-card-stat">
+                            <div className="unique-card-stat">
+                              <span>ACCEL</span>
+                              <span>{c.accelerator}</span>
+                            </div>
+                            <div className="unique-card-stat">
+                              <span>ATK</span>
+                              <span>{c.atk}</span>
+                            </div>
+                            <div className="unique-card-stat">
+                              <span>PV</span>
+                              <span>{c.PV}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="unique-card-effect-container">
+                          <span className="unique-card-effect">
+                            {c.effect
+                              ? c.effect
+                              : "Lorem ipsum dolor sit amet."}
+                          </span>
+                          <div className="unique-card-btn">
+                            <button
+                              className="unique-card-btn-action minus"
+                              onClick={() => handleRemoveCard(c.id)}
+                              disabled={(deckCardCounts[c.id] || 0) === 0}
+                            >
+                              -
+                            </button>
+                            <span className="unique-card-count">
+                              {deckCardCounts[c.id] || 0}
+                            </span>
+                            <button
+                              className="unique-card-btn-action plus"
+                              onClick={() => handleAddCard(c.id)}
+                              disabled={
+                                (deckCardCounts[c.id] || 0) >= qty ||
+                                (deckCardCounts[c.id] || 0) >= 3 ||
+                                currentCardList.length >= 30
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="deck-filter-container"></div>
       </div>
-    </div>
+    </DragDropProvider>
   );
 };
 

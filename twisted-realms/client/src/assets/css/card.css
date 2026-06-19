@@ -180,3 +180,9 @@
   --accent-color: #dde3e6;
   --main-accent-color: #f0fdfe;
 }
+
+.card-container.mini {
+  pointer-events: none;
+  transform: none !important;
+  zoom: 0.4;
+}

@@ -152,7 +152,7 @@ function Collection({ user }) {
                 className={`card-wrapper ${isOwned ? "owned" : "locked"}`}
               >
                 <h3 className="card-wrapper-name">{c.name}</h3>
-                <Card card={c} className="card" />
+                <Card card={c} className="card" isMini={false} />
                 <span className="badge-owned" title="Possédé(s)">
                   Possédé: {qty}
                 </span>
