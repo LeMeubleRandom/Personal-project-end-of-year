@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://twisted-realms-backend.up.railway.app/:path*"
+            "destination": "https://personal-project-end-of-year.onrender.com/:path*"
         },
         {
             "source": "/(.*)",
