@@ -22,7 +22,7 @@ const __dirname = dirname(__filename);
 const allowedOrigins = [
   "http://localhost:5173",
   "http://10.45.31.81:5173",
-  process.env.CLIENT_URL,
+  ...(process.env.CLIENT_URL ? process.env.CLIENT_URL.split(",") : []),
 ].filter(Boolean);
 
 const app = express();
