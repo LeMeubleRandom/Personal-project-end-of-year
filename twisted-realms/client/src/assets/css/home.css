@@ -1,29 +1,34 @@
+/* src/assets/css/home.css */
+
 .home-container {
   padding: 50px 40px 0 40px;
   gap: 2rem 4rem;
   display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr 20rem auto;
+  grid-template-rows: auto 1fr;
 }
 
 .home-intro,
-.global-chat,
+.home-container .global-chat,
 .home-profile,
-.no-name {
+.show-random-card {
   background-color: var(--nav-bg);
   box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.08);
   border-radius: 0.75rem;
-  padding: 1.25rem 2.5rem 1.25rem 2.5rem;
+  padding: 1.25rem 2.5rem;
+  box-sizing: border-box;
 }
 
-.global-chat {
+.home-container .global-chat {
   grid-column: 1/2;
-  grid-row: 2/4;
+  grid-row: 2/3;
+  margin-left: 0; /* Remove left margin in the grid layout */
 }
 
 .home-intro {
   grid-column: 1/3;
-  height: 15vh;
+  grid-row: 1/2;
+  min-height: 15vh;
 }
 
 .home-intro h1 {
@@ -38,7 +43,7 @@
   align-items: center;
   flex-direction: column;
   justify-content: space-evenly;
-  grid-row: 1/4;
+  grid-row: 1/3;
   grid-column: 3/4;
   gap: 1.5rem;
 }
@@ -81,10 +86,99 @@
   display: block;
 }
 
-.no-name {
-  grid-row: 2/4;
+.show-random-card {
+  grid-column: 2/3;
+  grid-row: 2/3;
   width: 20rem;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* TABLET RESPONSIVE */
+@media (max-width: 1024px) {
+  .home-container {
+    padding: 30px 24px 0 24px;
+    gap: 2rem;
+    grid-template-columns: 1fr 20rem;
+    grid-template-rows: auto auto auto;
+  }
+
+  .home-intro {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    height: auto;
+    min-height: auto;
+  }
+
+  .home-profile {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    height: auto;
+    padding: 2rem;
+  }
+
+  .home-container .global-chat {
+    grid-column: 1 / 2;
+    grid-row: 2 / 4;
+    height: 100%;
+  }
+
+  .show-random-card {
+    display: none;
+  }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px;
+    gap: 1.5rem;
+  }
+
+  .home-intro {
+    order: 1;
+    height: auto;
+    min-height: auto;
+    padding: 1.5rem;
+  }
+
+  .home-intro h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .home-profile {
+    order: 2;
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+
+  .avatar-container {
+    margin: 1rem auto;
+    width: 12rem;
+    height: 12rem;
+  }
+
+  .home-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem 2rem;
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .show-random-card {
+    display: none;
+  }
+
+  .home-container .global-chat {
+    order: 4;
+    width: 100%;
+    height: 45vh;
+    min-height: 18rem;
+    padding: 1.5rem;
+  }
 }

@@ -1,20 +1,46 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../assets/css/header.css";
 
 function Header({ user }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <header>
+      {isMenuOpen && (
+        <div className="navbar-overlay" onClick={closeMenu}></div>
+      )}
       <nav className="navbar">
         <div className="navbar-logo">
-          <NavLink to="/">
+          <NavLink to="/" onClick={closeMenu}>
             <span className="brand-name">Twisted Realms</span>
           </NavLink>
         </div>
 
-        <ul className="navbar-links">
+        <button
+          className={`navbar-burger ${isMenuOpen ? "active" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
+        >
+          <span className="burger-line"></span>
+          <span className="burger-line"></span>
+          <span className="burger-line"></span>
+        </button>
+
+        <ul className={`navbar-links ${isMenuOpen ? "active" : ""}`}>
           <li>
             <NavLink
               to="/"
+              onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
@@ -25,6 +51,7 @@ function Header({ user }) {
           <li>
             <NavLink
               to="/shop"
+              onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
@@ -35,6 +62,7 @@ function Header({ user }) {
           <li>
             <NavLink
               to="/collection"
+              onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
@@ -45,6 +73,7 @@ function Header({ user }) {
           <li>
             <NavLink
               to="/decks"
+              onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }
@@ -55,6 +84,7 @@ function Header({ user }) {
           <li>
             <NavLink
               to={user ? "/profile" : "/login"}
+              onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"
               }

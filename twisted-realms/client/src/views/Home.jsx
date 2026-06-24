@@ -8,7 +8,9 @@ import avatarImg from "../assets/images/black_skull_dragon__rush_duel___artwork_
 import { useState, useEffect, useMemo } from "react";
 
 function Home({ user }) {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || `http://${window.location.hostname}:5000`;
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL ||
+    `http://${window.location.hostname}:5000`;
   const serverUrl = `${backendUrl.replace(/\/$/, "")}/user-images/`;
 
   const actualImage = user?.userImage
@@ -76,8 +78,12 @@ function Home({ user }) {
           </button>
         </div>
         <GlobalChat user={user} />
-        <div className="no-name">
-          {randomCard ? <Card card={randomCard} isMini={false} /> : <p>en construction</p>}
+        <div className="show-random-card">
+          {randomCard ? (
+            <Card card={randomCard} isMini={false} />
+          ) : (
+            <p>en construction</p>
+          )}
         </div>
       </section>
     </main>
