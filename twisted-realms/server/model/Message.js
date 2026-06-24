@@ -1,7 +1,7 @@
 // model/Message.js
 import pool from '../db/mysql.js';
 
-class Message {
+export default class Message {
     static async createMessage(userId, message) {
         const [result] = await pool.execute(
             "INSERT INTO message (message, userId, postDate) VALUES (?, ?, UTC_TIMESTAMP())",
@@ -18,7 +18,7 @@ class Message {
     static async getAllMessages() {
         const [rows] = await pool.execute(`
             SELECT m.id, m.message, m.postDate,
-            COALESCE(u.name , 'deletedUser') AS name
+            COALESCE(u.name , 'utilisateur introuvable') AS name
             FROM message m
             LEFT JOIN user u ON m.userId = u.id
             ORDER BY m.postDate ASC
@@ -34,5 +34,3 @@ class Message {
         return rows;
     }
 }
-
-export default Message;

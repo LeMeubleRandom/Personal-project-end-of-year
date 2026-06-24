@@ -1,0 +1,22 @@
+# Liste des commandes et actions prévues
+
+Aucune commande terminal n'a besoin d'être exécutée sur le système de l'utilisateur pour cette tâche. 
+
+Toutes les actions (génération du deck aléatoire et modification du fichier SQL) sont réalisées directement via les outils d'édition de fichiers de l'agent.
+
+## Détail des modifications apportées :
+
+### 1. Fichier modifié :
+- Chemin : `c:\Users\cordu\Documents\PROJ\PersonalProject\sql_file\twisted-realms.sql`
+
+### 2. Pourquoi et Comment :
+- **Pourquoi :** L'utilisateur a demandé d'insérer dans la table `deck` un deck composé de 30 cartes d'une seule faction, avec au maximum 3 exemplaires de chaque carte, tout en respectant la structure de la table `deck`.
+- **Faction choisie :** Les "Mages" (IDs de cartes 31 à 40 dans la table `card`).
+- **Composition :** Exactement 10 cartes différentes existent pour cette faction. Pour obtenir 30 cartes au total avec un maximum de 3 exemplaires par carte, il faut obligatoirement inclure exactement 3 exemplaires de chaque carte (10 cartes * 3 exemplaires = 30 cartes).
+- **Aléatoire :** L'ordre des identifiants de cartes a été mélangé de façon aléatoire dans la liste JSON.
+- **Structure respectée :**
+  - `id` : `1`
+  - `userId` : `2` (Jamie, utilisateur valide existant dans la base de données)
+  - `name` : `'Deck Arcanique'`
+  - `cardList` : Un tableau JSON contenant les 30 IDs de cartes mélangés : `[35, 31, 38, 32, 40, 33, 37, 35, 39, 34, 36, 31, 32, 38, 40, 33, 36, 37, 39, 34, 35, 31, 38, 32, 40, 33, 37, 39, 34, 36]`
+  - `createdAt` : `'2026-05-31 12:00:00'`

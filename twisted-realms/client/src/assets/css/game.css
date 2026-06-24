@@ -1,0 +1,9 @@
+.game-container {
+    display: flex;
+    overflow: hidden;
+}
+
+.chat {
+    width: 20rem;
+    border: 5px solid black;
+}

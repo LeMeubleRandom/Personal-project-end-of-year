@@ -1,7 +1,7 @@
 // controller/MessageController.js
 import Message from '../model/Message.js';
 
-class MessageController {
+export default class MessageController {
     static async postMessage(req, res) {
         try {
             const { userId, message } = req.body;
@@ -37,5 +37,3 @@ class MessageController {
         }
     }
 }
-
-export default MessageController;
