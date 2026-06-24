@@ -136,3 +136,15 @@
 .global-chat-submit-btn:hover {
   background-color: var(--secondary);
 }
+
+@media (max-width: 768px) {
+  .global-chat-form {
+    flex-direction: column;
+  }
+
+  .global-chat-submit-btn {
+    justify-self: center;
+    align-self: center;
+    padding: 12px 20px;
+  }
+}
