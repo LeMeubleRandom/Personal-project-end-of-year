@@ -106,3 +106,9 @@
 #register-login:active span {
   transform: translate(0, 2px);
 }
+
+@media (max-width: 768px) {
+  .register-layout {
+    margin: 2rem 1rem;
+  }
+}
