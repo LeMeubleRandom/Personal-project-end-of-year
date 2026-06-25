@@ -95,6 +95,7 @@ INSERT INTO `card` (`id`, `name`, `faction`, `type`, `atk`, `PV`, `effect`, `cos
 (27, "Noyau d'Énergie Instable", "Erudis", "Être", 280, 1, "", 3, 3),
 (28, "Titan d'Acier Brossé", "Erudis", "Être", 250, 5, "", 3, 3),
 (29, "Nettoyeur Plasma", "Erudis", "Être", 220, 2, "", 1, 1),
+(30, "Black Magician", "Mages", "Être", 220, 5, "", 3, 3),
 (31, "Apprenti des Astres", "Mages", "Être", 170, 2, "", 1, 1),
 (32, "Érudite de l'Améthyste", "Mages", "Être", 190, 3, "", 1, 1),
 (33, "Maître des Illusions", "Mages", "Être", 150, 4, "", 2, 2),
@@ -189,7 +190,16 @@ CREATE TABLE `structureDeck` (
   `mainCardId` int(11) DEFAULT NULL,
   `recommanded` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=8;
+
+INSERT INTO `structureDeck` (`id`, `name`, `type`, `description`, `cardList`, `price`, `badge`, `mainCardId`, `recommanded`) VALUES
+(1, 'Structure Deck: Mages de l''Arcane', 'Structure Deck', 'Un deck complet prêt à jouer axé sur les mages et la magie.', '[31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]', 1000, 'Nouveau', 39, 1),
+(2, 'Structure Deck: Colère du Dragon', 'Structure Deck', 'Un deck complet axé sur la puissance destructrice des dragons.', '[11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]', 1000, NULL, 11, 0),
+(3, 'Structure Deck: Civilisation Antique', 'Structure Deck', 'Un deck complet exploitant la magie ancestrale des Kasmigenas.', '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]', 1000, NULL, 1, 0),
+(4, 'Structure Deck: Évolution Mutante', 'Structure Deck', 'Un deck complet exploitant l''adaptation et les anomalies génétiques des Mutants.', '[41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]', 1000, NULL, 44, 0),
+(5, 'Structure Deck: Suprématie Technologique', 'Structure Deck', 'Un deck complet axé sur la technologie et les machines des Érudis.', '[21, 22, 23, 24, 25, 26, 27, 28, 29, 21, 22, 23, 24, 25, 26, 27, 28, 29, 21, 22, 23, 24, 25, 26, 27, 28, 29, 51, 51, 51]', 1000, NULL, 28, 0),
+(6, 'Structure Deck: Maîtres de la Magie', 'Structure Deck', 'Un deck complet prêt à jouer axé sur les mages et leurs sortilèges.', '[31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]', 1000, NULL, 39, 0),
+(7, 'Structure Deck: Jugement de l''Équilibre', 'Structure Deck', 'Un deck complet axé sur le soutien et la neutralité des Potentias.', '[51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]', 1000, NULL, 54, 0);
 
 -- --------------------------------------------------------
 -- Table `cardPack`
@@ -206,7 +216,15 @@ CREATE TABLE `cardPack` (
   `badge` VARCHAR(100) DEFAULT NULL,
   `recommanded` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7;
+
+INSERT INTO `cardPack` (`id`, `name`, `type`, `description`, `cardList`, `containedCard`, `price`, `badge`, `recommanded`) VALUES
+(1, 'Booster: Souffle du Dragon', 'Booster', 'Contient 5 cartes de la faction Dragons.', '[11, 12, 13, 14, 15, 16, 17, 18, 19, 20]', 5, 100, NULL, 1),
+(2, 'Booster: Héritage Kasmigena', 'Booster', 'Contient 5 cartes de la faction Kasmigenas.', '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]', 5, 100, NULL, 0),
+(3, 'Booster: Mutation Génétique', 'Booster', 'Contient 5 cartes de la faction Mutants.', '[41, 42, 43, 44, 45, 46, 47, 48, 49, 50]', 5, 100, NULL, 0),
+(4, 'Booster: Technologie Érudite', 'Booster', 'Contient 5 cartes de la faction Érudis.', '[21, 22, 23, 24, 25, 26, 27, 28, 29, 30]', 5, 100, NULL, 0),
+(5, 'Booster: Mages de l''Arcane', 'Booster', 'Contient 5 cartes de la faction Mages.', '[31, 32, 33, 34, 35, 36, 37, 38, 39, 40]', 5, 100, NULL, 0),
+(6, 'Booster: Aura des Potentias', 'Booster', 'Contient 5 cartes de la faction Potentias.', '[51, 52, 53, 54, 55, 56, 57, 58, 59, 60]', 5, 100, NULL, 0);
 
 COMMIT;
 
