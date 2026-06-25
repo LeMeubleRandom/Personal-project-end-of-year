@@ -406,7 +406,10 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s, box-shadow 0.3s;
+    transition:
+      right 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s,
+      box-shadow 0.3s;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
   }
@@ -461,6 +464,7 @@
   .deck-delete-btn {
     flex: 1;
     text-align: center;
+    zoom: 0.8;
   }
 
   .deck-side-container {
@@ -491,6 +495,7 @@
     position: fixed;
     right: 0;
     left: auto;
+    top: 15rem;
   }
 
   .deck-sidebar-toggle.open {
