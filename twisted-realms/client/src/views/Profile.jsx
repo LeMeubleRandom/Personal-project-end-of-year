@@ -31,7 +31,10 @@ function Profile({ user, setUser, fetchUser }) {
     <main>
       <section className="profile-container">
         <div className={`profile-nav ${isOpen ? "open" : ""}`}>
-          <div className="profile-nav-header" onClick={() => setIsOpen(!isOpen)}>
+          <div
+            className="profile-nav-header"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             <h2>Settings</h2>
             <div className="dropdown-arrow-wrapper">
               <svg
@@ -69,13 +72,13 @@ function Profile({ user, setUser, fetchUser }) {
               Sécurité
             </li>
             <li
-              className={`profile-categories ${category === "notification" ? "active" : ""}`}
+              className={`profile-categories ${category === "social" ? "active" : ""}`}
               onClick={() => {
-                setCategory("notification");
+                setCategory("social");
                 setIsOpen(false);
               }}
             >
-              Notifications
+              Social
             </li>
           </ul>
         </div>
@@ -88,9 +91,9 @@ function Profile({ user, setUser, fetchUser }) {
             <SecurityForm user={user} setUser={setUser} fetchUser={fetchUser} />
           )}
 
-          {category === "notification" && (
+          {category === "social" && (
             <div className="tab-content">
-              <h1>Alertes & Notifications</h1>
+              <h1>Social</h1>
               <p>Gérez vos préférences de réception des messages du chat.</p>
             </div>
           )}

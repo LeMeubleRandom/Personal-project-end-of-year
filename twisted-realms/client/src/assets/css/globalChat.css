@@ -148,3 +148,9 @@
     padding: 12px 20px;
   }
 }
+
+@media (max-width: 768px) {
+  .global-chat {
+    height: 400px;
+  }
+}

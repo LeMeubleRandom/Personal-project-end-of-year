@@ -223,3 +223,9 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 1024px) {
+  .profile-forms-container {
+    margin-bottom: 10rem;
+  }
+}
