@@ -81,7 +81,7 @@ function Header({ user }) {
           </li>
           <li>
             <NavLink
-              to={user ? "/profile" : "/profile"}
+              to={user ? "/profile" : "/login"}
               onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"

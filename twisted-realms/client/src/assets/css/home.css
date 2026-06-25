@@ -22,7 +22,7 @@
 .home-container .global-chat {
   grid-column: 1/2;
   grid-row: 2/3;
-  margin-left: 0; /* Remove left margin in the grid layout */
+  margin-left: 0;
 }
 
 .home-intro {
@@ -95,7 +95,6 @@
   align-items: center;
 }
 
-/* TABLET RESPONSIVE */
 @media (max-width: 1024px) {
   .home-container {
     padding: 30px 24px 0 24px;
@@ -129,7 +128,6 @@
   }
 }
 
-/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
   .home-container {
     display: flex;

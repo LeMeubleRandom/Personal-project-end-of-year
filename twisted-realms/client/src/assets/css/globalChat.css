@@ -3,7 +3,6 @@
 .global-chat {
   display: flex;
   flex-direction: column;
-  height: 50vh;
   min-height: 20rem;
   margin-left: 2rem;
   gap: 12px;
@@ -146,11 +145,5 @@
     justify-self: center;
     align-self: center;
     padding: 12px 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .global-chat {
-    height: 400px;
   }
 }

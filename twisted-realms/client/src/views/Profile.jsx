@@ -11,9 +11,9 @@ function Profile({ user, setUser, fetchUser }) {
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  /*if (!user) {
+  if (!user) {
     return <Navigate to="/login" replace />;
-  }*/
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
