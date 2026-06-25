@@ -34,7 +34,7 @@
   padding-bottom: 0.75rem;
 }
 
-.dropdown-arrow-wrapper {
+.profile-dropdown-arrow-wrapper {
   display: none;
   cursor: pointer;
 }
@@ -136,7 +136,7 @@
     font-size: 1.25rem;
   }
 
-  .dropdown-arrow-wrapper {
+  .profile-dropdown-arrow-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,7 +146,7 @@
       color 0.2s ease;
   }
 
-  .profile-nav.open .dropdown-arrow-wrapper {
+  .profile-nav.open .profile-dropdown-arrow-wrapper {
     transform: rotate(180deg);
     color: var(--text);
   }

@@ -36,9 +36,9 @@ function Profile({ user, setUser, fetchUser }) {
             onClick={() => setIsOpen(!isOpen)}
           >
             <h2>Settings</h2>
-            <div className="dropdown-arrow-wrapper">
+            <div className="profile-dropdown-arrow-wrapper">
               <svg
-                className="dropdown-arrow"
+                className="profile-dropdown-arrow"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"

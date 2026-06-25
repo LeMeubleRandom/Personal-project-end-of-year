@@ -30,6 +30,7 @@
   background-color: var(--nav-bg);
   border-radius: 12px;
   padding: 1.5rem;
+  padding-bottom: 1rem;
   border: 1px solid var(--accent-active);
   color: var(--text);
   position: sticky;
@@ -52,12 +53,13 @@
 .filtre-header h3 {
   flex: 1;
   margin: 0;
+  margin-bottom: 1rem;
   border-bottom: 1px solid var(--accent-active);
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
   color: var(--secondary);
 }
 
-.dropdown-arrow-wrapper {
+.collection-dropdown-arrow-wrapper {
   display: none;
   cursor: pointer;
 }
@@ -182,7 +184,6 @@
   box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
 }
 
-/* Custom Faction Select Dropdown */
 .custom-faction-select {
   position: relative;
   display: inline-block;
@@ -215,7 +216,9 @@
 
 .custom-faction-arrow {
   color: var(--text2);
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .custom-faction-select.open .custom-faction-arrow {
@@ -236,12 +239,13 @@
   margin: 0;
   z-index: 150;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  
-  /* Smooth animation */
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
 }
 
 .custom-faction-select.open .custom-faction-options {
@@ -322,7 +326,7 @@
     font-size: 1.25rem;
   }
 
-  .filtre .dropdown-arrow-wrapper {
+  .filtre .collection-dropdown-arrow-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -332,7 +336,7 @@
       color 0.2s ease;
   }
 
-  .filtre.open .dropdown-arrow-wrapper {
+  .filtre.open .collection-dropdown-arrow-wrapper {
     transform: rotate(180deg);
     color: var(--text);
   }
@@ -356,11 +360,29 @@
       opacity 0.2s ease,
       transform 0.2s ease,
       visibility 0.2s;
+    flex-direction: column;
   }
 
   .filtre.open .filter-group {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .collection-container {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    margin: 1rem 3rem;
+  }
+
+  .cards-container {
+    grid-row: 2/3;
+  }
+
+  .filter-group {
+    flex-direction: row;
+    gap: 1.5rem;
   }
 }

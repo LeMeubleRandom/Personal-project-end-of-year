@@ -218,9 +218,9 @@ function Collection({ user }) {
         <div className={`filtre ${isFilterOpen ? "open" : ""}`}>
           <div className="filtre-header" onClick={() => setIsFilterOpen(!isFilterOpen)}>
             <h3>Filtres</h3>
-            <div className="dropdown-arrow-wrapper">
+            <div className="collection-dropdown-arrow-wrapper">
               <svg
-                className="dropdown-arrow"
+                className="collection-dropdown-arrow"
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
