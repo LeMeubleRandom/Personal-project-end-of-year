@@ -393,8 +393,8 @@
 
   .deck-sidebar-toggle {
     display: flex;
-    position: absolute;
-    left: -3rem;
+    position: fixed;
+    right: 0;
     top: 15%;
     width: 3rem;
     height: 3rem;
@@ -406,9 +406,13 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s, box-shadow 0.3s;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
+  }
+
+  .deck-sidebar-toggle.open {
+    right: 28rem;
   }
 
   .deck-sidebar-toggle:hover {
@@ -487,5 +491,9 @@
     position: fixed;
     right: 0;
     left: auto;
+  }
+
+  .deck-sidebar-toggle.open {
+    right: 0;
   }
 }
