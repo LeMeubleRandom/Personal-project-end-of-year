@@ -13,6 +13,8 @@ function Collection({ user }) {
 
   const [showOnlyOwned, setShowOnlyOwned] = useState(false);
   const [showOnlyFav, setOnlyFav] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFactionDropdownOpen, setIsFactionDropdownOpen] = useState(false);
 
   /*if (!user) {
     return <Navigate to="/login" replace />;
@@ -54,6 +56,30 @@ function Collection({ user }) {
     fetchCards();
     fetchCollection();
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isFilterOpen && !event.target.closest(".filtre")) {
+        setIsFilterOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isFilterOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isFactionDropdownOpen && !event.target.closest(".custom-faction-select")) {
+        setIsFactionDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isFactionDropdownOpen]);
 
   const getOwnedCards = () => {
     const row = userCollection;
@@ -128,17 +154,45 @@ function Collection({ user }) {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input"
           />
-          <select
-            value={selectedFaction}
-            onChange={(e) => setSelectedFaction(e.target.value)}
-            className="faction-select"
-          >
-            {factionsList.map((faction) => (
-              <option key={faction} value={faction}>
-                {faction === "All" ? "Factions" : faction}
-              </option>
-            ))}
-          </select>
+          <div className={`custom-faction-select ${isFactionDropdownOpen ? "open" : ""}`}>
+            <button
+              type="button"
+              className="custom-faction-trigger"
+              onClick={() => setIsFactionDropdownOpen(!isFactionDropdownOpen)}
+              aria-label="Sélectionner une faction"
+            >
+              <span className="selected-value">
+                {selectedFaction === "All" ? "Factions" : selectedFaction}
+              </span>
+              <svg
+                className="custom-faction-arrow"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul className="custom-faction-options">
+              {factionsList.map((faction) => (
+                <li
+                  key={faction}
+                  className={`custom-faction-option ${selectedFaction === faction ? "active" : ""}`}
+                  onClick={() => {
+                    setSelectedFaction(faction);
+                    setIsFactionDropdownOpen(false);
+                  }}
+                >
+                  {faction === "All" ? "Toutes les factions" : faction}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="collection-container">
@@ -161,9 +215,26 @@ function Collection({ user }) {
             );
           })}
         </div>
-        <div className="filtre">
-          <div className="filter-group">
+        <div className={`filtre ${isFilterOpen ? "open" : ""}`}>
+          <div className="filtre-header" onClick={() => setIsFilterOpen(!isFilterOpen)}>
             <h3>Filtres</h3>
+            <div className="dropdown-arrow-wrapper">
+              <svg
+                className="dropdown-arrow"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div className="filter-group">
             <label className="filter-label">
               <input
                 type="checkbox"

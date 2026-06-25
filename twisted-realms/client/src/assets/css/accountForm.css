@@ -91,7 +91,8 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  margin: 1rem 3rem;
+  margin: 1rem auto;
+  align-self: center;
 }
 
 .profile-image {
