@@ -16,21 +16,12 @@ function Shop({ user }) {
     Recommended: [
       {
         id: "rec1",
-        name: "Pack Fondateur",
-        price: 1000,
-        description:
-          "Contient 10 packs rares et un avatar exclusif de Kasmigena.",
-        type: "Special",
-        badge: "Populaire",
-      },
-      {
-        id: "rec2",
         name: "Structure Deck: Mages de l'Arcane",
-        price: 500,
+        price: 1000,
         description:
           "Un deck complet prêt à jouer axé sur les mages et la magie.",
         type: "Structure Deck",
-        badge: "Recommandé",
+        badge: "Nouveau",
       },
     ],
     Pack: [
@@ -67,7 +58,7 @@ function Shop({ user }) {
       {
         id: "sd1",
         name: "Structure Deck: Mages de l'Arcane",
-        price: 500,
+        price: 1000,
         description:
           "Un deck complet prêt à jouer axé sur les mages et la magie.",
         type: "Structure Deck",
@@ -75,39 +66,10 @@ function Shop({ user }) {
       {
         id: "sd2",
         name: "Structure Deck: Rage du Dragon",
-        price: 500,
+        price: 1000,
         description:
           "Un deck complet axé sur la puissance offensive des dragons.",
         type: "Structure Deck",
-      },
-    ],
-    Accessories: [
-      {
-        id: "a1",
-        name: "Housse de Carte: Dorée",
-        price: 50,
-        description:
-          "Protégez vos cartes avec style grâce à ce dos doré scintillant.",
-        type: "Cosmétique",
-      },
-      {
-        id: "a2",
-        name: "Avatar: Gardien Mutant",
-        price: 150,
-        description:
-          "Un avatar de profil unique représentant le Gardien Mutant.",
-        type: "Avatar",
-      },
-    ],
-    Special: [
-      {
-        id: "sp1",
-        name: "Pack Fondateur",
-        price: 1000,
-        description:
-          "Contient 10 packs rares et un avatar exclusif de Kasmigena.",
-        type: "Pack Spécial",
-        badge: "Édition Limitée",
       },
     ],
   };

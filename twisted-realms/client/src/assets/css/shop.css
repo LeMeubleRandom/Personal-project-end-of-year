@@ -13,7 +13,8 @@
 }
 
 .shop-header h2 {
-  font-size: 2.2rem;
+  font-size: 2rem;
+  text-transform: uppercase;
   color: var(--secondary);
   text-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
   margin: 0;
@@ -75,7 +76,7 @@
 
 .shop-tab .tab-text {
   display: inline-block;
-  transform: skewX(20deg); /* Un-skew the text inside */
+  transform: skewX(20deg);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.85rem;
