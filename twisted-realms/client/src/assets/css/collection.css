@@ -367,6 +367,14 @@
     visibility: visible;
     transform: translateY(0);
   }
+
+  .card-wrapper {
+    zoom: 0.4;
+  }
+
+  .cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  }
 }
 
 @media (max-width: 1024px) {
@@ -378,10 +386,15 @@
 
   .cards-container {
     grid-row: 2/3;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   }
 
   .filter-group {
     flex-direction: row;
     gap: 1.5rem;
+  }
+
+  .card-wrapper {
+    zoom: 0.75;
   }
 }
