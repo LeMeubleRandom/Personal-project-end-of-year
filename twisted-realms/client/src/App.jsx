@@ -25,7 +25,7 @@ import Header from "./components/Header";
 import Card from "./components/Card";
 
 function AppContent() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async (e) => {

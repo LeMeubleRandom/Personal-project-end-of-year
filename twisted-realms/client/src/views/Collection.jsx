@@ -14,9 +14,9 @@ function Collection({ user }) {
   const [showOnlyOwned, setShowOnlyOwned] = useState(false);
   const [showOnlyFav, setOnlyFav] = useState(false);
 
-  if (!user) {
+  /*if (!user) {
     return <Navigate to="/login" replace />;
-  }
+  }*/
 
   const fetchCards = async (e) => {
     try {

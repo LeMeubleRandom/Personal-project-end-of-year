@@ -9,32 +9,71 @@ import "../assets/css/profile.css";
 function Profile({ user, setUser, fetchUser }) {
   const [category, setCategory] = useState("account");
   const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-  if (!user) {
+  /*if (!user) {
     return <Navigate to="/login" replace />;
-  }
+  }*/
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isOpen && !event.target.closest(".profile-nav")) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <main>
       <section className="profile-container">
-        <div className="profile-nav">
-          <h2>Settings</h2>
+        <div className={`profile-nav ${isOpen ? "open" : ""}`}>
+          <div className="profile-nav-header" onClick={() => setIsOpen(!isOpen)}>
+            <h2>Settings</h2>
+            <div className="dropdown-arrow-wrapper">
+              <svg
+                className="dropdown-arrow"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
           <ul className="profile-categories-container">
             <li
               className={`profile-categories ${category === "account" ? "active" : ""}`}
-              onClick={() => setCategory("account")}
+              onClick={() => {
+                setCategory("account");
+                setIsOpen(false);
+              }}
             >
               Mon Compte
             </li>
             <li
               className={`profile-categories ${category === "security" ? "active" : ""}`}
-              onClick={() => setCategory("security")}
+              onClick={() => {
+                setCategory("security");
+                setIsOpen(false);
+              }}
             >
               Sécurité
             </li>
             <li
               className={`profile-categories ${category === "notification" ? "active" : ""}`}
-              onClick={() => setCategory("notification")}
+              onClick={() => {
+                setCategory("notification");
+                setIsOpen(false);
+              }}
             >
               Notifications
             </li>

@@ -15,9 +15,7 @@ function Header({ user }) {
 
   return (
     <header>
-      {isMenuOpen && (
-        <div className="navbar-overlay" onClick={closeMenu}></div>
-      )}
+      {isMenuOpen && <div className="navbar-overlay" onClick={closeMenu}></div>}
       <nav className="navbar">
         <div className="navbar-logo">
           <NavLink to="/" onClick={closeMenu}>
@@ -83,7 +81,7 @@ function Header({ user }) {
           </li>
           <li>
             <NavLink
-              to={user ? "/profile" : "/login"}
+              to={user ? "/profile" : "/profile"}
               onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? "nav-item active" : "nav-item"

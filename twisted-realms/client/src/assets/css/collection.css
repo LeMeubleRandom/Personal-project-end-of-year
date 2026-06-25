@@ -187,3 +187,6 @@
   outline: none;
   border-color: var(--secondary);
 }
+
+@media (max-width: 768px) {
+}
