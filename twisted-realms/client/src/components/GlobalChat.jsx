@@ -15,6 +15,11 @@ function GlobalChat({ user }) {
   const [messageList, setMessagesList] = useState([]);
   const messagesEndRef = useRef(null);
 
+  const actualImage = user?.userImage
+    ? `${serverUrl}${user.userImage}`
+    : avatarImg;
+  const [image, setImage] = useState(actualImage);
+
   const navigate = useNavigate();
 
   const handleSendMessage = async (e) => {
@@ -120,18 +125,23 @@ function GlobalChat({ user }) {
             className={`${m.name === user?.name ? "user-" : ""}message-bulle`}
             key={`${m.id}-div`}
           >
-            <span
-              className={`${m.name === user?.name ? "user-" : ""}message-author`}
-              key={`${m.id}-span`}
-            >
-              {m.name}
-            </span>
-            <p
-              className={`${m.name === user?.name ? "user-" : ""}message-text`}
-              key={`${m.id}-p`}
-            >
-              {m.message}
-            </p>
+            <article className="chat-avatar-container">
+              <img className="chat-avatar" src={actualImage} alt="Avatar" />
+            </article>
+            <div>
+              <span
+                className={`${m.name === user?.name ? "user-" : ""}message-author`}
+                key={`${m.id}-span`}
+              >
+                {m.name}
+              </span>
+              <p
+                className={`${m.name === user?.name ? "user-" : ""}message-text`}
+                key={`${m.id}-p`}
+              >
+                {m.message}
+              </p>
+            </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
