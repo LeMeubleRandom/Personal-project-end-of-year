@@ -30,6 +30,10 @@ function Lobby({ user }) {
   };
 
   const hostLobby = async (e) => {
+    if (!user.activeDeck) {
+      console.log("active deck null");
+      return;
+    }
     try {
       const response = await fetch("/api/game/host", {
         method: "POST",
@@ -94,16 +98,26 @@ function Lobby({ user }) {
       <div className="lobby-list-container">
         <h2>Salons Disponibles</h2>
         {lobbys.length === 0 ? (
-          <div className="no-lobbies">Aucun salon n'est disponible pour le moment.</div>
+          <div className="no-lobbies">
+            Aucun salon n'est disponible pour le moment.
+          </div>
         ) : (
           <div className="lobbies-grid">
             {lobbys.map((lobby) => (
               <div key={lobby.id} className="lobby-card">
                 <div className="lobby-info">
                   <div className="lobby-id">Salon #{lobby.gameId}</div>
-                  <div className="lobby-host">Hôte : <span>{lobby.player1Name || `Joueur #${lobby.player1Id}`}</span></div>
+                  <div className="lobby-host">
+                    Hôte :{" "}
+                    <span>
+                      {lobby.player1Name || `Joueur #${lobby.player1Id}`}
+                    </span>
+                  </div>
                 </div>
-                <button className="lobby-btn join" onClick={() => joinLobby(lobby.gameId)}>
+                <button
+                  className="lobby-btn join"
+                  onClick={() => joinLobby(lobby.gameId)}
+                >
                   Rejoindre
                 </button>
               </div>

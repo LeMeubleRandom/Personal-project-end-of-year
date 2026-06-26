@@ -286,7 +286,7 @@ export default class UserController {
       res.status(200).json(response);
     } catch (error) {
       console.error("Error activateDeck :", error);
-      res.status(500).json({ status: "error", message: error.message });
+      res.status(400).json({ status: "error", message: error.message });
     }
   }
 }
