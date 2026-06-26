@@ -45,6 +45,9 @@
   animation: slideIn 0.3s ease-out;
   box-sizing: border-box;
   border-left: 3px solid var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .user-message-bulle {
@@ -54,6 +57,23 @@
   animation: slideIn 0.3s ease-out;
   box-sizing: border-box;
   border-right: 3px solid var(--primary-user-color);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 1rem;
+}
+
+.chat-avatar-container {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+}
+
+.chat-avatar {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 .message-author {
