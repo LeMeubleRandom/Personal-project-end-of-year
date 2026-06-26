@@ -23,7 +23,6 @@ function Shop({ user, fetchUser }) {
         throw new Error(`Erreur HTTP : ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
       setShopItems(data);
     } catch (error) {
       console.error("Erreur de connexion au serveur :", error);
@@ -47,6 +46,8 @@ function Shop({ user, fetchUser }) {
         credentials: "include",
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         fetchUser();
         if (data.drawnCards) {
@@ -66,6 +67,7 @@ function Shop({ user, fetchUser }) {
 
   useEffect(() => {
     fetchItems();
+    fetchUser();
   }, []);
 
   let currentItems = [];
@@ -90,7 +92,7 @@ function Shop({ user, fetchUser }) {
       <div className="shop-header">
         <h2>Boutique</h2>
         <div className="user-points">
-          <span>Points : </span>
+          <span>Crédits : </span>
           <span className="points-amount">{user.credits || 0}</span>
         </div>
       </div>
@@ -161,7 +163,7 @@ function Shop({ user, fetchUser }) {
                 <p className="item-description">{item.description}</p>
                 <div className="item-footer">
                   <div className="item-price">
-                    <span className="price-val">{item.price}</span> pts
+                    <span className="price-val">{item.price}</span> crd
                   </div>
                   <button className="buy-btn" onClick={() => buyItems(item)}>
                     Acheter
