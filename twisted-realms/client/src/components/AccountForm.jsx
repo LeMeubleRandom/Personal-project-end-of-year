@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import avatarImg from "../assets/images/black_skull_dragon__rush_duel___artwork__by_nhociory_difdumv.png";
+import avatarImg from "../assets/images/icon_profile.png";
 
 import "../assets/css/accountForm.css";
 
@@ -180,7 +180,14 @@ function AccountForm({ user, setUser, fetchUser }) {
               Images par défaut
             </button>
             <label htmlFor="image" className="profile-placeholder-image">
-              <img className="profile-image" src={image} alt="Aperçu avatar" />
+              <img
+                className="profile-image"
+                src={image}
+                alt="Aperçu avatar"
+                onError={(e) => {
+                  e.target.src = avatarImg;
+                }}
+              />
             </label>
             <input
               type="file"

@@ -2,7 +2,7 @@ import "../assets/css/globalChat.css";
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { NavLink, useNavigate } from "react-router-dom";
-import avatarImg from "../assets/images/black_skull_dragon__rush_duel___artwork__by_nhociory_difdumv.png";
+import avatarImg from "../assets/images/icon_profile.png";
 
 const socket = io(
   import.meta.env.VITE_BACKEND_URL || `http://${window.location.hostname}:5000`,
@@ -130,7 +130,14 @@ function GlobalChat({ user }) {
               key={`${m.id}-div`}
             >
               <article className="chat-avatar-container">
-                <img className="chat-avatar" src={messageAvatar} alt="Avatar" />
+                <img
+                  className="chat-avatar"
+                  src={messageAvatar}
+                  alt="Avatar"
+                  onError={(e) => {
+                    e.target.src = avatarImg;
+                  }}
+                />
               </article>
               <div>
                 <span

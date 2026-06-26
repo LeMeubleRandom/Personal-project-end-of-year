@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import "../assets/css/home.css";
 
-import avatarImg from "../assets/images/black_skull_dragon__rush_duel___artwork__by_nhociory_difdumv.png";
+import avatarImg from "../assets/images/icon_profile.png";
 import { useState, useEffect, useMemo } from "react";
 
 function Home({ user }) {
@@ -71,7 +71,14 @@ function Home({ user }) {
             {user?.name || "Non connecté"}
           </span>
           <article className="avatar-container">
-            <img className="avatar" src={actualImage} alt="Avatar" />
+            <img
+              className="avatar"
+              src={actualImage}
+              alt="Avatar"
+              onError={(e) => {
+                e.target.src = avatarImg;
+              }}
+            />
           </article>
           <button className="home-btn" onClick={enterLobby}>
             Jouer en ligne
