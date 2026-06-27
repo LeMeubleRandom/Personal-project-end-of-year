@@ -126,11 +126,11 @@ function GameLobby({ user, fetchUser }) {
 
         <div className="gamelobby-players-grid">
           <div className="player-lobby-card host-card">
-            <div className="avatar-wrapper">
+            <div className="gamelobby-avatar-wrapper">
               <img
                 src={player1Avatar}
                 alt="Host Avatar"
-                className="player-avatar"
+                className="gamelobby-player-avatar"
               />
               <span className="badge host-badge">Hôte</span>
             </div>
@@ -144,11 +144,11 @@ function GameLobby({ user, fetchUser }) {
 
           {gameLobbyParam?.player2Id ? (
             <div className="player-lobby-card guest-card">
-              <div className="avatar-wrapper">
+              <div className="gamelobby-avatar-wrapper">
                 <img
                   src={player2Avatar}
                   alt="Guest Avatar"
-                  className="player-avatar"
+                  className="gamelobby-player-avatar"
                 />
                 <span className="badge guest-badge">Adversaire</span>
               </div>
