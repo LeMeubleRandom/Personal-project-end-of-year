@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: row-reverse;
   gap: 7rem;
-  align-items: start;
+  align-items: center;
 }
 
 .lobby-left-section {
@@ -28,14 +28,10 @@
 
 .lobby-right-section .global-chat {
   margin-left: 0;
-  height: 80vh;
+  height: 75vh;
 }
 
 @media (max-width: 900px) {
-  .lobby-content {
-    grid-template-columns: 1fr;
-  }
-
   .lobby-right-section {
     position: static;
   }
@@ -159,6 +155,12 @@
 .lobby-btn.join {
   padding: 0.6rem 1.5rem;
   font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+  .lobby-content {
+    margin-right: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
