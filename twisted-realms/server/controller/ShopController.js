@@ -32,25 +32,24 @@ export default class ShopController {
         user.credits,
       );
 
-      if (!checkCredits) {
+      if (!checkCredits)
         return res
           .status(400)
           .json({ status: "error", message: "Crédits insuffisants" });
-      } else {
-        const buyResponse = await ShopService.buyItem(item, user);
-        const addResponse = await ShopService.addItems(item, user);
-        if (!buyResponse || !addResponse) {
-          return res.status(400).json({
-            status: "error",
-            message: "Erreur lors de la mise à jour des données utilisateur",
-          });
-        }
-        return res.status(200).json({
-          status: "success",
-          message: "Achat réalisé avec succès",
-          drawnCards: addResponse.drawnCards || null,
+
+      const buyResponse = await ShopService.buyItem(item, user);
+      const addResponse = await ShopService.addItems(item, user);
+      if (!buyResponse || !addResponse) {
+        return res.status(400).json({
+          status: "error",
+          message: "Erreur lors de la mise à jour des données utilisateur",
         });
       }
+      return res.status(200).json({
+        status: "success",
+        message: "Achat réalisé avec succès",
+        drawnCards: addResponse.drawnCards || null,
+      });
     } catch (error) {
       console.error("Error buyItem :", error);
       res.status(500).json({ status: "error", message: error.message });

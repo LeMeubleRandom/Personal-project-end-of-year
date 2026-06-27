@@ -2,6 +2,7 @@ import GameManager from "../script/GameManager.js";
 import crypto from "crypto";
 
 import Game from "../model/Game.js";
+import GameService from "../service/GameService.js";
 
 export default class GameController {
   static async host(req, res) {
@@ -22,8 +23,16 @@ export default class GameController {
   static async join(req, res) {
     try {
       const { userId, activeDeck, gameId } = req.body;
+      const checkPlayer = await GameService.checkPlayer(userId, gameId);
+      if (!checkPlayer)
+        return res
+          .status(400)
+          .json({
+            status: "error",
+            message: "Utilisateur déjà présent dans la session",
+          });
 
-      const game = await game.joinGame(gameId, userId, activeDeck);
+      const game = await Game.joinGame(gameId, userId, activeDeck);
 
       res.status(200).json(game);
     } catch (error) {

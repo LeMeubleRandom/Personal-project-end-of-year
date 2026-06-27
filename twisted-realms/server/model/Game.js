@@ -12,7 +12,7 @@ export default class Game {
 
   static async joinGame(gameId, userId, activeDeck) {
     const [game] = await pool.execute(
-      "UPDATE game SET player2Id, player2DeckId WHERE gameId = ?",
+      "UPDATE game SET player2Id = ?, player2DeckId = ? WHERE gameId = ?",
       [userId, activeDeck, gameId],
     );
     return game;
@@ -26,5 +26,22 @@ export default class Game {
       ORDER BY g.createDate ASC
     `);
     return lobbys;
+  }
+
+  static async getPlayers(gameId) {
+    const [[game]] = await pool.execute(
+      "SELECT player1Id, player2Id FROM game WHERE gameId = ?",
+      [gameId],
+    );
+    if (!game) return [];
+
+    const players = [];
+    if (game.player1Id !== null && game.player1Id !== undefined) {
+      players.push(game.player1Id);
+    }
+    if (game.player2Id !== null && game.player2Id !== undefined) {
+      players.push(game.player2Id);
+    }
+    return players;
   }
 }
