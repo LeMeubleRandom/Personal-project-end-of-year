@@ -89,6 +89,14 @@ const GameTable = ({ user, gameState, sendAction }) => {
 
   return (
     <div className="board-container">
+      <div className="orientation-warning-overlay">
+        <div className="orientation-warning-content">
+          <div className="rotate-phone-icon">🔄</div>
+          <h2>Orientation Paysage Requise</h2>
+          <p>Veuillez tourner votre appareil à l'horizontal pour jouer à Twisted Realms.</p>
+        </div>
+      </div>
+
       <button
         className={`sidebar-toggle-btn left-toggle ${isLeftBarOpen ? "open" : ""}`}
         onClick={() => setIsLeftBarOpen(!isLeftBarOpen)}

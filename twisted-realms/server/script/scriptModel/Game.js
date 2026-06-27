@@ -36,15 +36,7 @@ export default class Game {
     this.history = [];
   }
 
-  revealStartingCards() {
-    if (this.players.p1.startingCard) {
-      this.players.p1.mainZone.push(this.players.p1.startingCard);
-    }
-    if (this.players.p2.startingCard) {
-      this.players.p2.mainZone.push(this.players.p2.startingCard);
-    }
-    console.log("Les cartes de départ (mainCard) sont révélées face recto !");
-  }
+
 
   async start() {
     if (this.gameState !== "Starting") return;
@@ -90,7 +82,7 @@ export default class Game {
     this.players.p1 = new Player(this.player1Data, p1Cards, p1MainCard);
     this.players.p2 = new Player(this.player2Data, p2Cards, p2MainCard);
 
-    this.revealStartingCards();
+
 
     this.gameState = "Playing";
     this.isStarted = 1;
