@@ -37,7 +37,7 @@ export default class GameController {
       res.status(200).json(joinedGame);
     } catch (error) {
       console.error("Error joiningGame:", error);
-      res.status(500).json({ status: "error", message: error.message });
+      res.status(500).json({ status: "error", message: error.message, stack: error.stack });
     }
   }
 
