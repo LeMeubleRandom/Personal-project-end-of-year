@@ -17,6 +17,8 @@ const GameTable = ({ user, gameState, sendAction }) => {
 
   const [selectedHandIndex, setSelectedHandIndex] = useState(null);
   const [selectedAttackerIndex, setSelectedAttackerIndex] = useState(null);
+  const [isLeftBarOpen, setIsLeftBarOpen] = useState(false);
+  const [isRightBarOpen, setIsRightBarOpen] = useState(false);
 
   const handleNextPhase = () => {
     if (!isMyTurn) return;
@@ -78,7 +80,23 @@ const GameTable = ({ user, gameState, sendAction }) => {
 
   return (
     <div className="board-container">
-      <header className="game-status-bar">
+      <button
+        className={`sidebar-toggle-btn left-toggle ${isLeftBarOpen ? "open" : ""}`}
+        onClick={() => setIsLeftBarOpen(!isLeftBarOpen)}
+        aria-label="Toggle status bar"
+      >
+        {isLeftBarOpen ? "◀" : "▶"}
+      </button>
+
+      <button
+        className={`sidebar-toggle-btn right-toggle ${isRightBarOpen ? "open" : ""}`}
+        onClick={() => setIsRightBarOpen(!isRightBarOpen)}
+        aria-label="Toggle player hand"
+      >
+        {isRightBarOpen ? "▶" : "◀"}
+      </button>
+
+      <header className={`game-status-bar ${isLeftBarOpen ? "mobile-open" : ""}`}>
         <div className="status-item">
           <span>Tour</span>
           <strong className="status-val">#{gameState.turn}</strong>
@@ -233,7 +251,7 @@ const GameTable = ({ user, gameState, sendAction }) => {
         </section>
       </div>
 
-      <section className="hand-container">
+      <section className={`hand-container ${isRightBarOpen ? "mobile-open" : ""}`}>
         <h4 className="hand-title">Main ({self.hand.length})</h4>
         <div className="hand-cards">
           {self.hand.map((card, index) => {
