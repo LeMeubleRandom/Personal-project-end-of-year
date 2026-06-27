@@ -5,6 +5,74 @@ import User from "../model/User.js";
 import Game from "../model/Game.js";
 import GameService from "../service/GameService.js";
 
+async function validateDeck(deckId, userId) {
+  const deck = await User.getDeck(deckId);
+  if (!deck) {
+    return { isValid: false, message: "Deck introuvable." };
+  }
+
+  let cardList = [];
+  try {
+    cardList = typeof deck.cardList === "string"
+      ? JSON.parse(deck.cardList)
+      : deck.cardList;
+  } catch (e) {
+    return { isValid: false, message: "Structure de deck invalide." };
+  }
+
+  if (!Array.isArray(cardList)) {
+    return { isValid: false, message: "Structure de deck invalide." };
+  }
+
+  if (cardList.length !== 30) {
+    return {
+      isValid: false,
+      message: `Votre deck doit contenir exactement 30 cartes (actuellement: ${cardList.length}).`,
+    };
+  }
+
+  const collection = await User.getCollection(userId);
+  if (!collection) {
+    return { isValid: false, message: "Collection utilisateur introuvable." };
+  }
+
+  let cardCollection = [];
+  let quantity = [];
+  try {
+    cardCollection = typeof collection.cardCollection === "string"
+      ? JSON.parse(collection.cardCollection)
+      : collection.cardCollection || [];
+    quantity = typeof collection.quantity === "string"
+      ? JSON.parse(collection.quantity)
+      : collection.quantity || [];
+  } catch (e) {
+    return { isValid: false, message: "Erreur lors de la lecture de votre collection." };
+  }
+
+  const ownedMap = {};
+  cardCollection.forEach((cardId, index) => {
+    ownedMap[cardId] = quantity[index] || 0;
+  });
+
+  const deckCounts = {};
+  cardList.forEach((cardId) => {
+    deckCounts[cardId] = (deckCounts[cardId] || 0) + 1;
+  });
+
+  for (const cardId of Object.keys(deckCounts)) {
+    const required = deckCounts[cardId];
+    const has = ownedMap[cardId] || 0;
+    if (has < required) {
+      return {
+        isValid: false,
+        message: "Certaines cartes de votre deck ne figurent pas dans votre collection.",
+      };
+    }
+  }
+
+  return { isValid: true };
+}
+
 export default class GameController {
   static async host(req, res) {
     try {
@@ -19,10 +87,17 @@ export default class GameController {
         });
       }
 
+      const validation = await validateDeck(activeDeck, userId);
+      if (!validation.isValid) {
+        return res.status(400).json({
+          status: "error",
+          message: validation.message,
+        });
+      }
+
       const hostedGame = await Game.createGame(gameId, userId, activeDeck);
       await User.setGameId(userId, gameId);
       await User.setInGame(userId, true);
-      //GameManager.startGame(gameId);
 
       res.status(200).json(hostedGame);
     } catch (error) {
@@ -40,6 +115,36 @@ export default class GameController {
           status: "error",
           message:
             "Vous devez sélectionner un deck actif dans l'onglet 'Mes Decks' avant de pouvoir rejoindre une partie.",
+        });
+      }
+
+      const validation = await validateDeck(activeDeck, userId);
+      if (!validation.isValid) {
+        return res.status(400).json({
+          status: "error",
+          message: validation.message,
+        });
+      }
+
+      const gameRow = await Game.findById(gameId);
+      if (!gameRow) {
+        return res.status(404).json({
+          status: "error",
+          message: "Salon de jeu introuvable.",
+        });
+      }
+
+      if (gameRow.player1Id && gameRow.player2Id) {
+        return res.status(400).json({
+          status: "error",
+          message: "Ce salon est déjà complet (2 joueurs maximum).",
+        });
+      }
+
+      if (gameRow.isStarted === 1) {
+        return res.status(400).json({
+          status: "error",
+          message: "La partie a déjà commencé dans ce salon.",
         });
       }
 

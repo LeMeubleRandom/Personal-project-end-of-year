@@ -45,7 +45,10 @@ function Lobby({ user, fetchUser }) {
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur HTTP : ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `Erreur HTTP : ${response.status}`
+        );
       }
       const data = await response.json();
       console.log("Created game:", data);
@@ -54,6 +57,7 @@ function Lobby({ user, fetchUser }) {
       navigate("/GameLobby");
     } catch (error) {
       console.error("Erreur de connexion au serveur :", error);
+      alert(error.message);
     }
   };
 
