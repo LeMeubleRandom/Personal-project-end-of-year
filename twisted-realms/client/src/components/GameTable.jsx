@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Card from "./Card";
 import "../assets/css/gameTable.css";
 
 const GameTable = ({ user, gameState, sendAction }) => {
@@ -121,10 +122,7 @@ const GameTable = ({ user, gameState, sendAction }) => {
                 return (
                   <div key={`opp-spell-${i}`} className="card-slot spell-slot">
                     {card ? (
-                      <div className="card-item spell-card">
-                        <span className="card-mini-faction">{card.faction}</span>
-                        <p className="card-mini-name">{card.name}</p>
-                      </div>
+                      <Card card={card} isMini={true} />
                     ) : (
                       <span className="slot-placeholder">Sort</span>
                     )}
@@ -143,13 +141,7 @@ const GameTable = ({ user, gameState, sendAction }) => {
                     onClick={() => card && handleOpponentBeingClick(i)}
                   >
                     {card ? (
-                      <div className="card-item being-card opponent-card">
-                        <div className="card-header-mini">
-                          <span className="card-atk">ATK {card.atk}</span>
-                          <span className="card-pv">PV {card.currentPv}/{card.pv}</span>
-                        </div>
-                        <p className="card-name">{card.name}</p>
-                      </div>
+                      <Card card={{ ...card, PV: card.currentPv }} isMini={true} />
                     ) : (
                       <span className="slot-placeholder">Être</span>
                     )}
@@ -192,12 +184,8 @@ const GameTable = ({ user, gameState, sendAction }) => {
                     onClick={() => card && handleSelfBeingClick(i)}
                   >
                     {card ? (
-                      <div className={`card-item being-card ${card.hasAttacked ? "exhausted" : ""}`}>
-                        <div className="card-header-mini">
-                          <span className="card-atk">ATK {card.atk}</span>
-                          <span className="card-pv">PV {card.currentPv}/{card.pv}</span>
-                        </div>
-                        <p className="card-name">{card.name}</p>
+                      <div className={card.hasAttacked ? "exhausted" : ""}>
+                        <Card card={{ ...card, PV: card.currentPv }} isMini={true} />
                         {card.hasAttacked && <span className="exhausted-badge">Fatigué</span>}
                       </div>
                     ) : (
@@ -214,10 +202,7 @@ const GameTable = ({ user, gameState, sendAction }) => {
                 return (
                   <div key={`self-spell-${i}`} className="card-slot spell-slot">
                     {card ? (
-                      <div className="card-item spell-card">
-                        <span className="card-mini-faction">{card.faction}</span>
-                        <p className="card-mini-name">{card.name}</p>
-                      </div>
+                      <Card card={card} isMini={true} />
                     ) : (
                       <span className="slot-placeholder">Sort</span>
                     )}
@@ -248,25 +233,13 @@ const GameTable = ({ user, gameState, sendAction }) => {
               return (
                 <div key={`hand-${index}`} className="hand-card-wrapper">
                   <div
-                    className={`hand-card-item ${isSelected ? "selected" : ""}`}
+                    className={`hand-card-item-container ${isSelected ? "selected" : ""}`}
                     onClick={() => handleHandCardClick(index)}
                   >
-                    <div className="card-faction-header">{card.faction}</div>
-                    <h5 className="card-title">{card.name}</h5>
-                    <div className="card-stats-row">
-                      <span className="card-cost-bullet">Coût: {card.cost}</span>
-                      <span className="card-acc-bullet">Acc: +{card.accelerator}</span>
-                    </div>
-                    {card.type === "Être" && (
-                      <div className="card-stats-row">
-                        <span>ATK: {card.atk}</span>
-                        <span>PV: {card.pv}</span>
-                      </div>
-                    )}
-                    {card.effect && <p className="card-effect-desc">{card.effect}</p>}
+                    <Card card={{ ...card, PV: card.pv }} isMini={false} />
                   </div>
 
-                  {isSelected && isMyTurn && (
+                  {isSelected && isMyTurn && currentPhase === "MainPhase1" && (
                     <div className="hand-card-actions">
                       <button
                         className="action-btn acc-btn"

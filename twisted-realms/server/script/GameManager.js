@@ -42,6 +42,9 @@ class GameManager {
         await game.nextTurnPhase(payload.requestedPhase);
         break;
       case "SUMMON_BEING": {
+        if (game.phase !== "MainPhase1") {
+          return { error: "Vous ne pouvez invoquer des êtres que durant la Main Phase." };
+        }
         const { cardHandIndex } = payload;
         const success = activePlayer.summonBeing(cardHandIndex);
         if (!success) {
@@ -50,6 +53,9 @@ class GameManager {
         break;
       }
       case "USE_ACCELERATOR": {
+        if (game.phase !== "MainPhase1") {
+          return { error: "Vous ne pouvez charger des accélérateurs que durant la Main Phase." };
+        }
         const { cardHandIndex } = payload;
         const success = activePlayer.useAsAccelerator(cardHandIndex);
         if (!success) {
@@ -58,6 +64,9 @@ class GameManager {
         break;
       }
       case "PLAY_SUPPORT": {
+        if (game.phase !== "MainPhase1") {
+          return { error: "Vous ne pouvez jouer des cartes soutiens/sorts que durant la Main Phase." };
+        }
         const { cardHandIndex } = payload;
         const success = activePlayer.playSupport(cardHandIndex);
         if (!success) {

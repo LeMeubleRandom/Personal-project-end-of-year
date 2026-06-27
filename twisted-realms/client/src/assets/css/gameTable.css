@@ -74,7 +74,7 @@
 
 .player-side {
   display: grid;
-  grid-template-columns: 200px 1fr 120px;
+  grid-template-columns: 200px 1fr 100px;
   align-items: center;
   background: rgba(18, 13, 45, 0.4);
   border: 1px solid rgba(138, 43, 226, 0.15);
@@ -146,8 +146,8 @@
 }
 
 .card-slot {
-  width: 115px;
-  height: 160px;
+  width: 82px;
+  height: 120px;
   border: 2px dashed var(--color-border);
   border-radius: 8px;
   display: flex;
@@ -159,8 +159,8 @@
 }
 
 .spell-slot {
-  width: 115px;
-  height: 160px;
+  width: 82px;
+  height: 120px;
   border-style: dotted;
 }
 
@@ -297,14 +297,14 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 115px;
+  width: 82px;
 }
 
 .side-slot {
   background: rgba(18, 13, 45, 0.8);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  height: 76px;
+  height: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -345,8 +345,23 @@
 .hand-card-wrapper {
   position: relative;
   flex-shrink: 0;
-  width: 130px;
-  height: 180px;
+  width: 12rem;
+  height: 18rem;
+}
+
+.hand-card-item-container {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hand-card-item-container:hover {
+  transform: translateY(-10px);
+}
+
+.hand-card-item-container.selected {
+  transform: translateY(-15px);
+  box-shadow: 0 0 20px #ff007f;
+  border-radius: 5px;
 }
 
 .hand-card-item {

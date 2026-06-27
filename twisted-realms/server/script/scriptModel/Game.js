@@ -115,19 +115,13 @@ export default class Game {
     this.phase = "DrawPhase";
     this.nextPhase = "MainPhase1";
     await this.players[this.playerTurn].draw();
+    await this.nextTurnPhase("MainPhase1");
   }
 
   async mainPhase() {
     this.phase = "MainPhase1";
     if (!this.isFirstTurn) this.nextPhase = "BattlePhase";
     else this.nextPhase = "EndPhase";
-    this.canSpell = true;
-    this.canSummon = true;
-  }
-
-  async secondMainPhase() {
-    this.phase = "MainPhase2";
-    this.nextPhase = "EndPhase";
     this.canSpell = true;
     this.canSummon = true;
   }
@@ -196,6 +190,7 @@ export default class Game {
     }
 
     if (this.isFirstTurn) this.isFirstTurn = false;
+    await this.nextTurnPhase("DrawPhase");
   }
 
   async nextTurnPhase(requestedPhase = null) {
@@ -220,11 +215,6 @@ export default class Game {
       case "battle":
       case "BattlePhase":
         await this.battlePhase();
-        break;
-
-      case "main2":
-      case "MainPhase2":
-        await this.secondMainPhase();
         break;
 
       case "end":
