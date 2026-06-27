@@ -29,6 +29,7 @@
   z-index: 900;
   transform: translateX(-100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
 }
 
 .game-status-bar.mobile-open {
@@ -646,4 +647,37 @@
 
 .right-toggle.open {
   right: 310px;
+}
+
+.mobile-players-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(138, 43, 226, 0.3);
+  padding-top: 1.5rem;
+}
+
+.mobile-player-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(12, 8, 30, 0.6);
+  border: 1px solid rgba(138, 43, 226, 0.15);
+  border-radius: 8px;
+}
+
+.mobile-player-stat-block h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .player-side {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
 }

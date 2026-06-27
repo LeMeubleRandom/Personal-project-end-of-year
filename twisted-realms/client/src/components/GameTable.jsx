@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "./Card";
 import "../assets/css/gameTable.css";
@@ -19,6 +19,15 @@ const GameTable = ({ user, gameState, sendAction }) => {
   const [selectedAttackerIndex, setSelectedAttackerIndex] = useState(null);
   const [isLeftBarOpen, setIsLeftBarOpen] = useState(false);
   const [isRightBarOpen, setIsRightBarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleNextPhase = () => {
     if (!isMyTurn) return;
@@ -120,35 +129,77 @@ const GameTable = ({ user, gameState, sendAction }) => {
             {gameState.nextPhase === "DrawPhase" ? "Fin de tour" : "Phase Suivante"}
           </button>
         )}
-      </header>
 
-      <div className="board-content">
-        <section className="player-side opponent-side">
-          <div className="player-left-panel">
-            <div className="player-header">
-              <h3>{opponent.name} (Adversaire)</h3>
+        {isMobile && (
+          <div className="mobile-players-stats">
+            <div className="mobile-player-stat-block opponent-stats">
+              <h4>Adversaire ({opponent.name})</h4>
               <div className="stats-row">
                 <span className="stat-badge pv-badge">PV: {opponent.pv}</span>
                 <span className="stat-badge counter-badge">Accélérateurs: {opponent.acceleratorCounters || 0}</span>
               </div>
-              {selectedAttackerIndex !== null && (
-                <button className="direct-attack-btn active-glow" onClick={handleDirectAttack}>
-                  Attaquer directement l'adversaire !
-                </button>
-              )}
+              <div className="side-zones">
+                <div className="side-slot deck-slot">
+                  <span>Deck</span>
+                  <strong>{opponent.deck.length}</strong>
+                </div>
+                <div className="side-slot graveyard-slot">
+                  <span>Cimetière</span>
+                  <strong>{opponent.graveyard.length}</strong>
+                </div>
+              </div>
             </div>
 
-            <div className="side-zones">
-              <div className="side-slot deck-slot">
-                <span>Deck</span>
-                <strong>{opponent.deck.length}</strong>
+            <div className="mobile-player-stat-block self-stats">
+              <h4>Vous ({self.name})</h4>
+              <div className="stats-row">
+                <span className="stat-badge pv-badge">PV: {self.pv}</span>
+                <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
               </div>
-              <div className="side-slot graveyard-slot">
-                <span>Cimetière</span>
-                <strong>{opponent.graveyard.length}</strong>
+              <div className="side-zones">
+                <div className="side-slot deck-slot">
+                  <span>Deck</span>
+                  <strong>{self.deck.length}</strong>
+                </div>
+                <div className="side-slot graveyard-slot">
+                  <span>Cimetière</span>
+                  <strong>{self.graveyard.length}</strong>
+                </div>
               </div>
             </div>
           </div>
+        )}
+      </header>
+
+      <div className="board-content">
+        <section className="player-side opponent-side">
+          {!isMobile && (
+            <div className="player-left-panel">
+              <div className="player-header">
+                <h3>{opponent.name} (Adversaire)</h3>
+                <div className="stats-row">
+                  <span className="stat-badge pv-badge">PV: {opponent.pv}</span>
+                  <span className="stat-badge counter-badge">Accélérateurs: {opponent.acceleratorCounters || 0}</span>
+                </div>
+                {selectedAttackerIndex !== null && (
+                  <button className="direct-attack-btn active-glow" onClick={handleDirectAttack}>
+                    Attaquer directement l'adversaire !
+                  </button>
+                )}
+              </div>
+
+              <div className="side-zones">
+                <div className="side-slot deck-slot">
+                  <span>Deck</span>
+                  <strong>{opponent.deck.length}</strong>
+                </div>
+                <div className="side-slot graveyard-slot">
+                  <span>Cimetière</span>
+                  <strong>{opponent.graveyard.length}</strong>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="field-layout">
             <div className="card-zone spell-zone">
@@ -188,26 +239,28 @@ const GameTable = ({ user, gameState, sendAction }) => {
         </section>
 
         <section className="player-side self-side">
-          <div className="player-left-panel">
-            <div className="player-header">
-              <h3>{self.name} (Vous)</h3>
-              <div className="stats-row">
-                <span className="stat-badge pv-badge">PV: {self.pv}</span>
-                <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
+          {!isMobile && (
+            <div className="player-left-panel">
+              <div className="player-header">
+                <h3>{self.name} (Vous)</h3>
+                <div className="stats-row">
+                  <span className="stat-badge pv-badge">PV: {self.pv}</span>
+                  <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
+                </div>
               </div>
-            </div>
 
-            <div className="side-zones">
-              <div className="side-slot deck-slot">
-                <span>Deck</span>
-                <strong>{self.deck.length}</strong>
-              </div>
-              <div className="side-slot graveyard-slot">
-                <span>Cimetière</span>
-                <strong>{self.graveyard.length}</strong>
+              <div className="side-zones">
+                <div className="side-slot deck-slot">
+                  <span>Deck</span>
+                  <strong>{self.deck.length}</strong>
+                </div>
+                <div className="side-slot graveyard-slot">
+                  <span>Cimetière</span>
+                  <strong>{self.graveyard.length}</strong>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           <div className="field-layout">
             <div className="card-zone main-zone">
