@@ -87,7 +87,6 @@
 
 .board-content {
   margin: 0 auto;
-  width: 760px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -673,6 +672,12 @@
   font-size: 0.9rem;
   color: #ffffff;
   font-weight: 700;
+}
+
+@media (min-width: 769px) {
+  .board-content {
+    width: 760px;
+  }
 }
 
 @media (max-width: 768px) {
