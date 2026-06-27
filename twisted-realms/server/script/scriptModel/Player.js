@@ -40,13 +40,21 @@ export default class Player {
 
   async draw() {
     if (this.hand.length < 5) {
-      while (this.hand.length < 5 && this.deck.length > 0) {
+      while (this.hand.length < 5) {
+        if (this.deck.length === 0) {
+          this.pv = 0;
+          console.log(`${this.name} n'a plus de cartes à piocher !`);
+          return;
+        }
         this.hand.push(this.deck.shift());
       }
     } else {
-      if (this.deck.length > 0) {
-        this.hand.push(this.deck.shift());
+      if (this.deck.length === 0) {
+        this.pv = 0;
+        console.log(`${this.name} n'a plus de cartes à piocher !`);
+        return;
       }
+      this.hand.push(this.deck.shift());
     }
     console.log(`${this.name} a pioché. Cartes en main : ${this.hand.length}`);
   }

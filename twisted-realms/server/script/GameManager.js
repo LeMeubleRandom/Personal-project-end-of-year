@@ -31,7 +31,10 @@ class GameManager {
     const game = this.getGame(gameId);
     if (!game) return { error: "Partie introuvable" };
 
-    if (game.playerTurn !== playerId) {
+    const activePlayerKey = game.playerTurn;
+    const activePlayer = game.players[activePlayerKey];
+
+    if (Number(activePlayer.id) !== Number(playerId)) {
       return { error: "Ce n'est pas votre tour !" };
     }
 
@@ -39,16 +42,57 @@ class GameManager {
       case "CHANGE_PHASE":
         await game.nextTurnPhase(payload.requestedPhase);
         break;
+      case "SUMMON_BEING": {
+        const { cardHandIndex } = payload;
+        const success = activePlayer.summonBeing(cardHandIndex);
+        if (!success) {
+          return { error: "Invocation impossible (compteurs d'accélérateur insuffisants ou zone pleine)." };
+        }
+        break;
+      }
+      case "USE_ACCELERATOR": {
+        const { cardHandIndex } = payload;
+        const success = activePlayer.useAsAccelerator(cardHandIndex);
+        if (!success) {
+          return { error: "Impossible d'utiliser cette carte comme accélérateur." };
+        }
+        break;
+      }
+      case "PLAY_SUPPORT": {
+        const { cardHandIndex } = payload;
+        const success = activePlayer.playSupport(cardHandIndex);
+        if (!success) {
+          return { error: "Impossible de jouer ce soutien (compteurs d'accélérateur insuffisants ou zone pleine)." };
+        }
+        break;
+      }
+      case "ATTACK": {
+        if (game.phase !== "BattlePhase") {
+          return { error: "Vous ne pouvez attaquer que durant la Battle Phase." };
+        }
+        const { attackerIndex, targetIndex } = payload;
+        await game.resolveAttack(attackerIndex, targetIndex);
+        break;
+      }
       default:
         return { error: "Action inconnue" };
     }
 
-    // Sauvegarde en base de données de l'état mis à jour des mains et decks
     const p1Hand = game.players.p1.hand.map(c => c.id);
     const p2Hand = game.players.p2.hand.map(c => c.id);
     const p1DeckOrder = game.players.p1.deck.map(c => c.id);
     const p2DeckOrder = game.players.p2.deck.map(c => c.id);
     await GameModel.updateGameState(gameId, p1Hand, p2Hand, p1DeckOrder, p2DeckOrder);
+
+    const gameOverStatus = game.checkGameOver();
+    if (gameOverStatus) {
+      const winnerId = game.players[gameOverStatus.winner].id;
+      const loserId = game.players[gameOverStatus.loser].id;
+
+      await GameModel.endGameAndDistributeRewards(gameId, winnerId, loserId);
+
+      this.endGame(gameId);
+    }
 
     return { success: true, gameState: game };
   }

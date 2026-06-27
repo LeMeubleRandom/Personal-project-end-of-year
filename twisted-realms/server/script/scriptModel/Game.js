@@ -13,7 +13,6 @@ export default class Game {
       p2: new Player(player2Data),
     };
 
-    // Champs de la base de données (table game)
     this.createDate = lobbyData.createDate || new Date();
     this.isPrivate = lobbyData.isPrivate || 0;
     this.adminId = lobbyData.adminId || (player1Data ? player1Data.id : null);
@@ -224,5 +223,19 @@ export default class Game {
         );
         break;
     }
+  }
+
+  checkGameOver() {
+    if (this.players.p1.pv <= 0) {
+      this.isOver = true;
+      this.gameState = "Finished";
+      return { winner: "p2", loser: "p1" };
+    }
+    if (this.players.p2.pv <= 0) {
+      this.isOver = true;
+      this.gameState = "Finished";
+      return { winner: "p1", loser: "p2" };
+    }
+    return null;
   }
 }

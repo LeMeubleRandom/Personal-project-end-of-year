@@ -95,4 +95,20 @@ export default class Game {
     );
     return result;
   }
+
+  static async endGameAndDistributeRewards(gameId, winnerId, loserId) {
+    if (winnerId) {
+      await pool.execute(
+        "UPDATE user SET credits = credits + 100, inGame = 0, gameId = NULL WHERE id = ?",
+        [winnerId]
+      );
+    }
+    if (loserId) {
+      await pool.execute(
+        "UPDATE user SET credits = credits + 20, inGame = 0, gameId = NULL WHERE id = ?",
+        [loserId]
+      );
+    }
+    await pool.execute("DELETE FROM game WHERE gameId = ?", [gameId]);
+  }
 }

@@ -1,88 +1,302 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/css/gameTable.css";
 
-const GameTable = () => {
+const GameTable = ({ user, gameState, sendAction }) => {
+  const navigate = useNavigate();
+
+  const selfKey = Number(gameState.players.p1.id) === Number(user.id) ? "p1" : "p2";
+  const oppKey = selfKey === "p1" ? "p2" : "p1";
+
+  const self = gameState.players[selfKey];
+  const opponent = gameState.players[oppKey];
+
+  const isMyTurn = gameState.playerTurn === selfKey;
+  const currentPhase = gameState.phase;
+
+  const [selectedHandIndex, setSelectedHandIndex] = useState(null);
+  const [selectedAttackerIndex, setSelectedAttackerIndex] = useState(null);
+
+  const handleNextPhase = () => {
+    if (!isMyTurn) return;
+    sendAction("CHANGE_PHASE", { requestedPhase: gameState.nextPhase });
+    setSelectedHandIndex(null);
+    setSelectedAttackerIndex(null);
+  };
+
+  const handleHandCardClick = (index) => {
+    if (!isMyTurn) return;
+    setSelectedHandIndex(selectedHandIndex === index ? null : index);
+  };
+
+  const executeHandAction = (actionType, index) => {
+    sendAction(actionType, { cardHandIndex: index });
+    setSelectedHandIndex(null);
+  };
+
+  const handleSelfBeingClick = (index) => {
+    if (!isMyTurn || currentPhase !== "BattlePhase") return;
+    const card = self.mainZone[index];
+    if (card.hasAttacked) {
+      alert("Cette créature a déjà attaqué ce tour-ci !");
+      return;
+    }
+    setSelectedAttackerIndex(selectedAttackerIndex === index ? null : index);
+  };
+
+  const handleOpponentBeingClick = (index) => {
+    if (selectedAttackerIndex === null) return;
+    sendAction("ATTACK", { attackerIndex: selectedAttackerIndex, targetIndex: index });
+    setSelectedAttackerIndex(null);
+  };
+
+  const handleDirectAttack = () => {
+    if (selectedAttackerIndex === null) return;
+    sendAction("ATTACK", { attackerIndex: selectedAttackerIndex, targetIndex: null });
+    setSelectedAttackerIndex(null);
+  };
+
+  if (gameState.gameState === "Finished" || gameState.isOver) {
+    const isWinner = self.pv > 0;
+    return (
+      <div className="duel-finished-overlay">
+        <div className="duel-finished-card">
+          <h1 className={isWinner ? "victory-title" : "defeat-title"}>
+            {isWinner ? "VICTOIRE !" : "DÉFAITE..."}
+          </h1>
+          <p className="rewards-text">
+            {isWinner ? "Félicitations ! Vous gagnez 100 crédits." : "Bien tenté. Vous gagnez 20 crédits."}
+          </p>
+          <button className="lobby-redirect-btn" onClick={() => navigate("/lobby")}>
+            Retour au salon
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="board-container">
+      <header className="game-status-bar">
+        <div className="status-item">
+          <span>Tour : </span>
+          <strong className="status-val">#{gameState.turn}</strong>
+        </div>
+        <div className="status-item">
+          <span>Phase active : </span>
+          <strong className="status-val phase-name">{currentPhase}</strong>
+        </div>
+        <div className="status-item">
+          <span>Tour de : </span>
+          <strong className={`status-val player-turn ${isMyTurn ? "my-turn" : "opponent-turn"}`}>
+            {isMyTurn ? "VOUS" : opponent.name}
+          </strong>
+        </div>
+        {isMyTurn && (
+          <button className="next-phase-btn active-glow" onClick={handleNextPhase}>
+            {gameState.nextPhase === "DrawPhase" ? "Fin de tour" : "Phase Suivante"}
+          </button>
+        )}
+      </header>
+
       <div className="board-content">
-        <section className="field-container" id="opponent-zone">
-          <div className="card-zone" id="opponent-spell-zone">
-            <div className="spell-card-zone"></div>
-            <div className="spell-card-zone"></div>
-            <div className="spell-card-zone"></div>
-            <div className="spell-card-zone"></div>
-            <div className="spell-card-zone"></div>
+        <section className="player-side opponent-side">
+          <div className="player-header">
+            <h3>{opponent.name} (Adversaire)</h3>
+            <div className="stats-row">
+              <span className="stat-badge pv-badge">PV: {opponent.pv}</span>
+              <span className="stat-badge counter-badge">Accélérateurs: {opponent.acceleratorCounters || 0}</span>
+            </div>
+            {selectedAttackerIndex !== null && (
+              <button className="direct-attack-btn active-glow" onClick={handleDirectAttack}>
+                Attaquer directement l'adversaire !
+              </button>
+            )}
           </div>
-          <div className="card-zone" id="opponent-main-zone">
-            <div className="main-card-zone"></div>
-            <div className="main-card-zone"></div>
-            <div className="main-card-zone"></div>
-            <div className="main-card-zone"></div>
-            <div className="main-card-zone"></div>
-          </div>
-        </section>
-        <section className="adjac-zone-container" id="opponent-left-zones">
-          <div className="deck-zone"></div>
-          <div className="graveyard-zone"></div>
-          <div className="ostrac-zone"></div>
-        </section>
-        <section className="adjac-zone-container" id="opponent-right-zones">
-          <div className="other"></div>
-          <div className="other"></div>
-        </section>
-        <section className="field-container" id="player-zone">
-          <div className="card-zone" id="player-main-zone">
-            <div className="main-card-zone">
-              <p className="player-zone-name">main</p>
+
+          <div className="field-layout">
+            <div className="card-zone spell-zone">
+              {Array.from({ length: 3 }).map((_, i) => {
+                const card = opponent.spellZone[i];
+                return (
+                  <div key={`opp-spell-${i}`} className="card-slot spell-slot">
+                    {card ? (
+                      <div className="card-item spell-card">
+                        <span className="card-mini-faction">{card.faction}</span>
+                        <p className="card-mini-name">{card.name}</p>
+                      </div>
+                    ) : (
+                      <span className="slot-placeholder">Sort</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-            <div className="main-card-zone">
-              <p className="player-zone-name">main</p>
-            </div>
-            <div className="main-card-zone">
-              <p className="player-zone-name">main</p>
-            </div>
-            <div className="main-card-zone">
-              <p className="player-zone-name">main</p>
-            </div>
-            <div className="main-card-zone">
-              <p className="player-zone-name">main</p>
-            </div>
-          </div>
-          <div className="card-zone" id="player-spell-zone">
-            <div className="spell-card-zone">
-              <p className="player-zone-name">spell</p>
-            </div>
-            <div className="spell-card-zone">
-              <p className="player-zone-name">spell</p>
-            </div>
-            <div className="spell-card-zone">
-              <p className="player-zone-name">spell</p>
-            </div>
-            <div className="spell-card-zone">
-              <p className="player-zone-name">spell</p>
-            </div>
-            <div className="spell-card-zone">
-              <p className="player-zone-name">spell</p>
+
+            <div className="card-zone main-zone">
+              {Array.from({ length: 5 }).map((_, i) => {
+                const card = opponent.mainZone[i];
+                return (
+                  <div
+                    key={`opp-being-${i}`}
+                    className={`card-slot main-slot ${selectedAttackerIndex !== null && card ? "targetable" : ""}`}
+                    onClick={() => card && handleOpponentBeingClick(i)}
+                  >
+                    {card ? (
+                      <div className="card-item being-card opponent-card">
+                        <div className="card-header-mini">
+                          <span className="card-atk">ATK {card.atk}</span>
+                          <span className="card-pv">PV {card.currentPv}/{card.pv}</span>
+                        </div>
+                        <p className="card-name">{card.name}</p>
+                      </div>
+                    ) : (
+                      <span className="slot-placeholder">Être</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
-        </section>
-        <section className="adjac-zone-container" id="player-right-zones">
-          <div className="ostrac-zone">
-            <p className="player-zone-name">ostrac</p>
-          </div>
-          <div className="graveyard-zone">
-            <p className="player-zone-name">graveyard</p>
-          </div>
-          <div className="deck-zone">
-            <p className="player-zone-name">deck</p>
+
+          <div className="side-zones">
+            <div className="side-slot deck-slot">
+              <span>Deck</span>
+              <strong>{opponent.deck.length}</strong>
+            </div>
+            <div className="side-slot graveyard-slot">
+              <span>Cimetière</span>
+              <strong>{opponent.graveyard.length}</strong>
+            </div>
           </div>
         </section>
-        <section className="adjac-zone-container" id="player-left-zones">
-          <div className="other">
-            <p className="player-zone-name">other</p>
+
+        <section className="player-side self-side">
+          <div className="side-zones">
+            <div className="side-slot deck-slot">
+              <span>Deck</span>
+              <strong>{self.deck.length}</strong>
+            </div>
+            <div className="side-slot graveyard-slot">
+              <span>Cimetière</span>
+              <strong>{self.graveyard.length}</strong>
+            </div>
           </div>
-          <div className="other">
-            <p className="player-zone-name">other</p>
+
+          <div className="field-layout">
+            <div className="card-zone main-zone">
+              {Array.from({ length: 5 }).map((_, i) => {
+                const card = self.mainZone[i];
+                const isSelected = selectedAttackerIndex === i;
+                return (
+                  <div
+                    key={`self-being-${i}`}
+                    className={`card-slot main-slot ${card && !card.hasAttacked && currentPhase === "BattlePhase" ? "can-attack" : ""} ${isSelected ? "selected-attacker" : ""}`}
+                    onClick={() => card && handleSelfBeingClick(i)}
+                  >
+                    {card ? (
+                      <div className={`card-item being-card ${card.hasAttacked ? "exhausted" : ""}`}>
+                        <div className="card-header-mini">
+                          <span className="card-atk">ATK {card.atk}</span>
+                          <span className="card-pv">PV {card.currentPv}/{card.pv}</span>
+                        </div>
+                        <p className="card-name">{card.name}</p>
+                        {card.hasAttacked && <span className="exhausted-badge">Fatigué</span>}
+                      </div>
+                    ) : (
+                      <span className="slot-placeholder">Être</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="card-zone spell-zone">
+              {Array.from({ length: 3 }).map((_, i) => {
+                const card = self.spellZone[i];
+                return (
+                  <div key={`self-spell-${i}`} className="card-slot spell-slot">
+                    {card ? (
+                      <div className="card-item spell-card">
+                        <span className="card-mini-faction">{card.faction}</span>
+                        <p className="card-mini-name">{card.name}</p>
+                      </div>
+                    ) : (
+                      <span className="slot-placeholder">Sort</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="player-header">
+            <h3>{self.name} (Vous)</h3>
+            <div className="stats-row">
+              <span className="stat-badge pv-badge">PV: {self.pv}</span>
+              <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="hand-container">
+          <h4 className="hand-title">Votre Main ({self.hand.length} cartes)</h4>
+          <div className="hand-cards">
+            {self.hand.map((card, index) => {
+              const isSelected = selectedHandIndex === index;
+              const canAfford = self.acceleratorCounters >= card.cost;
+              return (
+                <div key={`hand-${index}`} className="hand-card-wrapper">
+                  <div
+                    className={`hand-card-item ${isSelected ? "selected" : ""}`}
+                    onClick={() => handleHandCardClick(index)}
+                  >
+                    <div className="card-faction-header">{card.faction}</div>
+                    <h5 className="card-title">{card.name}</h5>
+                    <div className="card-stats-row">
+                      <span className="card-cost-bullet">Coût: {card.cost}</span>
+                      <span className="card-acc-bullet">Acc: +{card.accelerator}</span>
+                    </div>
+                    {card.type === "Être" && (
+                      <div className="card-stats-row">
+                        <span>ATK: {card.atk}</span>
+                        <span>PV: {card.pv}</span>
+                      </div>
+                    )}
+                    {card.effect && <p className="card-effect-desc">{card.effect}</p>}
+                  </div>
+
+                  {isSelected && isMyTurn && (
+                    <div className="hand-card-actions">
+                      <button
+                        className="action-btn acc-btn"
+                        onClick={() => executeHandAction("USE_ACCELERATOR", index)}
+                      >
+                        Accélérer (+{card.accelerator})
+                      </button>
+                      {card.type === "Être" && (
+                        <button
+                          className="action-btn play-btn"
+                          disabled={!canAfford}
+                          onClick={() => executeHandAction("SUMMON_BEING", index)}
+                        >
+                          Invoquer
+                        </button>
+                      )}
+                      {(card.type === "Soutien" || card.type === "Sort") && (
+                        <button
+                          className="action-btn play-btn"
+                          disabled={!canAfford}
+                          onClick={() => executeHandAction("PLAY_SUPPORT", index)}
+                        >
+                          Jouer Sort
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>

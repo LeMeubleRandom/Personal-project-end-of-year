@@ -16,6 +16,7 @@ import userRouter from "./router/UserRouter.js";
 import gameRouter from "./router/GameRouter.js";
 import cardRouter from "./router/CardRouter.js";
 import shopRouter from "./router/ShopRouter.js";
+import GameManager from "./script/GameManager.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -74,6 +75,27 @@ io.on("connection", (socket) => {
   socket.on("chat message", (msgData) => {
     console.log("nouveau message : ", msgData);
     io.emit("chat message", msgData);
+  });
+
+  socket.on("join game", ({ gameId, userId }) => {
+    const roomName = `game_${gameId}`;
+    socket.join(roomName);
+    console.log(`User ${userId} joined room ${roomName}`);
+
+    const gameInstance = GameManager.getGame(Number(gameId));
+    if (gameInstance) {
+      socket.emit("game state update", gameInstance);
+    }
+  });
+
+  socket.on("player action", async ({ gameId, playerId, actionType, payload }) => {
+    const result = await GameManager.handlePlayerAction(Number(gameId), playerId, actionType, payload);
+    if (result.error) {
+      socket.emit("action error", { message: result.error });
+    } else {
+      const roomName = `game_${gameId}`;
+      io.to(roomName).emit("game state update", result.gameState);
+    }
   });
 
   socket.on("disconnect", () => {

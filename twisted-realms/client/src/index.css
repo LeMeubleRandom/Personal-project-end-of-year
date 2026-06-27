@@ -15,6 +15,13 @@
   --nav-active-bg: rgba(0, 242, 254, 0.07);
   --font-main: "Rajdhani", sans-serif;
   --accent-active: rgb(6, 106, 122, 0.3);
+
+  --bg-board: #0b071e;
+  --bg-card-dark: #120d2d;
+  --glow-primary: 0 0 15px rgba(138, 43, 226, 0.4);
+  --glow-accent: 0 0 15px rgba(255, 0, 127, 0.4);
+  --color-border: rgba(138, 43, 226, 0.3);
+  --color-border-hover: rgba(255, 0, 127, 0.6);
 }
 
 html,
