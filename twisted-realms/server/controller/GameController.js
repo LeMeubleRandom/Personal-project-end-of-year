@@ -10,10 +10,10 @@ export default class GameController {
       const gameId = Math.floor(100000 + Math.random() * 900000);
       const { userId, activeDeck } = req.body;
 
-      const game = await Game.createGame(gameId, userId, activeDeck);
+      const hostedGame = await Game.createGame(gameId, userId, activeDeck);
       //GameManager.startGame(gameId);
 
-      res.status(200).json(game);
+      res.status(200).json(hostedGame);
     } catch (error) {
       console.error("Error creatingGame:", error);
       res.status(500).json({ status: "error", message: error.message });
@@ -32,9 +32,9 @@ export default class GameController {
             message: "Utilisateur déjà présent dans la session",
           });
 
-      const game = await Game.joinGame(gameId, userId, activeDeck);
+      const joinedGame = await Game.joinGame(gameId, userId, activeDeck);
 
-      res.status(200).json(game);
+      res.status(200).json(joinedGame);
     } catch (error) {
       console.error("Error joiningGame:", error);
       res.status(500).json({ status: "error", message: error.message });

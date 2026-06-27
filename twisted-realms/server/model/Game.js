@@ -3,19 +3,19 @@ import pool from "../db/mysql.js";
 
 export default class Game {
   static async createGame(gameId, userId, activeDeck) {
-    const [game] = await pool.execute(
+    const [result] = await pool.execute(
       "INSERT INTO game (gameId, player1Id, player1DeckId, createDate, adminId) VALUES (?, ?, ?, UTC_TIMESTAMP(), ?)",
       [gameId, userId, activeDeck, userId],
     );
-    return game;
+    return result;
   }
 
   static async joinGame(gameId, userId, activeDeck) {
-    const [game] = await pool.execute(
+    const [result] = await pool.execute(
       "UPDATE game SET player2Id = ?, player2DeckId = ? WHERE gameId = ?",
       [userId, activeDeck, gameId],
     );
-    return game;
+    return result;
   }
 
   static async getLobbys() {
@@ -29,18 +29,18 @@ export default class Game {
   }
 
   static async getPlayers(gameId) {
-    const [[game]] = await pool.execute(
+    const [[gameRow]] = await pool.execute(
       "SELECT player1Id, player2Id FROM game WHERE gameId = ?",
       [gameId],
     );
-    if (!game) return [];
+    if (!gameRow) return [];
 
     const players = [];
-    if (game.player1Id !== null && game.player1Id !== undefined) {
-      players.push(game.player1Id);
+    if (gameRow.player1Id !== null && gameRow.player1Id !== undefined) {
+      players.push(gameRow.player1Id);
     }
-    if (game.player2Id !== null && game.player2Id !== undefined) {
-      players.push(game.player2Id);
+    if (gameRow.player2Id !== null && gameRow.player2Id !== undefined) {
+      players.push(gameRow.player2Id);
     }
     return players;
   }
