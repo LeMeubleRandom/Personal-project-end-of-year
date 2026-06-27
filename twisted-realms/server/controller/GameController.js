@@ -15,7 +15,7 @@ export default class GameController {
       res.status(200).json(game);
     } catch (error) {
       console.error("Error creatingGame:", error);
-      res.status(500).json({ status: "error", message: "Erreur serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 
@@ -28,7 +28,7 @@ export default class GameController {
       res.status(200).json(game);
     } catch (error) {
       console.error("Error joiningGame:", error);
-      res.status(500).json({ status: "error", message: "Erreur serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 
@@ -38,7 +38,7 @@ export default class GameController {
       res.status(200).json(lobbys);
     } catch (error) {
       console.error("Error getLobbys  :", error);
-      res.status(500).json({ status: "error", message: "Erreur serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 }

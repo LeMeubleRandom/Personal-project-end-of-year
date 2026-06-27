@@ -104,7 +104,7 @@ export default class UserController {
       res.status(200).json(user);
     } catch (error) {
       console.error("Error getUserById", error);
-      res.status(500).json({ status: "error", message: "erreur serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 

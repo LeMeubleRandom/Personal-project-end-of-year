@@ -10,7 +10,7 @@ export default class ShopController {
       res.status(200).json(items);
     } catch (error) {
       console.error("Error getItems :", error);
-      res.status(500).json({ status: "error", message: "Erreur Serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 
@@ -53,7 +53,7 @@ export default class ShopController {
       }
     } catch (error) {
       console.error("Error buyItem :", error);
-      res.status(500).json({ status: "error", message: "Erreur Serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 }

@@ -8,7 +8,7 @@ export default class CardController {
       res.status(200).json(cards);
     } catch (error) {
       console.error("Error getAllCards:", error);
-      res.status(500).json({ status: "error", message: "Erreur serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 
@@ -24,7 +24,7 @@ export default class CardController {
       res.status(200).json(cards);
     } catch (error) {
       console.error("Error getCardsByDeck:", error);
-      res.status(500).json({ status: "error", message: "Erreur serveur" });
+      res.status(500).json({ status: "error", message: error.message });
     }
   }
 }
