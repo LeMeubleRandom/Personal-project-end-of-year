@@ -93,14 +93,6 @@
   border-radius: 50%;
 }
 
-.host-card .gamelobby-avatar-wrapper {
-  border: 1px solid var(--secondary);
-}
-
-.guest-card .gamelobby-avatar-wrapper {
-  border: 1px solid var(--secondary-user-color);
-}
-
 .gamelobby-player-avatar {
   width: 100%;
   height: 100%;
@@ -115,29 +107,6 @@
 .guest-card .gamelobby-player-avatar {
   border-color: var(--secondary-user-color);
   box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
-}
-
-.badge {
-  position: absolute;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 3px 10px;
-  border-radius: 20px 20px 0 0;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.host-badge {
-  background: var(--secondary);
-  color: #0d1b2a;
-}
-
-.guest-badge {
-  background: var(--secondary-user-color);
-  color: #ffffff;
 }
 
 .player-name {
@@ -201,14 +170,13 @@
 }
 
 .start-btn {
-  background: #00ff66;
+  background: var(--primary);
   color: #0d1b2a;
 }
 
 .start-btn.active-glow:hover {
-  background: #00ff88;
   transform: translateY(-2px);
-  box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+  box-shadow: 0 0 10px var(--accent-active);
 }
 
 .disabled-btn {

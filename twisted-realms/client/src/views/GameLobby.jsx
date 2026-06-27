@@ -132,7 +132,6 @@ function GameLobby({ user, fetchUser }) {
                 alt="Host Avatar"
                 className="gamelobby-player-avatar"
               />
-              <span className="badge host-badge">Hôte</span>
             </div>
             <h3 className="player-name">
               {gameLobbyParam?.player1Name || "Chargement..."}
@@ -150,7 +149,6 @@ function GameLobby({ user, fetchUser }) {
                   alt="Guest Avatar"
                   className="gamelobby-player-avatar"
                 />
-                <span className="badge guest-badge">Adversaire</span>
               </div>
               <h3 className="player-name">{gameLobbyParam.player2Name}</h3>
               <p className="player-deck-status">Deck prêt</p>
