@@ -1,6 +1,8 @@
 .game-container {
-    display: flex;
-    overflow: hidden;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #0b071e;
+    box-sizing: border-box;
 }
 
 .chat {

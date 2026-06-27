@@ -172,14 +172,11 @@ const GameTable = ({ user, gameState, sendAction }) => {
         </section>
 
         <section className="player-side self-side">
-          <div className="side-zones">
-            <div className="side-slot deck-slot">
-              <span>Deck</span>
-              <strong>{self.deck.length}</strong>
-            </div>
-            <div className="side-slot graveyard-slot">
-              <span>Cimetière</span>
-              <strong>{self.graveyard.length}</strong>
+          <div className="player-header">
+            <h3>{self.name} (Vous)</h3>
+            <div className="stats-row">
+              <span className="stat-badge pv-badge">PV: {self.pv}</span>
+              <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
             </div>
           </div>
 
@@ -230,11 +227,14 @@ const GameTable = ({ user, gameState, sendAction }) => {
             </div>
           </div>
 
-          <div className="player-header">
-            <h3>{self.name} (Vous)</h3>
-            <div className="stats-row">
-              <span className="stat-badge pv-badge">PV: {self.pv}</span>
-              <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
+          <div className="side-zones">
+            <div className="side-slot deck-slot">
+              <span>Deck</span>
+              <strong>{self.deck.length}</strong>
+            </div>
+            <div className="side-slot graveyard-slot">
+              <span>Cimetière</span>
+              <strong>{self.graveyard.length}</strong>
             </div>
           </div>
         </section>
