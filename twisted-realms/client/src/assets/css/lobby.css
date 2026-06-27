@@ -167,4 +167,18 @@
   .lobby-main {
     margin: 3rem 1.5rem;
   }
+
+  .lobby-content {
+    flex-direction: column;
+    margin: 0;
+    gap: 3rem;
+  }
+
+  .lobby-list-container {
+    width: 60%;
+  }
+
+  .lobby-btn {
+    padding: 1rem 2rem;
+  }
 }
