@@ -6,9 +6,9 @@
 }
 
 .lobby-content {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 2.5rem;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 7rem;
   align-items: start;
 }
 
@@ -16,7 +16,8 @@
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  width: 100%;
+  width: 150%;
+  align-items: center;
 }
 
 .lobby-right-section {
@@ -27,7 +28,7 @@
 
 .lobby-right-section .global-chat {
   margin-left: 0;
-  height: 60vh;
+  height: 80vh;
 }
 
 @media (max-width: 900px) {
