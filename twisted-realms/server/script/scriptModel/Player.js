@@ -27,7 +27,7 @@ export default class Player {
   }
 
   async drawHand() {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       if (this.deck.length > 0) {
         this.hand.push(this.deck.shift());
       } else {

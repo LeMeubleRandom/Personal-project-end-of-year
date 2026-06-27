@@ -88,15 +88,23 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("player action", async ({ gameId, playerId, actionType, payload }) => {
-    const result = await GameManager.handlePlayerAction(Number(gameId), playerId, actionType, payload);
-    if (result.error) {
-      socket.emit("action error", { message: result.error });
-    } else {
-      const roomName = `game_${gameId}`;
-      io.to(roomName).emit("game state update", result.gameState);
-    }
-  });
+  socket.on(
+    "player action",
+    async ({ gameId, playerId, actionType, payload }) => {
+      const result = await GameManager.handlePlayerAction(
+        Number(gameId),
+        playerId,
+        actionType,
+        payload,
+      );
+      if (result.error) {
+        socket.emit("action error", { message: result.error });
+      } else {
+        const roomName = `game_${gameId}`;
+        io.to(roomName).emit("game state update", result.gameState);
+      }
+    },
+  );
 
   socket.on("disconnect", () => {
     console.log("user disconnected");

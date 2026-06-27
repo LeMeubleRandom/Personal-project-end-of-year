@@ -1,11 +1,43 @@
 .lobby-main {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 3rem auto;
   padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.lobby-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.lobby-left-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2.5rem;
+  width: 100%;
+}
+
+.lobby-right-section {
+  position: sticky;
+  top: 95px;
+  width: 100%;
+}
+
+.lobby-right-section .global-chat {
+  margin-left: 0;
+  height: 60vh;
+}
+
+@media (max-width: 900px) {
+  .lobby-content {
+    grid-template-columns: 1fr;
+  }
+
+  .lobby-right-section {
+    position: static;
+  }
 }
 
 .lobby-header-actions {

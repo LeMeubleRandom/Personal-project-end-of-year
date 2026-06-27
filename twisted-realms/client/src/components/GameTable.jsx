@@ -97,6 +97,14 @@ const GameTable = ({ user, gameState, sendAction }) => {
         </div>
       </div>
 
+      {isMobile && selectedAttackerIndex !== null && (
+        <div className="mobile-direct-attack-overlay">
+          <button className="direct-attack-btn active-glow" onClick={handleDirectAttack}>
+            ⚡ Attaquer directement l'adversaire !
+          </button>
+        </div>
+      )}
+
       <button
         className={`sidebar-toggle-btn left-toggle ${isLeftBarOpen ? "open" : ""}`}
         onClick={() => setIsLeftBarOpen(!isLeftBarOpen)}

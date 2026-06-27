@@ -13,9 +13,10 @@ async function validateDeck(deckId, userId) {
 
   let cardList = [];
   try {
-    cardList = typeof deck.cardList === "string"
-      ? JSON.parse(deck.cardList)
-      : deck.cardList;
+    cardList =
+      typeof deck.cardList === "string"
+        ? JSON.parse(deck.cardList)
+        : deck.cardList;
   } catch (e) {
     return { isValid: false, message: "Structure de deck invalide." };
   }
@@ -39,14 +40,19 @@ async function validateDeck(deckId, userId) {
   let cardCollection = [];
   let quantity = [];
   try {
-    cardCollection = typeof collection.cardCollection === "string"
-      ? JSON.parse(collection.cardCollection)
-      : collection.cardCollection || [];
-    quantity = typeof collection.quantity === "string"
-      ? JSON.parse(collection.quantity)
-      : collection.quantity || [];
+    cardCollection =
+      typeof collection.cardCollection === "string"
+        ? JSON.parse(collection.cardCollection)
+        : collection.cardCollection || [];
+    quantity =
+      typeof collection.quantity === "string"
+        ? JSON.parse(collection.quantity)
+        : collection.quantity || [];
   } catch (e) {
-    return { isValid: false, message: "Erreur lors de la lecture de votre collection." };
+    return {
+      isValid: false,
+      message: "Erreur lors de la lecture de votre collection.",
+    };
   }
 
   const ownedMap = {};
@@ -65,7 +71,8 @@ async function validateDeck(deckId, userId) {
     if (has < required) {
       return {
         isValid: false,
-        message: "Certaines cartes de votre deck ne figurent pas dans votre collection.",
+        message:
+          "Certaines cartes de votre deck ne figurent pas dans votre collection.",
       };
     }
   }
@@ -195,7 +202,9 @@ export default class GameController {
 
       const gameRow = await Game.findById(gameId);
       if (!gameRow) {
-        return res.status(404).json({ status: "error", message: "Salon introuvable." });
+        return res
+          .status(404)
+          .json({ status: "error", message: "Salon introuvable." });
       }
 
       if (!gameRow.player2Id) {
@@ -218,14 +227,25 @@ export default class GameController {
 
       await Game.startGame(gameId);
       gameRow.isStarted = 1;
-      const runningGame = await GameManager.startGame(Number(gameId), player1Data, player2Data, gameRow);
+      const runningGame = await GameManager.startGame(
+        Number(gameId),
+        player1Data,
+        player2Data,
+        gameRow,
+      );
 
-      const p1Hand = runningGame.players.p1.hand.map(c => c.id);
-      const p2Hand = runningGame.players.p2.hand.map(c => c.id);
-      const p1DeckOrder = runningGame.players.p1.deck.map(c => c.id);
-      const p2DeckOrder = runningGame.players.p2.deck.map(c => c.id);
+      const p1Hand = runningGame.players.p1.hand.map((c) => c.id);
+      const p2Hand = runningGame.players.p2.hand.map((c) => c.id);
+      const p1DeckOrder = runningGame.players.p1.deck.map((c) => c.id);
+      const p2DeckOrder = runningGame.players.p2.deck.map((c) => c.id);
 
-      await Game.updateGameState(gameId, p1Hand, p2Hand, p1DeckOrder, p2DeckOrder);
+      await Game.updateGameState(
+        gameId,
+        p1Hand,
+        p2Hand,
+        p1DeckOrder,
+        p2DeckOrder,
+      );
 
       res.status(200).json({ status: "success", message: "Partie lancée !" });
     } catch (error) {
@@ -263,16 +283,18 @@ export default class GameController {
       const userId = req.userId;
       const user = await User.findById(userId);
       if (!user || !user.gameId) {
-        return res
-          .status(400)
-          .json({ status: "error", message: "Vous n'êtes pas dans une partie." });
+        return res.status(400).json({
+          status: "error",
+          message: "Vous n'êtes pas dans une partie.",
+        });
       }
 
       const game = GameManager.getGame(Number(user.gameId));
       if (!game) {
-        return res
-          .status(404)
-          .json({ status: "error", message: "Partie introuvable dans la mémoire du serveur." });
+        return res.status(404).json({
+          status: "error",
+          message: "Partie introuvable dans la mémoire du serveur.",
+        });
       }
 
       res.status(200).json({ status: "success", game });
