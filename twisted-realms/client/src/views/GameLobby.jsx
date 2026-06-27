@@ -12,12 +12,8 @@ function GameLobby({ user, fetchUser }) {
     `http://${window.location.hostname}:5000`;
   const serverUrl = `${backendUrl.replace(/\/$/, "")}/user-images/`;
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
   const fetchLobby = async () => {
-    if (!user.gameId) return;
+    if (!user?.gameId) return;
     try {
       const response = await fetch(`/api/game/${user.gameId}`, {
         credentials: "include",
@@ -46,10 +42,15 @@ function GameLobby({ user, fetchUser }) {
   };
 
   useEffect(() => {
+    if (!user?.gameId) return;
     fetchLobby();
     const interval = setInterval(fetchLobby, 2000);
     return () => clearInterval(interval);
-  }, [user.gameId]);
+  }, [user?.gameId]);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   const handleStartGame = async () => {
     if (!gameLobbyParam || !gameLobbyParam.player2Id) return;
@@ -120,7 +121,7 @@ function GameLobby({ user, fetchUser }) {
           Salon <span className="neon-text">#{user.gameId}</span>
         </h1>
         <p className="gamelobby-subtitle">
-          En attente des joueurs pour lancer le combat
+          En attente des joueurs pour lancer le duel
         </p>
 
         <div className="gamelobby-players-grid">

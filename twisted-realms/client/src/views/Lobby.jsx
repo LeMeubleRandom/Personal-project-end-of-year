@@ -10,14 +10,6 @@ function Lobby({ user, fetchUser }) {
   const [player2, setPlayer2] = useState(null);
   const [gameState, setGameState] = useState(false);
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (user.inGame) {
-    return <Navigate to="/GameLobby" replace />;
-  }
-
   const fetchLobby = async () => {
     try {
       const response = await fetch("/api/game", {
@@ -35,7 +27,7 @@ function Lobby({ user, fetchUser }) {
   };
 
   const hostLobby = async (e) => {
-    if (!user.activeDeck) {
+    if (!user?.activeDeck) {
       console.log("active deck null");
       return;
     }
@@ -97,8 +89,17 @@ function Lobby({ user, fetchUser }) {
   };
 
   useEffect(() => {
+    if (!user) return;
     fetchLobby();
   }, []);
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.inGame) {
+    return <Navigate to="/GameLobby" replace />;
+  }
 
   return (
     <main className="lobby-main">
