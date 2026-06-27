@@ -138,8 +138,8 @@
 .decks-view.active-deck {
   border-color: var(--secondary-user-color);
   box-shadow:
-    0 0 20px var(--primary-user-color),
-    inset 0 0 10px var(--text2);
+    0 0 15px var(--primary-user-color),
+    inset 0 0 2px var(--text2);
   background: rgba(22, 22, 26, 0.9);
 }
 

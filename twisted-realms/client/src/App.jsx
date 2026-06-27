@@ -91,7 +91,10 @@ function AppContent() {
             )
           }
         />
-        <Route path="/decks" element={<Decks user={user} />} />
+        <Route
+          path="/decks"
+          element={<Decks user={user} fetchUser={fetchUser} />}
+        />
         <Route path="/lobby" element={<Lobby user={user} />} />
         <Route path="/card" element={<Card user={user} isMini={false} />} />
         <Route path="/.." element={<NotFound />} />

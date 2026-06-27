@@ -5,12 +5,13 @@ import "../assets/css/decks.css";
 import Card from "../components/Card";
 import DeckView from "../components/DeckView";
 
-function Decks({ user }) {
+function Decks({ user, fetchUser }) {
   const [cardList, setCardList] = useState([]);
   const [deckList, setDeckList] = useState([]);
   const [userDecks, setUserDecks] = useState([]);
   const [userCollection, setCollection] = useState([]);
   const [activeDeck, setActiveDeck] = useState(null);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   const [isEdit, setIsEdit] = useState(false);
   const [editedDeck, setEditedDeck] = useState([]);
@@ -80,6 +81,7 @@ function Decks({ user }) {
       if (!response.ok) {
         throw new Error(`Erreur HTTP : ${response.status}`);
       }
+      fetchUser();
     } catch (error) {
       console.error("Erreur de connexion au serveur :", error);
     }
@@ -242,12 +244,13 @@ function Decks({ user }) {
   useEffect(() => {
     if (deckList.length == 0) {
       console.log("Cet utilisateur n'a aucun deck enregistré");
-    } else {
+    } else if (!hasInitialized) {
       const initialDeck =
         deckList.find((d) => d.id === user.activeDeck) || deckList[0];
       fetchcardsByDeck(initialDeck);
+      setHasInitialized(true);
     }
-  }, [deckList]);
+  }, [deckList, hasInitialized, user.activeDeck]);
 
   useEffect(() => {
     pushActiveDeck();
