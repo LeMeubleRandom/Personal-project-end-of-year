@@ -126,7 +126,7 @@ export default class Game {
     this.nextPhase = "EndPhase";
     this.canAttack = true;
     this.players[this.playerTurn].mainZone.forEach(
-      (c) => (c.hasAttacked = false),
+      (c) => { if (c) c.hasAttacked = false; },
     );
   }
 
