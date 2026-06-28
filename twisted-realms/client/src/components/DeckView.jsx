@@ -290,7 +290,14 @@ const DeckView = ({
     >
       <div className="deck-view-container">
         <div className="deck-head-container">
-          <div>
+          <div className="deck-name-input-wrapper">
+            <button
+              className="deck-back-btn"
+              onClick={() => setIsEdit(false)}
+              aria-label="Retour"
+            >
+              ◀
+            </button>
             <label htmlFor="deck-name"></label>
             <input
               type="text"

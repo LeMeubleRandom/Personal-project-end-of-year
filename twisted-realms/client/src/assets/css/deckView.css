@@ -15,6 +15,30 @@
   justify-content: space-between;
 }
 
+.deck-name-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.deck-back-btn {
+  background: transparent;
+  border: none;
+  color: var(--text, #fff);
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+}
+
+.deck-back-btn:hover {
+  color: var(--secondary, #00f2fe);
+  transform: translateX(-3px);
+}
+
 .deck-cards {
   max-height: 80vh;
   overflow-y: auto;
