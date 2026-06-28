@@ -440,7 +440,7 @@ const GameTable = ({ user, gameState, sendAction }) => {
                 {isSelected && isMyTurn && currentPhase === "MainPhase1" && (
                   <div className="hand-card-actions">
                     <button
-                      className="action-btn acc-btn"
+                      className={`action-btn acc-btn faction-${card.faction}`}
                       onClick={() =>
                         executeHandAction("USE_ACCELERATOR", index)
                       }

@@ -52,23 +52,35 @@ class GameManager {
         const card = activePlayer.hand[cardHandIndex];
         if (!card) return { error: "Carte introuvable en main." };
 
-        // Validation pour l'effet de Nyxos
         if (card.id === 1 || card.name?.toLowerCase().includes("nyxos")) {
           const { discardCardHandIndex, targetGraveyardCardId } = payload;
-          if (discardCardHandIndex === undefined || discardCardHandIndex === null || targetGraveyardCardId === undefined || targetGraveyardCardId === null) {
+          if (
+            discardCardHandIndex === undefined ||
+            discardCardHandIndex === null ||
+            targetGraveyardCardId === undefined ||
+            targetGraveyardCardId === null
+          ) {
             return {
-              error: "Effet de Nyxos : vous devez sélectionner une carte à défausser et un Être du cimetière à réinvoquer.",
+              error:
+                "Effet de Nyxos : vous devez sélectionner une carte à défausser et un Être du cimetière à réinvoquer.",
             };
           }
           const discardIdx = Number(discardCardHandIndex);
-          if (discardIdx < 0 || discardIdx >= activePlayer.hand.length || discardIdx === Number(cardHandIndex)) {
+          if (
+            discardIdx < 0 ||
+            discardIdx >= activePlayer.hand.length ||
+            discardIdx === Number(cardHandIndex)
+          ) {
             return { error: "Sélection de la carte à défausser invalide." };
           }
           const hasBeingInGraveyard = activePlayer.graveyard.some(
-            (c) => c.id === Number(targetGraveyardCardId) && c.type === "Être"
+            (c) => c.id === Number(targetGraveyardCardId) && c.type === "Être",
           );
           if (!hasBeingInGraveyard) {
-            return { error: "La carte du cimetière sélectionnée n'est pas un Être valide." };
+            return {
+              error:
+                "La carte du cimetière sélectionnée n'est pas un Être valide.",
+            };
           }
         }
 
@@ -80,14 +92,17 @@ class GameManager {
           };
         }
 
-        // Exécution de l'effet de Nyxos
         if (card.id === 1 || card.name?.toLowerCase().includes("nyxos")) {
           try {
             const nyxosEffect = await import("./cardScript/nyxos.js");
             await nyxosEffect.default(game, activePlayer, payload);
           } catch (err) {
             console.error("Erreur lors de l'effet de Nyxos:", err);
-            return { error: err.message || "Erreur lors de l'exécution de l'effet de Nyxos." };
+            return {
+              error:
+                err.message ||
+                "Erreur lors de l'exécution de l'effet de Nyxos.",
+            };
           }
         }
         break;
@@ -119,17 +134,28 @@ class GameManager {
         const card = activePlayer.hand[cardHandIndex];
         if (!card) return { error: "Carte introuvable en main." };
 
-        // Validation pour l'effet de Réincarnation de monstre
-        if (card.id === 62 || card.name?.toLowerCase() === "réincarnation de monstre") {
+        if (
+          card.id === 62 ||
+          card.name?.toLowerCase() === "réincarnation de monstre"
+        ) {
           const { targetGraveyardCardId } = payload;
-          if (targetGraveyardCardId === undefined || targetGraveyardCardId === null) {
-            return { error: "Effet de Réincarnation : vous devez sélectionner un Être du cimetière à réinvoquer." };
+          if (
+            targetGraveyardCardId === undefined ||
+            targetGraveyardCardId === null
+          ) {
+            return {
+              error:
+                "Effet de Réincarnation : vous devez sélectionner un Être du cimetière à réinvoquer.",
+            };
           }
           const hasBeingInGraveyard = activePlayer.graveyard.some(
-            (c) => c.id === Number(targetGraveyardCardId) && c.type === "Être"
+            (c) => c.id === Number(targetGraveyardCardId) && c.type === "Être",
           );
           if (!hasBeingInGraveyard) {
-            return { error: "La carte sélectionnée n'est pas un Être valide dans votre cimetière." };
+            return {
+              error:
+                "La carte sélectionnée n'est pas un Être valide dans votre cimetière.",
+            };
           }
         }
 
@@ -141,23 +167,51 @@ class GameManager {
           };
         }
 
-        // Exécution des effets de Sorts
         if (card.id === 61 || card.name?.toLowerCase() === "pot of greed") {
           try {
             const potOfGreedEffect = await import("./cardScript/potOfGreed.js");
             await potOfGreedEffect.default(game, activePlayer, payload);
           } catch (err) {
             console.error("Erreur lors de l'effet de Pot of Greed:", err);
-            return { error: err.message || "Erreur lors de l'exécution de l'effet de Pot of Greed." };
+            return {
+              error:
+                err.message ||
+                "Erreur lors de l'exécution de l'effet de Pot of Greed.",
+            };
           }
-        } else if (card.id === 62 || card.name?.toLowerCase() === "réincarnation de monstre") {
+        } else if (
+          card.id === 62 ||
+          card.name?.toLowerCase() === "réincarnation de monstre"
+        ) {
           try {
-            const monsterReincarnationEffect = await import("./cardScript/monsterReincarnation.js");
-            await monsterReincarnationEffect.default(game, activePlayer, payload);
+            const monsterReincarnationEffect =
+              await import("./cardScript/monsterReincarnation.js");
+            await monsterReincarnationEffect.default(
+              game,
+              activePlayer,
+              payload,
+            );
           } catch (err) {
             console.error("Erreur lors de l'effet de Réincarnation:", err);
-            return { error: err.message || "Erreur lors de l'exécution de l'effet de Réincarnation." };
+            return {
+              error:
+                err.message ||
+                "Erreur lors de l'exécution de l'effet de Réincarnation.",
+            };
           }
+        }
+
+        if (card.type === "Sort") {
+          const zoneIndex = activePlayer.spellZone.findIndex(
+            (c) => c && c.id === card.id,
+          );
+          if (zoneIndex !== -1) {
+            activePlayer.spellZone[zoneIndex] = null;
+          }
+          activePlayer.graveyard.push(card);
+          console.log(
+            `${card.name} a été envoyé au cimetière après utilisation.`,
+          );
         }
         break;
       }
