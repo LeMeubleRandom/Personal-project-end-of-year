@@ -12,6 +12,7 @@ export default class Card {
     this.effect = dbCard.effect;
     this.cost = dbCard.cost;
     this.accelerator = dbCard.accelerator;
+    this.art = dbCard.art;
     this.hasAttacked = false;
   }
 }
