@@ -24,7 +24,6 @@ class UserService {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Sélection d'une image par défaut aléatoire
     const userImage = await this.randUserImage();
 
     const result = await User.createUser(

@@ -13,8 +13,8 @@ export default class Card {
     if (!cardList || cardList.length === 0) return [];
 
     const uniqueIds = [...new Set(cardList)];
-    const [cards] = await pool.query("SELECT * FROM card WHERE id IN (?)", [
-      uniqueIds,
+    const [cards] = await pool.query("SELECT * FROM card WHERE id = ?", [
+      [uniqueIds],
     ]);
 
     return cardList
