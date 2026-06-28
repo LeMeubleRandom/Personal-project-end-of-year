@@ -21,24 +21,6 @@
   gap: 1rem;
 }
 
-.deck-back-btn {
-  background: transparent;
-  border: none;
-  color: var(--text, #fff);
-  font-size: 1.8rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem 0.5rem;
-}
-
-.deck-back-btn:hover {
-  color: var(--secondary, #00f2fe);
-  transform: translateX(-3px);
-}
-
 .deck-cards {
   max-height: 80vh;
   overflow-y: auto;
@@ -240,13 +222,33 @@
   transition: all 0.3s ease;
 }
 
+.deck-back-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck-back-btn:hover {
+  color: var(--secondary, #00f2fe);
+  transform: translateX(-3px);
+}
+
 #deck-name {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   color: var(--text);
   font-size: 1.6rem;
-  margin: 2rem 2rem 1rem 2rem;
+  margin: 2rem 0;
   max-width: 20rem;
   box-sizing: border-box;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -375,7 +377,6 @@
   font-size: 1rem;
 }
 
-/* Sidebar overlay and toggle styles */
 .deck-sidebar-overlay {
   display: none;
 }
