@@ -49,12 +49,46 @@ class GameManager {
           };
         }
         const { cardHandIndex } = payload;
+        const card = activePlayer.hand[cardHandIndex];
+        if (!card) return { error: "Carte introuvable en main." };
+
+        // Validation pour l'effet de Nyxos
+        if (card.id === 1 || card.name?.toLowerCase().includes("nyxos")) {
+          const { discardCardHandIndex, targetGraveyardCardId } = payload;
+          if (discardCardHandIndex === undefined || discardCardHandIndex === null || targetGraveyardCardId === undefined || targetGraveyardCardId === null) {
+            return {
+              error: "Effet de Nyxos : vous devez sélectionner une carte à défausser et un Être du cimetière à réinvoquer.",
+            };
+          }
+          const discardIdx = Number(discardCardHandIndex);
+          if (discardIdx < 0 || discardIdx >= activePlayer.hand.length || discardIdx === Number(cardHandIndex)) {
+            return { error: "Sélection de la carte à défausser invalide." };
+          }
+          const hasBeingInGraveyard = activePlayer.graveyard.some(
+            (c) => c.id === Number(targetGraveyardCardId) && c.type === "Être"
+          );
+          if (!hasBeingInGraveyard) {
+            return { error: "La carte du cimetière sélectionnée n'est pas un Être valide." };
+          }
+        }
+
         const success = activePlayer.summonBeing(cardHandIndex);
         if (!success) {
           return {
             error:
               "Invocation impossible (compteurs d'accélérateur insuffisants ou zone pleine).",
           };
+        }
+
+        // Exécution de l'effet de Nyxos
+        if (card.id === 1 || card.name?.toLowerCase().includes("nyxos")) {
+          try {
+            const nyxosEffect = await import("./cardScript/nyxos.js");
+            await nyxosEffect.default(game, activePlayer, payload);
+          } catch (err) {
+            console.error("Erreur lors de l'effet de Nyxos:", err);
+            return { error: err.message || "Erreur lors de l'exécution de l'effet de Nyxos." };
+          }
         }
         break;
       }
@@ -82,12 +116,48 @@ class GameManager {
           };
         }
         const { cardHandIndex } = payload;
+        const card = activePlayer.hand[cardHandIndex];
+        if (!card) return { error: "Carte introuvable en main." };
+
+        // Validation pour l'effet de Réincarnation de monstre
+        if (card.id === 62 || card.name?.toLowerCase() === "réincarnation de monstre") {
+          const { targetGraveyardCardId } = payload;
+          if (targetGraveyardCardId === undefined || targetGraveyardCardId === null) {
+            return { error: "Effet de Réincarnation : vous devez sélectionner un Être du cimetière à réinvoquer." };
+          }
+          const hasBeingInGraveyard = activePlayer.graveyard.some(
+            (c) => c.id === Number(targetGraveyardCardId) && c.type === "Être"
+          );
+          if (!hasBeingInGraveyard) {
+            return { error: "La carte sélectionnée n'est pas un Être valide dans votre cimetière." };
+          }
+        }
+
         const success = activePlayer.playSupport(cardHandIndex);
         if (!success) {
           return {
             error:
               "Impossible de jouer ce soutien (compteurs d'accélérateur insuffisants ou zone pleine).",
           };
+        }
+
+        // Exécution des effets de Sorts
+        if (card.id === 61 || card.name?.toLowerCase() === "pot of greed") {
+          try {
+            const potOfGreedEffect = await import("./cardScript/potOfGreed.js");
+            await potOfGreedEffect.default(game, activePlayer, payload);
+          } catch (err) {
+            console.error("Erreur lors de l'effet de Pot of Greed:", err);
+            return { error: err.message || "Erreur lors de l'exécution de l'effet de Pot of Greed." };
+          }
+        } else if (card.id === 62 || card.name?.toLowerCase() === "réincarnation de monstre") {
+          try {
+            const monsterReincarnationEffect = await import("./cardScript/monsterReincarnation.js");
+            await monsterReincarnationEffect.default(game, activePlayer, payload);
+          } catch (err) {
+            console.error("Erreur lors de l'effet de Réincarnation:", err);
+            return { error: err.message || "Erreur lors de l'exécution de l'effet de Réincarnation." };
+          }
         }
         break;
       }
