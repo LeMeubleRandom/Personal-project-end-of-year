@@ -6,7 +6,8 @@ import "../assets/css/gameTable.css";
 const GameTable = ({ user, gameState, sendAction }) => {
   const navigate = useNavigate();
 
-  const selfKey = Number(gameState.players.p1.id) === Number(user.id) ? "p1" : "p2";
+  const selfKey =
+    Number(gameState.players.p1.id) === Number(user.id) ? "p1" : "p2";
   const oppKey = selfKey === "p1" ? "p2" : "p1";
 
   const self = gameState.players[selfKey];
@@ -20,6 +21,7 @@ const GameTable = ({ user, gameState, sendAction }) => {
   const [isLeftBarOpen, setIsLeftBarOpen] = useState(false);
   const [isRightBarOpen, setIsRightBarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showSurrender, setShowSurrender] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,14 +60,25 @@ const GameTable = ({ user, gameState, sendAction }) => {
 
   const handleOpponentBeingClick = (index) => {
     if (selectedAttackerIndex === null) return;
-    sendAction("ATTACK", { attackerIndex: selectedAttackerIndex, targetIndex: index });
+    sendAction("ATTACK", {
+      attackerIndex: selectedAttackerIndex,
+      targetIndex: index,
+    });
     setSelectedAttackerIndex(null);
   };
 
   const handleDirectAttack = () => {
     if (selectedAttackerIndex === null) return;
-    sendAction("ATTACK", { attackerIndex: selectedAttackerIndex, targetIndex: null });
+    sendAction("ATTACK", {
+      attackerIndex: selectedAttackerIndex,
+      targetIndex: null,
+    });
     setSelectedAttackerIndex(null);
+  };
+
+  const handleSurrender = () => {
+    sendAction("SURRENDER", {});
+    setShowSurrender(false);
   };
 
   if (gameState.gameState === "Finished" || gameState.isOver) {
@@ -77,9 +90,14 @@ const GameTable = ({ user, gameState, sendAction }) => {
             {isWinner ? "VICTOIRE !" : "DÉFAITE..."}
           </h1>
           <p className="rewards-text">
-            {isWinner ? "Félicitations ! Vous gagnez 100 crédits." : "Bien tenté. Vous gagnez 20 crédits."}
+            {isWinner
+              ? "Félicitations ! Vous gagnez 100 crédits."
+              : "Bien tenté. Vous gagnez 20 crédits."}
           </p>
-          <button className="lobby-redirect-btn" onClick={() => navigate("/lobby")}>
+          <button
+            className="lobby-redirect-btn"
+            onClick={() => navigate("/lobby")}
+          >
             Retour au salon
           </button>
         </div>
@@ -93,13 +111,48 @@ const GameTable = ({ user, gameState, sendAction }) => {
         <div className="orientation-warning-content">
           <div className="rotate-phone-icon">🔄</div>
           <h2>Orientation Paysage Requise</h2>
-          <p>Veuillez tourner votre appareil à l'horizontal pour jouer à Twisted Realms.</p>
+          <p>
+            Veuillez tourner votre appareil à l'horizontal pour jouer à Twisted
+            Realms.
+          </p>
         </div>
       </div>
 
+      {showSurrender && (
+        <div
+          className="surrender-confirm-overlay"
+          onClick={() => setShowSurrender(false)}
+        >
+          <div
+            className="surrender-confirm-card"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3>Abandonner la partie</h3>
+            <p>Voulez-vous déclarer forfait ? Cette action est irréversible.</p>
+            <div className="surrender-actions">
+              <button
+                className="surrender-btn confirm animate-glow"
+                onClick={handleSurrender}
+              >
+                Abandonner
+              </button>
+              <button
+                className="surrender-btn cancel"
+                onClick={() => setShowSurrender(false)}
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isMobile && selectedAttackerIndex !== null && (
         <div className="mobile-direct-attack-overlay">
-          <button className="direct-attack-btn active-glow" onClick={handleDirectAttack}>
+          <button
+            className="direct-attack-btn active-glow"
+            onClick={handleDirectAttack}
+          >
             ⚡ Attaquer directement l'adversaire !
           </button>
         </div>
@@ -121,7 +174,9 @@ const GameTable = ({ user, gameState, sendAction }) => {
         {isRightBarOpen ? "▶" : "◀"}
       </button>
 
-      <header className={`game-status-bar ${isLeftBarOpen ? "mobile-open" : ""}`}>
+      <header
+        className={`game-status-bar ${isLeftBarOpen ? "mobile-open" : ""}`}
+      >
         <div className="status-item">
           <span>Tour</span>
           <strong className="status-val">#{gameState.turn}</strong>
@@ -132,19 +187,35 @@ const GameTable = ({ user, gameState, sendAction }) => {
         </div>
         <div className="status-item">
           <span>Tour de</span>
-          <strong className={`status-val player-turn ${isMyTurn ? "my-turn" : "opponent-turn"}`}>
+          <strong
+            className={`status-val player-turn ${isMyTurn ? "my-turn" : "opponent-turn"}`}
+          >
             {isMyTurn ? "VOUS" : opponent.name}
           </strong>
         </div>
         <div className="status-item">
           <span>Main adversaire</span>
-          <strong className="status-val opponent-hand-val">{opponent.hand.length} cartes</strong>
+          <strong className="status-val opponent-hand-val">
+            {opponent.hand.length} cartes
+          </strong>
         </div>
         {isMyTurn && (
-          <button className="next-phase-btn active-glow" onClick={handleNextPhase}>
-            {gameState.nextPhase === "DrawPhase" ? "Fin de tour" : "Phase Suivante"}
+          <button
+            className="next-phase-btn active-glow"
+            onClick={handleNextPhase}
+          >
+            {gameState.nextPhase === "DrawPhase"
+              ? "Fin de tour"
+              : "Phase Suivante"}
           </button>
         )}
+
+        <button
+          className="surrender-trigger-btn"
+          onClick={() => setShowSurrender(true)}
+        >
+          Abandonner
+        </button>
 
         {isMobile && (
           <div className="mobile-players-stats">
@@ -152,7 +223,9 @@ const GameTable = ({ user, gameState, sendAction }) => {
               <h4>Adversaire ({opponent.name})</h4>
               <div className="stats-row">
                 <span className="stat-badge pv-badge">PV: {opponent.pv}</span>
-                <span className="stat-badge counter-badge">Accélérateurs: {opponent.acceleratorCounters || 0}</span>
+                <span className="stat-badge counter-badge">
+                  Accélérateurs: {opponent.acceleratorCounters || 0}
+                </span>
               </div>
               <div className="side-zones">
                 <div className="side-slot deck-slot">
@@ -167,10 +240,17 @@ const GameTable = ({ user, gameState, sendAction }) => {
             </div>
 
             <div className="mobile-player-stat-block self-stats">
-              <h4>Vous ({self.name})</h4>
+              <h4
+                className="clickable-pseudo"
+                onClick={() => setShowSurrender(!showSurrender)}
+              >
+                Vous ({self.name}) <span className="surrender-hint">⚐</span>
+              </h4>
               <div className="stats-row">
                 <span className="stat-badge pv-badge">PV: {self.pv}</span>
-                <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
+                <span className="stat-badge counter-badge">
+                  Accélérateurs: {self.acceleratorCounters}
+                </span>
               </div>
               <div className="side-zones">
                 <div className="side-slot deck-slot">
@@ -195,10 +275,15 @@ const GameTable = ({ user, gameState, sendAction }) => {
                 <h3>{opponent.name} (Adversaire)</h3>
                 <div className="stats-row">
                   <span className="stat-badge pv-badge">PV: {opponent.pv}</span>
-                  <span className="stat-badge counter-badge">Accélérateurs: {opponent.acceleratorCounters || 0}</span>
+                  <span className="stat-badge counter-badge">
+                    Accélérateurs: {opponent.acceleratorCounters || 0}
+                  </span>
                 </div>
                 {selectedAttackerIndex !== null && (
-                  <button className="direct-attack-btn active-glow" onClick={handleDirectAttack}>
+                  <button
+                    className="direct-attack-btn active-glow"
+                    onClick={handleDirectAttack}
+                  >
                     Attaquer directement l'adversaire !
                   </button>
                 )}
@@ -243,7 +328,10 @@ const GameTable = ({ user, gameState, sendAction }) => {
                     onClick={() => card && handleOpponentBeingClick(i)}
                   >
                     {card ? (
-                      <Card card={{ ...card, PV: card.currentPv }} isMini={true} />
+                      <Card
+                        card={{ ...card, PV: card.currentPv }}
+                        isMini={true}
+                      />
                     ) : (
                       <span className="slot-placeholder">Être</span>
                     )}
@@ -258,10 +346,17 @@ const GameTable = ({ user, gameState, sendAction }) => {
           {!isMobile && (
             <div className="player-left-panel">
               <div className="player-header">
-                <h3>{self.name} (Vous)</h3>
+                <h3
+                  className="clickable-pseudo"
+                  onClick={() => setShowSurrender(!showSurrender)}
+                >
+                  {self.name} (Vous) <span className="surrender-hint">⚐</span>
+                </h3>
                 <div className="stats-row">
                   <span className="stat-badge pv-badge">PV: {self.pv}</span>
-                  <span className="stat-badge counter-badge">Accélérateurs: {self.acceleratorCounters}</span>
+                  <span className="stat-badge counter-badge">
+                    Accélérateurs: {self.acceleratorCounters}
+                  </span>
                 </div>
               </div>
 
@@ -291,8 +386,13 @@ const GameTable = ({ user, gameState, sendAction }) => {
                   >
                     {card ? (
                       <div className={card.hasAttacked ? "exhausted" : ""}>
-                        <Card card={{ ...card, PV: card.currentPv }} isMini={true} />
-                        {card.hasAttacked && <span className="exhausted-badge">Fatigué</span>}
+                        <Card
+                          card={{ ...card, PV: card.currentPv }}
+                          isMini={true}
+                        />
+                        {card.hasAttacked && (
+                          <span className="exhausted-badge">Fatigué</span>
+                        )}
                       </div>
                     ) : (
                       <span className="slot-placeholder">Être</span>
@@ -320,7 +420,9 @@ const GameTable = ({ user, gameState, sendAction }) => {
         </section>
       </div>
 
-      <section className={`hand-container ${isRightBarOpen ? "mobile-open" : ""}`}>
+      <section
+        className={`hand-container ${isRightBarOpen ? "mobile-open" : ""}`}
+      >
         <h4 className="hand-title">Main ({self.hand.length})</h4>
         <div className="hand-cards">
           {self.hand.map((card, index) => {
@@ -339,7 +441,9 @@ const GameTable = ({ user, gameState, sendAction }) => {
                   <div className="hand-card-actions">
                     <button
                       className="action-btn acc-btn"
-                      onClick={() => executeHandAction("USE_ACCELERATOR", index)}
+                      onClick={() =>
+                        executeHandAction("USE_ACCELERATOR", index)
+                      }
                     >
                       Accélérer (+{card.accelerator})
                     </button>

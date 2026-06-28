@@ -82,6 +82,12 @@ class GameManager {
         await game.resolveAttack(attackerIndex, targetIndex);
         break;
       }
+      case "SURRENDER": {
+        const playerKey = Number(game.players.p1.id) === Number(playerId) ? "p1" : "p2";
+        game.players[playerKey].pv = 0;
+        console.log(`${game.players[playerKey].name} a abandonné la partie.`);
+        break;
+      }
       default:
         return { error: "Action inconnue" };
     }

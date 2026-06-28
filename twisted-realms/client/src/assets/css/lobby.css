@@ -181,4 +181,13 @@
   .lobby-btn {
     padding: 1rem 2rem;
   }
+
+  .lobby-left-section {
+    width: 100%;
+  }
+
+  .lobby-card {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

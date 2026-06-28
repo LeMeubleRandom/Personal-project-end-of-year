@@ -26,6 +26,14 @@ export default class Player {
     this.startingCard = mainCardData ? new Card(mainCardData) : null;
   }
 
+  shuffle() {
+    for (let i = this.deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
+    }
+    console.log(`${this.name} a mélangé son deck.`);
+  }
+
   async drawHand() {
     for (let i = 0; i < 4; i++) {
       if (this.deck.length > 0) {

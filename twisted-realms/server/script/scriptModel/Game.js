@@ -82,6 +82,9 @@ export default class Game {
     this.players.p1 = new Player(this.player1Data, p1Cards, p1MainCard);
     this.players.p2 = new Player(this.player2Data, p2Cards, p2MainCard);
 
+    this.players.p1.shuffle();
+    this.players.p2.shuffle();
+
 
 
     this.gameState = "Playing";
