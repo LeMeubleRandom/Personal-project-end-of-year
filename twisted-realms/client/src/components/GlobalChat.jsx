@@ -116,6 +116,18 @@ function GlobalChat({ user }) {
         }
     });*/
 
+  if (user && user.isGlobalChat === 0) {
+    return (
+      <section className="global-chat">
+        <h3>Chat Général</h3>
+        <div className="global-chat-disabled-message">
+          <p>Le chat général est désactivé.</p>
+          <p className="form-help">Vous pouvez le réactiver dans l'onglet <strong>Social</strong> de votre profil.</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="global-chat">
       <h3>Chat Général</h3>

@@ -16,6 +16,7 @@ router.post(
   UserController.updateUserProfile,
 );
 router.post("/email", verifyToken, UserController.updateUserEmail);
+router.post("/globalchat", verifyToken, UserController.updateGlobalChat);
 router.post("/logout", verifyToken, UserController.logout);
 router.post("/deck/create", verifyToken, UserController.createDeck);
 router.post("/deck/update", verifyToken, UserController.updateDeck);

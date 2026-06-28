@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import AccountForm from "../components/AccountForm";
 import SecurityForm from "../components/SecurityForm";
+import NotificationForm from "../components/NotificationForm";
 
 import "../assets/css/profile.css";
 
@@ -92,10 +93,7 @@ function Profile({ user, setUser, fetchUser }) {
           )}
 
           {category === "social" && (
-            <div className="tab-content">
-              <h1>Social</h1>
-              <p>Gérez vos préférences de réception des messages du chat.</p>
-            </div>
+            <NotificationForm user={user} setUser={setUser} fetchUser={fetchUser} />
           )}
         </div>
       </section>

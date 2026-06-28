@@ -215,4 +215,12 @@ export default class User {
     );
     return favorite;
   }
+
+  static async updateGlobalChat(isGlobalChat, userId) {
+    const [result] = await pool.execute(
+      "UPDATE user SET isGlobalChat = ? WHERE id = ?",
+      [isGlobalChat, userId],
+    );
+    return result;
+  }
 }

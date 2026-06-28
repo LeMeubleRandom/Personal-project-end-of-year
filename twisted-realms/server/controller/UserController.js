@@ -307,4 +307,29 @@ export default class UserController {
       });
     }
   }
+
+  static async updateGlobalChat(req, res) {
+    try {
+      const userId = req.userId;
+      const { isGlobalChat } = req.body;
+      if (isGlobalChat === undefined || isGlobalChat === null) {
+        return res.status(400).json({ status: "error", message: "isGlobalChat est requis" });
+      }
+      
+      const updatedUser = await User.updateGlobalChat(isGlobalChat, userId);
+      if (!updatedUser) {
+        return res
+          .status(400)
+          .json({ status: "error", message: "Aucune donnée à mettre à jour." });
+      }
+
+      res.status(200).json({
+        status: "success",
+        message: "Préférences de chat mises à jour avec succès !",
+      });
+    } catch (error) {
+      console.error("Error updateGlobalChat:", error);
+      res.status(500).json({ status: "error", message: error.message });
+    }
+  }
 }
