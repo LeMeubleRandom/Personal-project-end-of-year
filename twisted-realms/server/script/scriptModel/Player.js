@@ -47,6 +47,15 @@ export default class Player {
     console.log(`Taille de la main de départ : ${this.hand.length}`);
   }
 
+  async drawOne() {
+    if (this.deck.length === 0) {
+      this.pv = 0;
+      console.log(`${this.name} n'a plus de cartes à piocher !`);
+      return;
+    }
+    this.hand.push(this.deck.shift());
+  }
+
   async draw() {
     if (this.hand.length < 5) {
       while (this.hand.length < 5) {

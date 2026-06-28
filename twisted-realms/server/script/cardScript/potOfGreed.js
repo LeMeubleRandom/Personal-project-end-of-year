@@ -1,6 +1,6 @@
 export default async function execute(game, player, payload) {
-  await player.draw();
-  await player.draw();
+  await player.drawOne();
+  await player.drawOne();
   console.log(
     `${player.name} a activé l'effet de Pot of Greed et pioché 2 cartes.`,
   );
